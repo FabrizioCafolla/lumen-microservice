@@ -14,3 +14,22 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+
+$api = app('Dingo\Api\Routing\Router');
+
+$api->version('v1', function ($api) {
+
+    $api->group(['prefix' => 'admin'], function () use ($api) {
+        $api->get('hello/{id}', function ($id) {
+            return 'Hello World "' . $id .'"';
+        });
+    });
+
+    $api->group(['prefix' => 'users'], function () use ($api) {
+        $api->get('hello/{id}', function ($id) {
+            return 'Hello World "' . $id .'"';
+        });
+    });
+
+});
