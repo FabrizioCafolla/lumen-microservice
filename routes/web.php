@@ -27,9 +27,7 @@ $api->version('v1', function ($api) {
     });
 
     $api->group(['prefix' => 'users'], function () use ($api) {
-        $api->get('hello/{id}', function ($id) {
-            return 'Hello World "' . $id .'"';
-        });
+        $api->get('hello/{id}', 'App\Http\Api\v1\TestApiController@show');
     });
 
 });
