@@ -1,21 +1,21 @@
-# Lumen PHP Framework
+# DevOps Microservice Lumen Project
+[build] [stable]
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+[version] [v0.0.1]
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
-
+##Features 
+    v0.0.1
+        -Config Docker contaneir MySLQ 5.7, PHP 7.2 and Nginx
+        -Add and config Dingo for API managment
+        -Add controller and routes for test Api
+        -Add migration and database congig file
 ## Official Documentation
+#####-Docker container: Nginx, MySQL 5.7 and PHP 7.2
+#####-RestAPI for communication with the frontend
+#####-Business Locig Management with repository pattern
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Contact me if you want clarification or develop new features.
 
 ## License
 
-The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+This project is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
