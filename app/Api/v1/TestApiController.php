@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Api\v1;
 use App\User as UserModel;
+use App\Api\v1\ApiBaseController;
 
-class TestApiController extends Controller
+class TestApiController extends ApiBaseController
 {
     /**
      * Create a new controller instance.
@@ -17,7 +18,7 @@ class TestApiController extends Controller
 
     public function show($id)
     {
-        $user = UserModel::findOrFail($id);
+        $user = UserModel::first();
 
         return $this->response->array($user->toArray());
     }
