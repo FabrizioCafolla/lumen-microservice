@@ -43,7 +43,7 @@ services:
     volumes_from:
       - app
     ports:
-      - 8080:8080
+      - 80:80
 
 volumes:
   dbdata:
