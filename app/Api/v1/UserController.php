@@ -45,7 +45,11 @@ class UserController extends ApiBaseController
 	 */
 	public function show($id){
 		$user = User::find($id);
-		return $this->response->array($user->toArray());
+
+		if($user){
+			return $this->response->array($user->toArray());
+		}
+		return $this->error("notFound");
 	}
 
 	public function create() {}
