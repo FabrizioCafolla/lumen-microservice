@@ -36,7 +36,10 @@
 		public function index()
 		{
 			$posts = $this->post->all();
-			return $this->response->array($posts->toArray());
+			if ($posts) {
+				return $this->custom($posts->toArray());
+			}
+			return $this->error("notFound");
 		}
 
 		/**
@@ -53,7 +56,7 @@
 		{
 			$post = $this->post->find($id);
 			if ($post) {
-				return $this->response->array($post->toArray());
+				return $this->custom($post->toArray());
 			}
 			return $this->error("notFound");
 		}
@@ -72,15 +75,19 @@
 		 */
 		public function store(Request $request)
 		{
-			$task = $this->post->create(['user_id' => 1, 'status' => '{}', 'title' => 'exe', 'description' => 'exe']);
-			if ($task) {
-				return $this->success("created");
+			$validator = $this->post->validateRequest($request->all());
+
+			if ($validator->status() == "200") {
+				$task = $this->post->create($request->all());
+				if ($task) {
+					return $this->success("created");
+				}
+				return $this->error("internal");
 			}
-			return $this->error("internal");
+			return $this->custom($validator->content());
 		}
 
 		public function edit($id) {}
-
 
 		/**
 		 * Update post
@@ -94,11 +101,16 @@
 		 */
 		public function update(Request $request, $id)
 		{
-			$task = $this->post->update(['user_id' => 1, 'status' => '{}', 'title' => 'exe', 'description' => 'exe'], $id);
-			if ($task) {
-				return $this->success("updated");
+			$validator = $this->post->validateRequest($request->all());
+
+			if ($validator->status() == "200") {
+				$task = $this->post->update($request->all(), $id);
+				if ($task) {
+					return $this->success("updated");
+				}
+				return $this->error("internal");
 			}
-			return $this->error("notFound");
+			return $this->custom($validator->content());
 		}
 
 		/**
@@ -115,7 +127,6 @@
 		{
 			if ($this->post->find($id)) {
 				$task = $this->post->delete($id);
-
 				if($task)
 					return $this->success("deleted");
 

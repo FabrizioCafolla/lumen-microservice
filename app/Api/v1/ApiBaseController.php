@@ -1,55 +1,60 @@
 <?php
 
-namespace App\Api\v1;
+	namespace App\Api\v1;
 
-use Dingo\Api\Routing\Helpers;
-use Laravel\Lumen\Routing\Controller as BaseController;
+	use Dingo\Api\Routing\Helpers;
+	use Laravel\Lumen\Routing\Controller as BaseController;
 
-class ApiBaseController extends BaseController
-{
-    use Helpers;
-
-	protected function success($message = null)
+	class ApiBaseController extends BaseController
 	{
-		return $this->response->array(['success' => true, 'message' => $message]);
-	}
+		use Helpers;
 
-	protected function error($type = null, $message = null)
-	{
-		switch ($type){
-			case "error":
-				// A generic error with custom message and status code.
-				return $this->response->error($message ? $message : 'This is an error.', 404);
-				break;
+		protected function custom(array $response = [])
+		{
+			return $this->response->array($response);
+		}
 
-			case "notFound":
-				// A not found error with an optional message as the first parameter.
-				return $this->response->errorNotFound();
-				break;
+		protected function success($message = null)
+		{
+			return $this->response->array(['status' => "200", 'message' => $message]);
+		}
 
-			case "badRequest":
-				// A bad request error with an optional message as the first parameter.
-				return $this->response->errorBadRequest();
-				break;
+		protected function error($type = null, $message = null)
+		{
+			switch ($type) {
+				case "error":
+					// A generic error with custom message and status code.
+					return $this->response->error($message ? $message : 'This is an error.', 404);
+					break;
 
-			case "forbidden":
-				// A forbidden error with an optional message as the first parameter.
-				return $this->response->errorForbidden();
-				break;
+				case "notFound":
+					// A not found error with an optional message as the first parameter.
+					return $this->response->errorNotFound();
+					break;
 
-			case "internal":
-				// An internal error with an optional message as the first parameter.
-				return $this->response->errorInternal();
-				break;
+				case "badRequest":
+					// A bad request error with an optional message as the first parameter.
+					return $this->response->errorBadRequest();
+					break;
 
-			case "unauthorized":
-				// An unauthorized error with an optional message as the first parameter.
-				return $this->response->errorUnauthorized();
-				break;
+				case "forbidden":
+					// A forbidden error with an optional message as the first parameter.
+					return $this->response->errorForbidden();
+					break;
 
-			default:
-				return $this->response->array(['success' => false, 'message' => $message]);
-				break;
+				case "internal":
+					// An internal error with an optional message as the first parameter.
+					return $this->response->errorInternal();
+					break;
+
+				case "unauthorized":
+					// An unauthorized error with an optional message as the first parameter.
+					return $this->response->errorUnauthorized();
+					break;
+
+				default:
+					return $this->response->array(['success' => false, 'message' => $message]);
+					break;
+			}
 		}
 	}
-}

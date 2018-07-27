@@ -98,6 +98,13 @@
 			return $this->model->where($attribute, '=', $value)->first($columns);
 		}
 
+		public function response($message = "success", $status = 200, array $headers = [], $options = 0){
+
+			$response = ['status' => $status, 'message' => $message];
+
+			return response()->json($response, $status, $headers, $options);
+		}
+
 		/**
 		 * @return Model
 		 */
