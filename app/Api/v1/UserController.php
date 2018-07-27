@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Api\v1;
-use App\Models\User as User;
+
 use App\Api\v1\ApiBaseController;
+use App\Repositories\UserRepository as User;
+use App\Transformers\UserTransformer;
+use League\Fractal;
 
 /**
  * User resource representation.
@@ -11,12 +14,15 @@ use App\Api\v1\ApiBaseController;
  */
 class UserController extends ApiBaseController
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct() {}
+	/**
+	 * @var post
+	 */
+	private $user;
+
+	public function __construct(User $user)
+	{
+		$this->user = $user;
+	}
 
 	/**
 	 * Display a listing of resource.
@@ -29,8 +35,12 @@ class UserController extends ApiBaseController
 	 */
 	public function index()
 	{
-		$users = User::all();
-		return $this->response->array($users->toArray());
+
+		$users = $this->user->all();
+		if ($users) {
+			return $this->transform("collation", $users, new UserTransformer, [], null, ['post']);
+		}
+		return $this->error("notFound");
 	}
 
 	/**
@@ -44,10 +54,9 @@ class UserController extends ApiBaseController
 	 * @Response(200, body={"id":1,"email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley Klocko Sr.","remember_token":null})
 	 */
 	public function show($id){
-		$user = User::find($id);
-
-		if($user){
-			return $this->response->array($user->toArray());
+		$user = $this->user->find($id);
+		if ($user) {
+			return $this->transform("item", $user, new UserTransformer, [], null, ['post']);
 		}
 		return $this->error("notFound");
 	}
@@ -60,12 +69,5 @@ class UserController extends ApiBaseController
 
 	public function update(Request $request, $id) {}
 
-	public function delete($id) {
-		$user = User::find($id);
-		if($user){
-			$user->delete();
-			return $this->success("deleted");
-		}
-		return $this->error("notFound");
-	}
+	public function delete($id) {}
 }

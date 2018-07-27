@@ -8,6 +8,7 @@
 	class ApiBaseController extends BaseController
 	{
 		use Helpers;
+		public $availableIncludes = [];
 
 		protected function custom(array $response = [])
 		{
@@ -55,6 +56,29 @@
 				default:
 					return $this->response->array(['success' => false, 'message' => $message]);
 					break;
+			}
+		}
+
+		protected function transform($type = "item", $data, $model, array $paramatres = [], \Closure $function = NULL, array $availableData = [])
+		{
+			if ($type == "item") {
+				if (isset($availableData)) {
+					$this->availableIncludes = $availableData;
+					return $this->response->item($data, new $model, $paramatres, function ($resource, $fractal) {
+						$fractal->parseIncludes($this->availableIncludes);
+					});
+				} else {
+					return $this->response->item($data, new $model, $paramatres, $function);
+				}
+			} else {
+				if (isset($availableData)) {
+					$this->availableIncludes = $availableData;
+					return $this->response->collection($data, new $model, $paramatres, function ($resource, $fractal) {
+						$fractal->parseIncludes($this->availableIncludes);
+					});
+				} else {
+					return $this->response->collection($data, new $model, $paramatres, $function);
+				}
 			}
 		}
 	}

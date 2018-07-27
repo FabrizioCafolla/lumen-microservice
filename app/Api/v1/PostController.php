@@ -5,6 +5,7 @@
 	use App\Api\v1\ApiBaseController;
 	use App\Repositories\PostRepository as Post;
 	use Illuminate\Http\Request;
+	use App\Transformers\PostTransformer;
 
 	/**
 	 * Post resource representation.
@@ -37,7 +38,7 @@
 		{
 			$posts = $this->post->all();
 			if ($posts) {
-				return $this->custom($posts->toArray());
+				return $this->response->collection($posts, new PostTransformer);
 			}
 			return $this->error("notFound");
 		}
@@ -56,7 +57,7 @@
 		{
 			$post = $this->post->find($id);
 			if ($post) {
-				return $this->custom($post->toArray());
+				return $this->response->item($post, new PostTransformer);
 			}
 			return $this->error("notFound");
 		}
