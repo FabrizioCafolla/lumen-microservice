@@ -3,29 +3,57 @@
 	namespace App\Api\v1;
 
 	use Dingo\Api\Routing\Helpers;
+	use \Dingo\Api\Http\Response as DingoResponse;
 	use Laravel\Lumen\Routing\Controller as BaseController;
 
 	class ApiBaseController extends BaseController
 	{
 		use Helpers;
-		public $availableIncludes = [];
 
-		protected function custom(array $response = [])
+		protected $availableIncludes = [];
+
+		protected function custom($response = [])
 		{
 			return $this->response->array($response);
 		}
 
-		protected function success($message = null)
+		protected function success($content = null)
 		{
-			return $this->response->array(['status' => "200", 'message' => $message]);
+			return $this->response->array(['status' => "200", 'message' => $content]);
 		}
 
-		protected function error($type = null, $message = null)
+		protected function transform($type, $data, $model, array $paramatres = [], \Closure $function = NULL, array $availableData = [])
+		{
+			$this->availableIncludes = $availableData;
+
+			if ($type == "collection") {
+				if ($this->availableIncludes)
+					$response = $this->response->collection($data, new $model, $paramatres, function ($resource, $fractal) {
+						$fractal->parseIncludes($this->availableIncludes);
+					});
+				else
+					$response = $this->response->collection($data, new $model, $paramatres, $function);
+			} else {
+				if ($this->availableIncludes)
+					$response = $this->response->item($data, new $model, $paramatres, function ($resource, $fractal) {
+						$fractal->parseIncludes($this->availableIncludes);
+					});
+				else
+					$response = $this->response->item($data, new $model, $paramatres, $function);
+			}
+
+			if (!$response->isEmpty())
+				return $response;
+			else
+				return $this->error("notFound");
+		}
+
+		protected function error($type = null, $content = null)
 		{
 			switch ($type) {
 				case "error":
 					// A generic error with custom message and status code.
-					return $this->response->error($message ? $message : 'This is an error.', 404);
+					return $this->response->error($content ? $content : 'This is an error.', 404);
 					break;
 
 				case "notFound":
@@ -54,31 +82,8 @@
 					break;
 
 				default:
-					return $this->response->array(['success' => false, 'message' => $message]);
+					return $this->response->array(['success' => false, 'message' => $content]);
 					break;
-			}
-		}
-
-		protected function transform($type = "item", $data, $model, array $paramatres = [], \Closure $function = NULL, array $availableData = [])
-		{
-			if ($type == "item") {
-				if (isset($availableData)) {
-					$this->availableIncludes = $availableData;
-					return $this->response->item($data, new $model, $paramatres, function ($resource, $fractal) {
-						$fractal->parseIncludes($this->availableIncludes);
-					});
-				} else {
-					return $this->response->item($data, new $model, $paramatres, $function);
-				}
-			} else {
-				if (isset($availableData)) {
-					$this->availableIncludes = $availableData;
-					return $this->response->collection($data, new $model, $paramatres, function ($resource, $fractal) {
-						$fractal->parseIncludes($this->availableIncludes);
-					});
-				} else {
-					return $this->response->collection($data, new $model, $paramatres, $function);
-				}
 			}
 		}
 	}

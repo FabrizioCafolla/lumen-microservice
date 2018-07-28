@@ -21,8 +21,9 @@
 		{
 			return [
 				'id' => $user->id,
-				'title' => $user->name,
-				'description' => $user->surname,
+				'email' => $user->email,
+				'name' => $user->name,
+				'surname' => $user->surname,
 			];
 
 		}

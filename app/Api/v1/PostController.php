@@ -32,13 +32,13 @@
 		 *
 		 * @Get("/posts")
 		 * @Versions({"v1"})
-		 * @Response(200, body={"id":1,"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam ..","deleted_at":null})
+		 * @Response(200, body={"id":1,"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam .."})
 		 */
 		public function index()
 		{
 			$posts = $this->post->all();
 			if ($posts) {
-				return $this->response->collection($posts, new PostTransformer);
+				return $this->transform("collection", $posts, new PostTransformer);
 			}
 			return $this->error("notFound");
 		}
@@ -48,16 +48,17 @@
 		 *
 		 * Get a JSON representation of the post.
 		 *
-		 * @Get("/posts/{id}")
+		 * @Get("/post/{id}")
 		 * @Versions({"v1"})
 		 * @Request({"id": "1"})
-		 * @Response(200, body={"id":1,"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam ..","deleted_at":null})
+		 * @Response(200, body={"id":1,"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam .."})
 		 */
 		public function show($id)
 		{
 			$post = $this->post->find($id);
 			if ($post) {
-				return $this->response->item($post, new PostTransformer);
+				return $this->transform("item", $post, new PostTransformer);
+
 			}
 			return $this->error("notFound");
 		}
@@ -69,9 +70,9 @@
 		 *
 		 * Get a JSON representation of new post.
 		 *
-		 * @Get("/users/{id}")
+		 * @Post("/post")
 		 * @Versions({"v1"})
-		 * @Request(body={email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley Klocko Sr."})
+		 * @Request(array -> {"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam .."})
 		 * @Response(200, success or error)
 		 */
 		public function store(Request $request)
@@ -93,11 +94,11 @@
 		/**
 		 * Update post
 		 *
-		 * Get a JSON representation of updatepost.
+		 * Get a JSON representation of update post.
 		 *
-		 * @Get("/users/{id}")
+		 * @Put("/post/{id}")
 		 * @Versions({"v1"})
-		 * @Request(array -> {email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley Klocko Sr."}, id)
+		 * @Request(array -> {"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam .."}, id)
 		 * @Response(200, success or error)
 		 */
 		public function update(Request $request, $id)
@@ -119,7 +120,7 @@
 		 *
 		 * Get a JSON representation of delete post.
 		 *
-		 * @Get("/users/{id}")
+		 * @Delete("/post/{id}")
 		 * @Versions({"v1"})
 		 * @Request(id)
 		 * @Response(200, success or error)
