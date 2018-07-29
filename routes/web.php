@@ -23,7 +23,7 @@ $api->version('v1', function ($api) {
     $api->group(['prefix' => 'admin'], function () use ($api) {});
 
 	$api->group(['prefix' => 'user'], function () use ($api) {
-		$api->get('create', 'App\Api\v1\UserController@create');
+		$api->get('/create', 'App\Api\v1\UserController@create');
 		$api->post('/', 'App\Api\v1\UserController@store');
 		$api->get('/{id}', 'App\Api\v1\UserController@show');
 		$api->get('/{id}/edit', 'App\Api\v1\UserController@edit');
@@ -35,7 +35,7 @@ $api->version('v1', function ($api) {
 
 
 	$api->group(['prefix' => 'post'], function () use ($api) {
-		$api->get('create', 'App\Api\v1\PostController@create');
+		$api->get('/create', 'App\Api\v1\PostController@create');
 		$api->post('/', 'App\Api\v1\PostController@store');
 		$api->get('/{id}', 'App\Api\v1\PostController@show');
 		$api->get('/{id}/edit', 'App\Api\v1\PostController@edit');

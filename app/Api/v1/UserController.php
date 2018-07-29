@@ -73,7 +73,7 @@ class UserController extends ApiBaseController
 		 * @Response(200, success or error)
 	 */
 	public function store(Request $request) {
-		$validator = $this->user->validateRequest($request->all());
+		$validator = $this->user->validateRequest($request->all(), "store");
 
 		if ($validator->status() == "200") {
 			$task = $this->user->create($request->all());
@@ -98,7 +98,7 @@ class UserController extends ApiBaseController
 		 * @Response(200, success or error)
 	 */
 	public function update(Request $request, $id) {
-		$validator = $this->user->validateRequest($request->all());
+		$validator = $this->user->validateRequest($request->all(), "update");
 
 		if ($validator->status() == "200") {
 			$task = $this->user->update($request->all(), $id);

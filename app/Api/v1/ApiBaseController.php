@@ -12,43 +12,22 @@
 
 		protected $availableIncludes = [];
 
-		protected function custom($response = [])
-		{
-			return $this->response->array($response);
-		}
+		protected function custom($content, $status = 200, array $headers = [], $options = 0){
 
-		protected function success($content = null)
-		{
-			return $this->response->array(['status' => "200", 'message' => $content]);
-		}
-
-		protected function transform($type, $data, $model, array $paramatres = [], \Closure $function = NULL, array $availableData = [])
-		{
-			$this->availableIncludes = $availableData;
-
-			if ($type == "collection") {
-				if ($this->availableIncludes)
-					$response = $this->response->collection($data, new $model, $paramatres, function ($resource, $fractal) {
-						$fractal->parseIncludes($this->availableIncludes);
-					});
-				else
-					$response = $this->response->collection($data, new $model, $paramatres, $function);
-			} else {
-				if ($this->availableIncludes)
-					$response = $this->response->item($data, new $model, $paramatres, function ($resource, $fractal) {
-						$fractal->parseIncludes($this->availableIncludes);
-					});
-				else
-					$response = $this->response->item($data, new $model, $paramatres, $function);
-			}
-
-			if (!$response->isEmpty())
-				return $response;
+			if(empty($content))
+				$response = ['status' => $status, 'message' => "response"];
 			else
-				return $this->error("notFound");
+				$response = $content;
+
+			return response()->json($response, $status, $headers, $options);
 		}
 
-		protected function error($type = null, $content = null)
+		protected function success($content = "")
+		{
+			return $this->custom(['status' => "200", 'message' => $content ? $content : "success"]);
+		}
+
+		protected function error($type = null, $content = "")
 		{
 			switch ($type) {
 				case "error":
@@ -82,8 +61,34 @@
 					break;
 
 				default:
-					return $this->response->array(['success' => false, 'message' => $content]);
+					return $this->custom(['status' => "400", 'message' => $content ? $content : "generic error"]);
 					break;
 			}
+		}
+
+		protected function transform($type, $data, $model, array $paramatres = [], \Closure $function = NULL, array $availableData = [])
+		{
+			$this->availableIncludes = $availableData;
+
+			if ($type == "collection") {
+				if ($this->availableIncludes)
+					$response = $this->response->collection($data, new $model, $paramatres, function ($resource, $fractal) {
+						$fractal->parseIncludes($this->availableIncludes);
+					});
+				else
+					$response = $this->response->collection($data, new $model, $paramatres, $function);
+			} else {
+				if ($this->availableIncludes)
+					$response = $this->response->item($data, new $model, $paramatres, function ($resource, $fractal) {
+						$fractal->parseIncludes($this->availableIncludes);
+					});
+				else
+					$response = $this->response->item($data, new $model, $paramatres, $function);
+			}
+
+			if (!$response->isEmpty())
+				return $response;
+			else
+				return $this->error("notFound");
 		}
 	}
