@@ -15,13 +15,18 @@
 	class PostController extends ApiBaseController
 	{
 		/**
-		 * @var Actor
+		 * @var Post
 		 */
 		private $post;
 
+		/**
+		 * Initialize @var post
+		 *
+		 * @Request Post
+		 *
+		 */
 		public function __construct(Post $post)
 		{
-
 			$this->post = $post;
 		}
 

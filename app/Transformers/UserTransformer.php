@@ -17,6 +17,12 @@
 			'post'
 		];
 
+		protected $defaultIncludes = [];
+
+		/**
+		 * @Request User
+		 * @Response array
+		 */
 		public function transform(User $user)
 		{
 			return [

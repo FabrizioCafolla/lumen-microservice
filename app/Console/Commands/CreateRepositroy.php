@@ -52,6 +52,8 @@ use Illuminate\Support\Facades\Validator;
 
 class {$name}Repository extends RepositoryAbstract implements RepositoryInterface
 {
+	protected \$rules = [];
+
 	/**
 	 * Specify Model class name
 	 *
@@ -62,7 +64,6 @@ class {$name}Repository extends RepositoryAbstract implements RepositoryInterfac
 		return "{$path}";
 	}
 }
-
 EOT;
 
 			$dir_location = 'app/Repositories/' . $name . 'Repository.php';

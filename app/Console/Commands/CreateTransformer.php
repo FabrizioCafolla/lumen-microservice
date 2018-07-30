@@ -40,7 +40,7 @@
 
 			$name = $this->ask('Name transformer?');
 
-			$model = $this->ask('Only name of model to connect to transformer? (start path App\Models\)');
+			$model = $this->ask('Only name of model to connect to transformer? (generic path App\Models)');
 
 			$var = strtolower($model);
 
@@ -57,6 +57,10 @@
 		protected \$availableIncludes = [];
 		protected \$defaultIncludes = [];
 
+		/**
+		 * @Request {$model}
+		 * @Response array
+		 */
 		public function transform({$model} \${$var})
 		{
 			return [];
