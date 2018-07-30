@@ -24,10 +24,12 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
-
 $app->withEloquent();
 
 $app->configure('database');
+$app->configure('filesystem');
+
+class_alias('Illuminate\Support\Facades\Storage', 'Storage');
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +51,14 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
+
+$app->singleton('filesystem', function ($app) {
+	return $app->loadComponent(
+		'filesystems',
+		Illuminate\Filesystem\FilesystemServiceProvider::class,
+		'filesystem'
+	);
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -78,7 +88,8 @@ $app->routeMiddleware([
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-//$app->register(App\Providers\AuthServiceProvider::class);
+// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 
 $app->register(Dingo\Api\Provider\LumenServiceProvider::class);
 $app['Dingo\Api\Exception\Handler']->setErrorFormat([
