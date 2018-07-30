@@ -15,11 +15,9 @@
 		protected function custom($content, $status = 200, array $headers = [], $options = 0){
 
 			if(empty($content))
-				$response = ['status' => $status, 'message' => "response"];
-			else
-				$response = $content;
+				$this->custom(['status' => null, "message" => null]);
 
-			return response()->json($response, $status, $headers, $options);
+			return response()->json($content, $status, $headers, $options);
 		}
 
 		protected function success($content = "")
@@ -66,6 +64,15 @@
 			}
 		}
 
+
+		/**
+		 * @param $tyep => "collection" or "item"
+		 * @param $data => data to transform
+		 * @param array $paramatres
+		 * @param function $function
+		 * @param array $availableData => string content for add element to collect
+		 * @return collect
+		 */
 		protected function transform($type, $data, $model, array $paramatres = [], \Closure $function = NULL, array $availableData = [])
 		{
 			$this->availableIncludes = $availableData;
@@ -87,7 +94,7 @@
 			}
 
 			if (!$response->isEmpty())
-				return $response;
+				return collect($response)->get("original");
 			else
 				return $this->error("notFound");
 		}

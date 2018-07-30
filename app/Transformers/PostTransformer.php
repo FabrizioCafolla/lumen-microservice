@@ -10,7 +10,6 @@
 
 	use App\Models\Post;
 	use League\Fractal\TransformerAbstract;
-	use App\Transformers\UserTransformer;
 
 	class PostTransformer extends TransformerAbstract
 	{
