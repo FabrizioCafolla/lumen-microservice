@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\ResponseService;
 use Illuminate\Support\ServiceProvider;
 use App\Services\ApiService;
 
@@ -37,5 +38,11 @@ class AppServiceProvider extends ServiceProvider
 		    return new ApiService($app);
 	    });
 	    $this->app->alias(ApiService::class, 'ApiService');
+
+	    $this->app->bind(ResponseService::class, function($app)
+	    {
+		    return new ResponseService($app);
+	    });
+	    $this->app->alias(ResponseService::class, 'ResponseService');
     }
 }

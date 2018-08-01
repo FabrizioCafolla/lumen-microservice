@@ -7,9 +7,11 @@
 	class ApiBaseController extends BaseController
 	{
 		public $api;
+		public $response;
 
 		public function __construct()
 		{
 			$this->api = app('ApiService');
+			$this->response = app('ResponseService');
 		}
 	}

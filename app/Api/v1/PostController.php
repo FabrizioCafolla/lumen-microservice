@@ -45,7 +45,7 @@
 			if ($posts) {
 				return $this->api->transform("collection", $posts, new PostTransformer);
 			}
-			return $this->api->error("notFound");
+			return $this->response->error("notFound");
 		}
 
 		/**
@@ -65,7 +65,7 @@
 				return $this->api->transform("item", $post, new PostTransformer);
 
 			}
-			return $this->api->error("notFound");
+			return $this->response->error("notFound");
 		}
 
 		public function create() {}
@@ -87,11 +87,11 @@
 			if ($validator->status() == "200") {
 				$task = $this->post->create($request->all());
 				if ($task) {
-					return $this->api->success("created");
+					return $this->response->success("created");
 				}
-				return $this->api->error("internal");
+				return $this->response->error("internal");
 			}
-			return $this->api->custom($validator->content());
+			return $this->response->custom($validator->content());
 		}
 
 		public function edit($id) {}
@@ -113,11 +113,11 @@
 			if ($validator->status() == "200") {
 				$task = $this->post->update($request->all(), $id);
 				if ($task) {
-					return $this->api->success("updated");
+					return $this->response->success("updated");
 				}
-				return $this->api->error("internal");
+				return $this->response->error("internal");
 			}
-			return $this->api->custom($validator->content());
+			return $this->response->custom($validator->content());
 		}
 
 		/**
@@ -135,10 +135,10 @@
 			if ($this->post->find($id)) {
 				$task = $this->post->delete($id);
 				if($task)
-					return $this->api->success("deleted");
+					return $this->response->success("deleted");
 
-				return $this->api->error("internal");
+				return $this->response->error("internal");
 			}
-			return $this->api->error("notFound");
+			return $this->response->error("notFound");
 		}
 	}

@@ -40,7 +40,7 @@ class UserController extends ApiBaseController
 		if ($users) {
 			return $this->api->transform("collection", $users, new UserTransformer);
 		}
-		return $this->api->error("notFound");
+		return $this->response->error("notFound");
 	}
 
 	/**
@@ -58,7 +58,7 @@ class UserController extends ApiBaseController
 		if ($user) {
 			return $this->api->transform("item", $user, new UserTransformer);
 		}
-		return $this->api->error("notFound");
+		return $this->response->error("notFound");
 	}
 
 	public function create() {}
@@ -79,11 +79,11 @@ class UserController extends ApiBaseController
 		if ($validator->status() == "200") {
 			$task = $this->user->create($request->all());
 			if ($task) {
-				return $this->api->success("created");
+				return $this->response->success("created");
 			}
-			return $this->api->error("internal");
+			return $this->response->error("internal");
 		}
-		return $this->api->custom($validator->content());
+		return $this->response->custom($validator->content());
 	}
 
 	public function edit($id) {}
@@ -104,11 +104,11 @@ class UserController extends ApiBaseController
 		if ($validator->status() == "200") {
 			$task = $this->user->update($request->all(), $id);
 			if ($task) {
-				return $this->api->success("updated");
+				return $this->response->success("updated");
 			}
-			return $this->api->error("internal");
+			return $this->response->error("internal");
 		}
-		return $this->api->custom($validator->content());
+		return $this->response->custom($validator->content());
 	}
 
 	/**
@@ -125,10 +125,10 @@ class UserController extends ApiBaseController
 		if ($this->user->find($id)) {
 			$task = $this->user->delete($id);
 			if($task)
-				return $this->api->success("deleted");
+				return $this->response->success("deleted");
 
-			return $this->api->error("internal");
+			return $this->response->error("internal");
 		}
-		return $this->api->error("notFound");
+		return $this->response->error("notFound");
 	}
 }
