@@ -54,6 +54,6 @@
 			if (!$response->isEmpty())
 				return collect($response)->get("original");
 			else
-				return $this->error("notFound");
+				return $this->response->errorNotFound();
 		}
 	}

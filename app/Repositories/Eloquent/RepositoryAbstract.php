@@ -1,7 +1,9 @@
 <?php
-	namespace App\Repositories\Contracts;
+	namespace App\Repositories\Eloquent;
 
+	use App\Repositories\Contracts\RepositoryInterface;
 	use App\Repositories\Exceptions\RepositoryException;
+	use App\Services\ResponseService;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Container\Container as App;
 
@@ -17,15 +19,21 @@
 		private $app;
 
 		/**
-		 * @var
+		 * @var Model
 		 */
 		protected $model;
+
+		/**
+		 * @var ResponseService
+		 */
+		protected $response;
 
 		/**
 		 * @param App $app
 		 */
 		public function __construct(App $app) {
 			$this->app = $app;
+			$this->response = app('ResponseService');
 			$this->implementsModel();
 		}
 
@@ -96,13 +104,6 @@
 		 */
 		public function findBy($attribute, $value, $columns = array('*')) {
 			return $this->model->where($attribute, '=', $value)->first($columns);
-		}
-
-		public function response($message = "success", $status = 200, array $headers = [], $options = 0){
-
-			$response = ['status' => $status, 'message' => $message];
-
-			return response()->json($response, $status, $headers, $options);
 		}
 
 		/**

@@ -115,7 +115,7 @@
 		public function store(Request \$request) {}
 
 		/**
-		 * Update
+		 * Edit
 		 *
 		 * Get a JSON representation of update.
 		 *

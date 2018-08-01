@@ -68,6 +68,16 @@
 			return $this->response->error("notFound");
 		}
 
+		/**
+		 * Create
+		 *
+		 * Get a JSON representation of item .
+		 *
+		 * @Get /create
+		 * @Versions
+		 * @Request()
+		 * @Response
+		 */
 		public function create() {}
 
 		/**
@@ -87,13 +97,23 @@
 			if ($validator->status() == "200") {
 				$task = $this->post->create($request->all());
 				if ($task) {
-					return $this->response->success("created");
+					return $this->response->success("Post created");
 				}
 				return $this->response->error("internal");
 			}
 			return $this->response->custom($validator->content());
 		}
 
+		/**
+		 * Edit
+		 *
+		 * Get a JSON representation of update.
+		 *
+		 * @Get /{id}/edit
+		 * @Versions
+		 * @Request {id}
+		 * @Response
+		 */
 		public function edit($id) {}
 
 		/**
@@ -113,7 +133,7 @@
 			if ($validator->status() == "200") {
 				$task = $this->post->update($request->all(), $id);
 				if ($task) {
-					return $this->response->success("updated");
+					return $this->response->success("Post updated");
 				}
 				return $this->response->error("internal");
 			}
@@ -135,7 +155,7 @@
 			if ($this->post->find($id)) {
 				$task = $this->post->delete($id);
 				if($task)
-					return $this->response->success("deleted");
+					return $this->response->success("Post deleted");
 
 				return $this->response->error("internal");
 			}

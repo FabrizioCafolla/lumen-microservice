@@ -22,7 +22,6 @@
 			$this->app = $app;
 		}
 
-
 		/*
 		 * @param $content => message to send with response
 		 * @param $status => status response
@@ -48,7 +47,7 @@
 		 */
 		public function success($content = "")
 		{
-			return $this->custom(['status' => "200", 'message' => $content ? $content : "success"]);
+			return $this->custom(['message' => $content ? $content : "success"], 200);
 		}
 
 		/*
@@ -59,7 +58,7 @@
 		 *
 		 * @response with dingo method or custom
 		 */
-		public function error($type = null, $content = "")
+		public function error($type = "generic", $content = "")
 		{
 			switch ($type) {
 				case "error":
@@ -92,8 +91,8 @@
 					return $this->response->errorUnauthorized();
 					break;
 
-				default:
-					return $this->custom(['status' => "400", 'message' => $content ? $content : "generic error"]);
+				case "generic":
+					return $this->custom(['message' => $content ? $content : "generic error"], 400);
 					break;
 			}
 		}

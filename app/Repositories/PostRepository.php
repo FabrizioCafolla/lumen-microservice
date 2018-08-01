@@ -8,8 +8,7 @@
 
 	namespace App\Repositories;
 
-	use App\Repositories\Contracts\RepositoryInterface;
-	use App\Repositories\Contracts\RepositoryAbstract;
+	use App\Repositories\Eloquent\RepositoryAbstract;
 	use Illuminate\Support\Facades\Validator;
 
 	class PostRepository extends RepositoryAbstract
@@ -38,20 +37,20 @@
 			return 'App\Models\Post';
 		}
 
-		public function validateRequest(array $request, $type, array $rules_specific = [])
+		public function validateRequest(array $request, $type = "", array $rules_specific = [])
 		{
 			$rules = $this->rules($type, $rules_specific);
 
 			if (!isset($request)) {
-				return $this->response("failed", 400);
+				return $this->response->error("badRequest");
 			}
 
 			$validator = Validator::make($request, $rules);
 			if ($validator->fails()) {
-				return $this->response($validator->errors(), 400);
+				return $this->response->error("generic", $validator->errors());
 			}
 
-			return $this->response("success", 200);
+			return $this->response->success("Rules validate success");
 		}
 
 		private function rules($type, array $rules_specific = [])

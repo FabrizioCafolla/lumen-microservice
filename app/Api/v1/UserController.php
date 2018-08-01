@@ -61,6 +61,16 @@ class UserController extends ApiBaseController
 		return $this->response->error("notFound");
 	}
 
+	/**
+	 * Create
+	 *
+	 * Get a JSON representation of item .
+	 *
+	 * @Get /create
+	 * @Versions
+	 * @Request()
+	 * @Response
+	 */
 	public function create() {}
 
 	/**
@@ -79,13 +89,23 @@ class UserController extends ApiBaseController
 		if ($validator->status() == "200") {
 			$task = $this->user->create($request->all());
 			if ($task) {
-				return $this->response->success("created");
+				return $this->response->success("User created");
 			}
 			return $this->response->error("internal");
 		}
 		return $this->response->custom($validator->content());
 	}
 
+	/**
+	 * Edit
+	 *
+	 * Get a JSON representation of update.
+	 *
+	 * @Get /{id}/edit
+	 * @Versions
+	 * @Request {id}
+	 * @Response
+	 */
 	public function edit($id) {}
 
 	/**
@@ -104,7 +124,7 @@ class UserController extends ApiBaseController
 		if ($validator->status() == "200") {
 			$task = $this->user->update($request->all(), $id);
 			if ($task) {
-				return $this->response->success("updated");
+				return $this->response->success("User updated");
 			}
 			return $this->response->error("internal");
 		}
@@ -125,7 +145,7 @@ class UserController extends ApiBaseController
 		if ($this->user->find($id)) {
 			$task = $this->user->delete($id);
 			if($task)
-				return $this->response->success("deleted");
+				return $this->response->success("User deleted");
 
 			return $this->response->error("internal");
 		}
