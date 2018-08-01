@@ -2,8 +2,8 @@
 
 	namespace App\Api\v1;
 
-	use App\Api\v1\ApiBaseController;
 	use App\Repositories\PostRepository as Post;
+	use App\Services\ApiService;
 	use Illuminate\Http\Request;
 	use App\Transformers\PostTransformer;
 
@@ -25,8 +25,9 @@
 		 * @Request Post
 		 *
 		 */
-		public function __construct(Post $post)
+		public function __construct(ApiService $apiService, Post $post)
 		{
+			parent::__construct($apiService);
 			$this->post = $post;
 		}
 
@@ -43,9 +44,9 @@
 		{
 			$posts = $this->post->all();
 			if ($posts) {
-				return $this->transform("collection", $posts, new PostTransformer);
+				return $this->api->transform("collection", $posts, new PostTransformer);
 			}
-			return $this->error("notFound");
+			return $this->api->error("notFound");
 		}
 
 		/**
@@ -62,10 +63,10 @@
 		{
 			$post = $this->post->find($id);
 			if ($post) {
-				return $this->transform("item", $post, new PostTransformer);
+				return $this->api->transform("item", $post, new PostTransformer);
 
 			}
-			return $this->error("notFound");
+			return $this->api->error("notFound");
 		}
 
 		public function create() {}
@@ -87,11 +88,11 @@
 			if ($validator->status() == "200") {
 				$task = $this->post->create($request->all());
 				if ($task) {
-					return $this->success("created");
+					return $this->api->success("created");
 				}
-				return $this->error("internal");
+				return $this->api->error("internal");
 			}
-			return $this->custom($validator->content());
+			return $this->api->custom($validator->content());
 		}
 
 		public function edit($id) {}
@@ -113,11 +114,11 @@
 			if ($validator->status() == "200") {
 				$task = $this->post->update($request->all(), $id);
 				if ($task) {
-					return $this->success("updated");
+					return $this->api->success("updated");
 				}
-				return $this->error("internal");
+				return $this->api->error("internal");
 			}
-			return $this->custom($validator->content());
+			return $this->api->custom($validator->content());
 		}
 
 		/**
@@ -135,10 +136,10 @@
 			if ($this->post->find($id)) {
 				$task = $this->post->delete($id);
 				if($task)
-					return $this->success("deleted");
+					return $this->api->success("deleted");
 
-				return $this->error("internal");
+				return $this->api->error("internal");
 			}
-			return $this->error("notFound");
+			return $this->api->error("notFound");
 		}
 	}

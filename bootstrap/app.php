@@ -69,7 +69,6 @@ $app->routeMiddleware([
 */
 // $app->register(App\Providers\EventServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
-
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 
