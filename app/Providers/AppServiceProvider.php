@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Services\ApiService;
-use Laravel\Lumen\Application;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
 		    \App\Exceptions\Handler::class
 	    );
 
-	    $this->app->singleton('filesystem', function (Application $app) {
+	    $this->app->singleton('filesystem', function ($app) {
 		    return $app->loadComponent(
 			    'filesystems',
 			    \Illuminate\Filesystem\FilesystemServiceProvider::class,
@@ -33,9 +32,10 @@ class AppServiceProvider extends ServiceProvider
 		    );
 	    });
 
-	    $this->app->singleton(ApiService::class, function(Application $app)
+	    $this->app->bind(ApiService::class, function($app)
 	    {
 		    return new ApiService($app);
 	    });
+	    $this->app->alias(ApiService::class, 'ApiService');
     }
 }

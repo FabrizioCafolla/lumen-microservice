@@ -3,14 +3,13 @@
 	namespace App\Api\v1;
 
 	use Laravel\Lumen\Routing\Controller as BaseController;
-	use App\Services\ApiService;
 
 	class ApiBaseController extends BaseController
 	{
 		public $api;
 
-		public function __construct(ApiService $apiService)
+		public function __construct()
 		{
-			$this->api = $apiService;
+			$this->api = app('ApiService');
 		}
 	}

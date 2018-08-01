@@ -3,7 +3,6 @@
 	namespace App\Api\v1;
 
 	use App\Repositories\PostRepository as Post;
-	use App\Services\ApiService;
 	use Illuminate\Http\Request;
 	use App\Transformers\PostTransformer;
 
@@ -25,9 +24,9 @@
 		 * @Request Post
 		 *
 		 */
-		public function __construct(ApiService $apiService, Post $post)
+		public function __construct(Post $post)
 		{
-			parent::__construct($apiService);
+			parent::__construct();
 			$this->post = $post;
 		}
 

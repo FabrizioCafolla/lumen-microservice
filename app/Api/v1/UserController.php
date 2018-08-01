@@ -3,7 +3,6 @@
 namespace App\Api\v1;
 
 use App\Repositories\UserRepository as User;
-use App\Services\ApiService;
 use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 
@@ -19,9 +18,9 @@ class UserController extends ApiBaseController
 	 */
 	private $user;
 
-	public function __construct(ApiService $apiService, User $user)
+	public function __construct(User $user)
 	{
-		parent::__construct($apiService);
+		parent::__construct();
 
 		$this->user = $user;
 	}
