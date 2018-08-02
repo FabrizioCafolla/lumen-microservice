@@ -90,12 +90,12 @@
 		 * @Request(array -> {"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam .."})
 		 * @Response(200, success or error)
 		 */
-		public function store(Request $request)
+		public function store()
 		{
-			$validator = $this->post->validateRequest($request->all());
+			$validator = $this->post->validateRequest($this->request->all());
 
 			if ($validator->status() == "200") {
-				$task = $this->post->create($request->all());
+				$task = $this->post->create($this->request->all());
 				if ($task) {
 					return $this->response->success("Post created");
 				}
@@ -126,12 +126,12 @@
 		 * @Request(array -> {"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam .."}, id)
 		 * @Response(200, success or error)
 		 */
-		public function update(Request $request, $id)
+		public function update($id)
 		{
-			$validator = $this->post->validateRequest($request->all());
+			$validator = $this->post->validateRequest($this->request->all());
 
 			if ($validator->status() == "200") {
-				$task = $this->post->update($request->all(), $id);
+				$task = $this->post->update($this->request->all(), $id);
 				if ($task) {
 					return $this->response->success("Post updated");
 				}

@@ -4,7 +4,6 @@ namespace App\Api\v1;
 
 use App\Repositories\UserRepository as User;
 use App\Transformers\UserTransformer;
-use Illuminate\Http\Request;
 
 /**
  * User resource representation.
@@ -21,7 +20,6 @@ class UserController extends ApiBaseController
 	public function __construct(User $user)
 	{
 		parent::__construct();
-
 		$this->user = $user;
 	}
 
@@ -83,11 +81,11 @@ class UserController extends ApiBaseController
 	 * @Request(body={"email":"lavonne.cole@hermann.com", "password" : "a24fag4", "name":"Amelie Trantow","surname":"Kayley Klocko Sr."})
 		 * @Response(200, success or error)
 	 */
-	public function store(Request $request) {
-		$validator = $this->user->validateRequest($request->all(), "store");
+	public function store() {
+		$validator = $this->user->validateRequest($this->request->all(), "store");
 
 		if ($validator->status() == "200") {
-			$task = $this->user->create($request->all());
+			$task = $this->user->create($this->request->all());
 			if ($task) {
 				return $this->response->success("User created");
 			}
@@ -118,11 +116,11 @@ class UserController extends ApiBaseController
 	 * @Request(array -> {"email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley Klocko Sr."}, id)
 		 * @Response(200, success or error)
 	 */
-	public function update(Request $request, $id) {
-		$validator = $this->user->validateRequest($request->all(), "update");
+	public function update($id) {
+		$validator = $this->user->validateRequest($this->request->all(), "update");
 
 		if ($validator->status() == "200") {
-			$task = $this->user->update($request->all(), $id);
+			$task = $this->user->update($this->request->all(), $id);
 			if ($task) {
 				return $this->response->success("User updated");
 			}
