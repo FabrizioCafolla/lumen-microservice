@@ -3,6 +3,8 @@
 	namespace App\Api\v1;
 
 	use Laravel\Lumen\Routing\Controller as BaseController;
+	use Dingo\Api\Routing\Helpers;
+
 
 	class ApiBaseController extends BaseController
 	{

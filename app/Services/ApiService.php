@@ -8,19 +8,20 @@
 
 	namespace App\Services;
 
-	use Dingo\Api\Routing\Helpers;
 	use Laravel\Lumen\Application;
 
 	class ApiService
 	{
-		use Helpers;
+		protected $availableIncludes = [];
 
 		public $app;
-		protected $availableIncludes = [];
+
+		public $helpers;
 
 		public function __construct(Application $app)
 		{
 			$this->app = $app;
+			$this->helpers = app('HelpersService');
 		}
 
 		/**
@@ -37,23 +38,23 @@
 
 			if ($type == "collection") {
 				if ($this->availableIncludes)
-					$response = $this->response->collection($data, new $model, $paramatres, function ($resource, $fractal) {
+					$response = $this->helpers->response->collection($data, new $model, $paramatres, function ($resource, $fractal) {
 						$fractal->parseIncludes($this->availableIncludes);
 					});
 				else
-					$response = $this->response->collection($data, new $model, $paramatres, $function);
+					$response = $this->helpers->response->collection($data, new $model, $paramatres, $function);
 			} else {
 				if ($this->availableIncludes)
-					$response = $this->response->item($data, new $model, $paramatres, function ($resource, $fractal) {
+					$response = $this->helpers->response->item($data, new $model, $paramatres, function ($resource, $fractal) {
 						$fractal->parseIncludes($this->availableIncludes);
 					});
 				else
-					$response = $this->response->item($data, new $model, $paramatres, $function);
+					$response = $this->helpers->response->item($data, new $model, $paramatres, $function);
 			}
 
 			if (!$response->isEmpty())
 				return collect($response)->get("original");
 			else
-				return $this->response->errorNotFound();
+				return $this->helpers->response->errorNotFound();
 		}
 	}

@@ -8,18 +8,19 @@
 
 	namespace App\Services;
 
-	use Dingo\Api\Routing\Helpers;
 	use Laravel\Lumen\Application;
 
 	class ResponseService
 	{
-		use Helpers;
 
 		public $app;
+
+		public $helpers;
 
 		public function __construct(Application $app)
 		{
 			$this->app = $app;
+			$this->helpers = app('HelpersService');
 		}
 
 		/*
@@ -33,7 +34,7 @@
 		public function custom($content, $status = 200, array $headers = [], $options = 0)
 		{
 			if (empty($content))
-				$this->custom(['status' => null, "message" => null]);
+				$this->custom(["message" => null]);
 
 			return response()->json($content, $status, $headers, $options);
 		}
@@ -63,32 +64,32 @@
 			switch ($type) {
 				case "error":
 					// A generic error with custom message and status code.
-					return $this->response->error($content ? $content : 'This is an error.', 404);
+					return $this->helpers->response->error($content ? $content : 'This is an error.', 404);
 					break;
 
 				case "notFound":
 					// A not found error with an optional message as the first parameter.
-					return $this->response->errorNotFound();
+					return $this->helpers->response->errorNotFound();
 					break;
 
 				case "badRequest":
 					// A bad request error with an optional message as the first parameter.
-					return $this->response->errorBadRequest();
+					return $this->helpers->response->errorBadRequest();
 					break;
 
 				case "forbidden":
 					// A forbidden error with an optional message as the first parameter.
-					return $this->response->errorForbidden();
+					return $this->helpers->response->errorForbidden();
 					break;
 
 				case "internal":
 					// An internal error with an optional message as the first parameter.
-					return $this->response->errorInternal();
+					return $this->helpers->response->errorInternal();
 					break;
 
 				case "unauthorized":
 					// An unauthorized error with an optional message as the first parameter.
-					return $this->response->errorUnauthorized();
+					return $this->helpers->response->errorUnauthorized();
 					break;
 
 				case "generic":
