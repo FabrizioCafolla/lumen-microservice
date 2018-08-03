@@ -31,12 +31,10 @@
 		 *
 		 * @response json
 		 */
-		public function custom($content, $status = 200, array $headers = [], $options = 0)
-		{
-			if (empty($content))
-				$this->custom(["message" => null]);
 
-			return response()->json($content, $status, $headers, $options);
+		public function success($content = "")
+		{
+			return $this->custom(['message' => $content ? $content : "success"], 200);
 		}
 
 		/*
@@ -46,9 +44,13 @@
 		 *
 		 * @response with custom method
 		 */
-		public function success($content = "")
+
+		public function custom($content, $status = 200, array $headers = [], $options = 0)
 		{
-			return $this->custom(['message' => $content ? $content : "success"], 200);
+			if (empty($content))
+				$this->custom(["message" => null]);
+
+			return response()->json($content, $status, $headers, $options);
 		}
 
 		/*
@@ -59,7 +61,8 @@
 		 *
 		 * @response with dingo method or custom
 		 */
-		public function error($type = "generic", $content = "")
+
+		public function error($type = "generic", $content = "", $status = 400)
 		{
 			switch ($type) {
 				case "error":
@@ -69,31 +72,34 @@
 
 				case "notFound":
 					// A not found error with an optional message as the first parameter.
-					return $this->helpers->response->errorNotFound();
+					return $this->helpers->response->errorNotFound($content);
 					break;
 
 				case "badRequest":
 					// A bad request error with an optional message as the first parameter.
-					return $this->helpers->response->errorBadRequest();
+					return $this->helpers->response->errorBadRequest($content);
 					break;
 
 				case "forbidden":
 					// A forbidden error with an optional message as the first parameter.
-					return $this->helpers->response->errorForbidden();
+					return $this->helpers->response->errorForbidden($content);
 					break;
 
 				case "internal":
 					// An internal error with an optional message as the first parameter.
-					return $this->helpers->response->errorInternal();
+					return $this->helpers->response->errorInternal($content);
 					break;
 
 				case "unauthorized":
 					// An unauthorized error with an optional message as the first parameter.
-					return $this->helpers->response->errorUnauthorized();
+					return $this->helpers->response->errorUnauthorized($content);
 					break;
 
 				case "generic":
-					return $this->custom(['message' => $content ? $content : "generic error"], 400);
+					return $this->custom(
+						['message' =>
+							['errors' => $content ? $content : "generic error"]
+						], $status);
 					break;
 			}
 		}

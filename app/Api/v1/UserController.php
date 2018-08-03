@@ -85,9 +85,9 @@ class UserController extends ApiBaseController
 		$validator = $this->user->validateRequest($this->request->all(), "store");
 
 		if ($validator->status() == "200") {
-			$task = $this->user->create($this->request->all());
+			$task = $this->user->register($this->request->all());
 			if ($task) {
-				return $this->response->success("User created");
+				return $this->response->success($task->getOriginalContent());
 			}
 			return $this->response->error("internal");
 		}

@@ -9,7 +9,9 @@
 	namespace App\Repositories;
 
 	use App\Repositories\Eloquent\RepositoryAbstract;
+	use Illuminate\Support\Facades\Hash;
 	use Illuminate\Support\Facades\Validator;
+	use JWTAuth;
 
 
 	class UserRepository extends RepositoryAbstract
@@ -39,6 +41,24 @@
 		function model()
 		{
 			return 'App\Models\User';
+		}
+
+		public function register(array $request) {
+
+			$validator = $this->validateRequest($request, 'store');
+			if (!$validator->isSuccessful()) {
+				return $this->response->error("generic", $validator);
+			}
+
+			$user = $this->create([
+				'email'     => $request["email"],
+				'password'  => $request["password"],
+				'name'      => $request["name"],
+				'surname'  => $request["surname"],
+			]);
+
+			$token = JWTAuth::fromUser($user);
+			return response()->json(compact('token'));
 		}
 
 		public function validateRequest(array $request, $type, array $rules_specific = [])

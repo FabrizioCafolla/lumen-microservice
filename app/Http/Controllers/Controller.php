@@ -1,11 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+	namespace App\Http\Controllers;
 
-use Dingo\Api\Routing\Helpers;
-use Laravel\Lumen\Routing\Controller as BaseController;
+	use Laravel\Lumen\Routing\Controller as BaseController;
 
-class Controller extends BaseController
-{
-    use Helpers;
-}
+	class Controller extends BaseController
+	{
+		/*
+		 * @Var Response service
+		 */
+		public $response;
+
+		/*
+		 * @Var Helpers service
+		 */
+		public $helpers;
+
+
+
+		public function __construct()
+		{
+			$this->response = app('ResponseService');
+			$this->helpers = app('HelpersService');
+		}
+	}

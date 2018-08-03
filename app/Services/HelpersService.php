@@ -16,8 +16,4 @@
 		 * Trait helpers Dingo
 		 */
 		use Helpers;
-
-		/*
-		 * Add method helpers
-		 */
 	}
