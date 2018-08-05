@@ -9,23 +9,17 @@
 
 
 	use Illuminate\Http\Request;
-	use Tymon\JWTAuth\JWTAuth;
+	use JWTAuth;
 	use Tymon\JWTAuth\Exceptions\JWTException;
 
 	class AuthController extends Controller
 	{
 		/**
-		 * @var JWTAuth
-		 */
-		private $auth;
-		/**
 		 * @param JWTAuth $auth
 		 */
-		public function __construct(JWTAuth $auth)
+		public function __construct()
 		{
 			parent::__construct();
-
-			$this->auth = $auth;
 		}
 		/**
 		 * @param Request $request
@@ -34,12 +28,14 @@
 		public function authenticate(Request $request)
 		{
 			// grab credentials from the request
-			$credentials = $request->json()->all();
+			$credentials = $request->only('email', 'password');
+
 			try {
 				// attempt to verify the credentials and create a token for the user
-				$token = $this->auth->attempt($credentials);
+				$token = JWTAuth::attempt($credentials);
 				if (!$token) {
-					return response()->json(['error' => 'invalid_credentials'], 401);
+					dd($token);
+					return response()->json($token, 401);
 				}
 			} catch (JWTException $e) {
 				// something went wrong whilst attempting to encode the token

@@ -17,14 +17,12 @@ class Users extends Migration
 		    $table->increments('id');
 
 		    $table->string('email')->unique();
-		    $table->string('password', 20);
+		    $table->string('password', 60);
 		    $table->string('name');
 		    $table->string('surname')->nullable();
 
 		    $table->rememberToken();
 		    $table->timestamps();
-
-
 	    });
     }
 

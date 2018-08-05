@@ -27,6 +27,9 @@
 	$app->withFacades();
 	$app->withEloquent();
 
+	$app->alias('cache', 'Illuminate\Cache\CacheManager');
+	$app->alias('auth', 'Illuminate\Auth\AuthManager');
+
 	$app->configure('database');
 	$app->configure('filesystem');
 	$app->configure('auth');
@@ -65,11 +68,7 @@
 	*/
 
 	//$app->routeMiddleware([
-	//  'auth' => App\Http\Middleware\Authenticate::class,
-	//]);
-
-	//$app->routeMiddleware([
-	//	'jwt.auth' => App\Http\Middleware\JwtMiddleware::class,
+	//	'auth' => App\Http\Middleware\Authenticate::class,
 	//]);
 
 	/*

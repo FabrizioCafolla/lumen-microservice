@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Tymon\JWTAuth\JWTAuth;
 use Dingo\Api\Auth\Auth as DingoAuth;
@@ -18,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 
     /**
