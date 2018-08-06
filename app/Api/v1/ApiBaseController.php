@@ -8,25 +8,25 @@
 
 	class ApiBaseController extends BaseController
 	{
-		/*
-		 * @Var Api service
+		/**
+		 * @var ApiService
 		 */
 		public $api;
 
-		/*
-		 * @Var Response service
+		/**
+		 * @var ResponseService
 		 */
 		public $response;
 
-		/*
-		 * @Var Request
+		/**
+		 * @var HelpersService
+		 */
+		public $helpers;
+
+		/**
+		 * @var Request
 		 */
 		public $request;
-
-		/*
-		* @Var Helpers service
-		*/
-		public $helpers;
 
 		public function __construct()
 		{

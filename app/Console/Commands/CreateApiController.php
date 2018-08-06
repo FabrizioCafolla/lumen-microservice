@@ -65,7 +65,6 @@
 			\$this->{$var} = \${$var};
 		}
 		
-		
 		/**
 		 * Display a listing of resource.
 		 *

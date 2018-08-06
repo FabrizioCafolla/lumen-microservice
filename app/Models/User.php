@@ -41,6 +41,9 @@ class User extends Model implements
 		$this->attributes['password'] = Hash::make($value);
 	}
 
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
 	public function post()
 	{
 		return $this->hasMany('App\Models\Post');

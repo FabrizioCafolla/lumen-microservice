@@ -15,6 +15,9 @@
 
 	$api->version('v1', function ($api) {
 
+		/**
+		 * Authentication route
+		 */
 		$api->post('auth/login', 'App\Http\Controllers\AuthController@authenticate');
 		$api->post('auth/register', 'App\Http\Controllers\AuthController@register');
 

@@ -41,6 +41,13 @@
 			return 'App\Models\User';
 		}
 
+		/** Validate request api
+		 *
+		 * @param array $request
+		 * @param $type
+		 * @param array $rules_specific
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function validateRequest(array $request, $type, array $rules_specific = [])
 		{
 			$rules = $this->rules($type, $rules_specific);
@@ -57,6 +64,12 @@
 			return $this->response->success("Rules validate success");
 		}
 
+		/** Use rules based on request
+		 *
+		 * @param $type
+		 * @param array $rules_specific
+		 * @return array
+		 */
 		private function rules($type, array $rules_specific = [])
 		{
 			if(!empty($rules_specific)){

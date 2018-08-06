@@ -12,8 +12,8 @@
 
 	class HelpersService
 	{
-		/*
-		 * Trait helpers Dingo
+		/**
+		 * Dingo trait helpers
 		 */
 		use Helpers;
 	}

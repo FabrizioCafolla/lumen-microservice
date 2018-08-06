@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
 class JwtMiddleware extends BaseMiddleware
@@ -19,7 +20,7 @@ class JwtMiddleware extends BaseMiddleware
 	{
 		try {
 			 JWTAuth::parseToken()->authenticate();
-		} catch (Exception $e) {
+		} catch (JWTException $e) {
 			if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
 				return response()->json(['status' => 'Token is Invalid']);
 			}else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){

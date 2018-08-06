@@ -8,14 +8,21 @@
 
 	namespace App\Services;
 
-	use Laravel\Lumen\Application;
-
 	class ApiService
 	{
+		/**
+		 * @var array
+		 */
 		private $availableIncludes = [];
 
+		/** Response for internal controller
+		 * @var ResponseService
+		 */
 		private $response;
 
+		/**
+		 * @var HelpersService
+		 */
 		public $helpers;
 
 		public function __construct()
@@ -43,7 +50,8 @@
 					});
 				else
 					$response = $this->helpers->response->collection($data, new $model, $paramatres, $function);
-			} else {
+			}
+			if ($type == "item") {
 				if ($this->availableIncludes)
 					$response = $this->helpers->response->item($data, new $model, $paramatres, function ($resource, $fractal) {
 						$fractal->parseIncludes($this->availableIncludes);
@@ -52,6 +60,16 @@
 					$response = $this->helpers->response->item($data, new $model, $paramatres, $function);
 			}
 
+			if ($type == "paginator") {
+				if ($this->availableIncludes)
+					$response = $this->helpers->response->paginator($data, new $model, $paramatres, function ($resource, $fractal) {
+						$fractal->parseIncludes($this->availableIncludes);
+					});
+				else
+					$response = $this->helpers->response->paginator($data, new $model, $paramatres, $function);
+			}
+
+			// Return transformer in collection or error not found data
 			if (!$response->isEmpty())
 				return collect($response)->get("original");
 			else

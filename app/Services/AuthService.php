@@ -15,10 +15,22 @@
 
 	class AuthService
 	{
+		/** User Repository
+		 *
+		 * @var User
+		 */
 		private $user;
 
+		/** Service for response
+		 *
+		 * @var ResponseService
+		 */
 		private $response;
 
+		/**
+		 * AuthService constructor.
+		 * @param User $user
+		 */
 		public function __construct(User $user)
 		{
 			$this->response = app('ResponseService');
@@ -26,6 +38,10 @@
 			$this->user = $user;
 		}
 
+		/** Register method
+		 * @param Request $request
+		 * @return mixed (user + token) or (errors)
+		 */
 		public function register(Request $request)
 		{
 			$validator = $this->user->validateRequest($request->all(), "store");
@@ -49,7 +65,7 @@
 
 		/**
 		 * @param Request $request
-		 * @return \Symfony\Component\HttpFoundation\Response
+		 * @return mixed (token) or (errors)
 		 */
 		public function authenticate(Request $request)
 		{

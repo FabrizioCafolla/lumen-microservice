@@ -12,6 +12,9 @@
 
 	class ResponseService
 	{
+		/**
+		 * @var HelpersService
+		 */
 		private $helpers;
 
 		public function __construct()
@@ -19,45 +22,36 @@
 			$this->helpers = app('HelpersService');
 		}
 
-		/*
-		 * @param $content => message to send with response
-		 * @param $status => status response
-		 * @param $header => array of headers to add to response
-		 * @param $options
-		 *
-		 * @response json
+		/**
+		 * @param string $content
+		 * @return \Illuminate\Http\JsonResponse
 		 */
-
 		public function success($content = "")
 		{
-			return $this->custom(['message' => $content ? $content : "success"], 200);
+			return $this->custom(['status' => $content ? $content : "success"], 200);
 		}
 
-		/*
-		 * generic success response
-		 *
-		 * @param $content => message to send with response
-		 *
-		 * @response with custom method
+		/**
+		 * @param $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
 		 */
-
 		public function custom($content, $status = 200, array $headers = [], $options = 0)
 		{
 			if (empty($content))
-				$this->custom(["message" => null]);
+				$this->custom(["data" => null]);
 
 			return response()->json($content, $status, $headers, $options);
 		}
 
-		/*
-		 * error response
-		 *
-		 * @param $type => type of error(use Dingo response)
-		 * @param $content => message to send with response
-		 *
-		 * @response with dingo method or custom
+		/**
+		 * @param string $type
+		 * @param string $content
+		 * @param int $status
+		 * @return \Illuminate\Http\JsonResponse|void
 		 */
-
 		public function error($type = "generic", $content = "", $status = 400)
 		{
 			switch ($type) {

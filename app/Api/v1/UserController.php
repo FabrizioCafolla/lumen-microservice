@@ -13,10 +13,14 @@ use App\Transformers\UserTransformer;
 class UserController extends ApiBaseController
 {
 	/**
-	 * @var post
+	 * @var User
 	 */
 	private $user;
 
+	/**
+	 * UserController constructor.
+	 * @param User $user
+	 */
 	public function __construct(User $user)
 	{
 		parent::__construct();
