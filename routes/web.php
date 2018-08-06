@@ -16,7 +16,7 @@
 	$api->version('v1', function ($api) {
 
 		$api->post('auth/login', 'App\Http\Controllers\AuthController@authenticate');
-		$api->post('auth/register', 'App\Api\v1\UserController@store');
+		$api->post('auth/register', 'App\Http\Controllers\AuthController@register');
 
 		/**
 		 * Group routes Admin
@@ -28,7 +28,6 @@
 		 */
 		$api->group(['middleware' => 'api.auth'], function () use ($api){
 			$api->group(['prefix' => 'user'], function () use ($api) {
-				$api->get('/create', 'App\Api\v1\UserController@create');
 				$api->get('/{id}', 'App\Api\v1\UserController@show');
 				$api->get('/{id}/edit', 'App\Api\v1\UserController@edit');
 				$api->put('/{id}', 'App\Api\v1\UserController@update');

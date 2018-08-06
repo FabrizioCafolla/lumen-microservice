@@ -19,15 +19,15 @@
 			/*
 			 * Service Api
 			 */
-			$this->app->bind(ApiService::class, function ($app) {
-				return new ApiService($app);
+			$this->app->bind(ApiService::class, function () {
+				return new ApiService();
 			});
 
 			/*
 			 * Service Response
 			 */
-			$this->app->bind(ResponseService::class, function ($app) {
-				return new ResponseService($app);
+			$this->app->bind(ResponseService::class, function () {
+				return new ResponseService();
 			});
 
 			/*

@@ -12,14 +12,10 @@
 
 	class ResponseService
 	{
+		private $helpers;
 
-		public $app;
-
-		public $helpers;
-
-		public function __construct(Application $app)
+		public function __construct()
 		{
-			$this->app = $app;
 			$this->helpers = app('HelpersService');
 		}
 
@@ -96,10 +92,7 @@
 					break;
 
 				case "generic":
-					return $this->custom(
-						['message' =>
-							['errors' => $content ? $content : "generic error"]
-						], $status);
+					return $this->custom(['errors' => $content ? $content : "generic error"], $status);
 					break;
 			}
 		}

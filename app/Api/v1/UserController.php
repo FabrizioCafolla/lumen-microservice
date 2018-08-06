@@ -60,41 +60,6 @@ class UserController extends ApiBaseController
 	}
 
 	/**
-	 * Create
-	 *
-	 * Get a JSON representation of item .
-	 *
-	 * @Get /create
-	 * @Versions
-	 * @Request()
-	 * @Response
-	 */
-	public function create() {}
-
-	/**
-	 * Create a new post
-	 *
-	 * Get a JSON representation of new user.
-	 *
-	 * @Post("/user")
-	 * @Versions({"v1"})
-	 * @Request(body={"email":"lavonne.cole@hermann.com", "password" : "a24fag4", "name":"Amelie Trantow","surname":"Kayley Klocko Sr."})
-		 * @Response(200, success or error)
-	 */
-	public function store() {
-		$validator = $this->user->validateRequest($this->request->all(), "store");
-
-		if ($validator->status() == "200") {
-			$task = $this->user->register($this->request->all());
-			if ($task) {
-				return $this->response->success($task->getOriginalContent());
-			}
-			return $this->response->error("internal");
-		}
-		return $this->response->custom($validator->content());
-	}
-
-	/**
 	 * Edit
 	 *
 	 * Get a JSON representation of update.

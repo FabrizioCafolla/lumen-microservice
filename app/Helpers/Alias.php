@@ -28,6 +28,13 @@
 	}
 
 	/**
+	 * Alias HelpersService
+	 */
+	if (!class_exists('AuthService')) {
+		class_alias('App\Services\AuthService', 'AuthService');
+	}
+
+	/**
 	 * Alias JwtAuth
 	 */
 	if (!class_exists('JWTAuth')) {

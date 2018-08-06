@@ -32,10 +32,7 @@
 		{
 			$this->api = app('ApiService');
 			$this->response = app('ResponseService');
-
 			$this->helpers = $this->api->helpers;
-
 			$this->request = new Request;
-			$this->request = $this->request->json();
 		}
 	}

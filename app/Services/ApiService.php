@@ -12,16 +12,16 @@
 
 	class ApiService
 	{
-		protected $availableIncludes = [];
+		private $availableIncludes = [];
 
-		public $app;
+		private $response;
 
 		public $helpers;
 
-		public function __construct(Application $app)
+		public function __construct()
 		{
-			$this->app = $app;
 			$this->helpers = app('HelpersService');
+			$this->response = app('ResponseService');
 		}
 
 		/**
@@ -55,6 +55,6 @@
 			if (!$response->isEmpty())
 				return collect($response)->get("original");
 			else
-				return $this->helpers->response->errorNotFound();
+				return $this->response->error("notFound");
 		}
 	}
