@@ -1,11 +1,25 @@
 # DevOps Microservice Lumen Project
 [build] [stable]
 
-[version] [v0.0.2 alpha]
+[version] [v0.0.1 beta]
 
-[wiki] [https://github.com/FabrizioCafolla/microservice-lumen/wiki/Microservice-Lumen---Strart]
+##### Why use it?
+>Microservice Lumen allows you to start with a solid base for the construction of your back end, through the use of packages, services and patterns you can implement your app easily and efficiently.
+With this framework you can implement your REST APIs in just a few steps using artisan commands to create the Controller, the Repository connected to the data model and the Transformer for displaying data.
+The microservice communicates with the outside through api http calls with JWT authentication (stateless token). Implement basic services for API controllers, for responses, and helpers.
+
+## Official Documentation
+[wiki] [https://github.com/FabrizioCafolla/microservice-lumen/wiki]
 
 ## Features 
+   ##### v0.0.1 beta
+    -Add JWT token auth
+    -Create Middleware jwt (api.jwt)
+    -Create Middleware dingo + jwt (api.auth)
+    -Create Auth Service
+    -Fixed errors
+    -Add comment
+    
    ##### v0.0.3 alpha
     -Create services Api and Reponse 
     -Add services to api base controll
@@ -23,17 +37,6 @@
     -Add and config Dingo for API managment
     -Add controller and routes for test Api
     -Add migration and database congig file
-    
-## Official Documentation
--Docker container: Nginx 1.10, MySQL 5.7 and PHP 7.2
-
--Restful API
-
--Repository pattern
-
--Collection Transform
-
-Contact me if you want clarification or develop new features.
 
 ## License
 
