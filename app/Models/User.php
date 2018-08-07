@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Spatie\Permission\Traits\HasRoles;
+
 
 /**
  * Class User
@@ -19,9 +21,9 @@ class User extends Model implements
 	AuthorizableContract,
 	JWTSubject
 {
-	use Authenticatable, Authorizable;
+	use Authenticatable, Authorizable, HasRoles;
 
-    /**
+	/**
      * The attributes that are mass assignable.
      *
      * @var array

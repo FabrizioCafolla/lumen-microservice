@@ -7,6 +7,13 @@
 	 */
 
 	/**
+	 * Alias PermissionService
+	 */
+	if (!class_exists('PermissionService')) {
+		class_alias('App\Services\PermissionService', 'PermissionService');
+	}
+
+	/**
 	 * Alias ApiService
 	 */
 	if (!class_exists('ApiService')) {

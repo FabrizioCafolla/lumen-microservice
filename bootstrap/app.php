@@ -34,6 +34,7 @@
 	$app->configure('filesystem');
 	$app->configure('auth');
 	$app->configure('jwt');
+	$app->configure('permission');
 
 	/*
 	|--------------------------------------------------------------------------
@@ -67,9 +68,11 @@
 	|
 	*/
 
-	//$app->routeMiddleware([
-	//	'api.jwt' => App\Http\Middleware\JwtMiddleware::class,
-	//]);
+	$app->routeMiddleware([
+		'api.jwt' => App\Http\Middleware\JwtMiddleware::class,
+		'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
+		'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
+	]);
 
 	/*
 	|--------------------------------------------------------------------------
@@ -90,6 +93,8 @@
 	$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 
 	$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+
+	$app->register(Spatie\Permission\PermissionServiceProvider::class);
 
 	$app->register(Dingo\Api\Provider\LumenServiceProvider::class);
 	$app['Dingo\Api\Exception\Handler']->setErrorFormat([
