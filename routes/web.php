@@ -18,8 +18,8 @@
 		/**
 		 * Authentication route
 		 */
-		$api->post('auth/login', 'App\Http\Controllers\AuthController@authenticate');
-		$api->post('auth/register', 'App\Http\Controllers\AuthController@register');
+		$api->post('auth/login', 'App\Api\v1\AuthController@authenticate');
+		$api->post('auth/register', 'App\Api\v1\AuthController@register');
 
 		/**
 		 * Group routes Admin
