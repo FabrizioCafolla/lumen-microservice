@@ -3,7 +3,6 @@
 	namespace App\Api\v1;
 
 	use App\Repositories\PostRepository as Post;
-	use Illuminate\Http\Request;
 	use App\Transformers\PostTransformer;
 
 	/**

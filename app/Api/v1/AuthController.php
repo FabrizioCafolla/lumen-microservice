@@ -5,11 +5,11 @@
 	 * Date: 02/08/18
 	 * Time: 14.48
 	 */
-	namespace App\Http\Controllers;
+	namespace App\Api\v1;
 
 	use Illuminate\Http\Request;
 
-	class AuthController extends Controller
+	class AuthController extends ApiBaseController
 	{
 		private $auth;
 
