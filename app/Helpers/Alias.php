@@ -35,10 +35,10 @@
 	}
 
 	/**
-	 * Alias HelpersService
+	 * Alias UserAuthService
 	 */
-	if (!class_exists('AuthService')) {
-		class_alias('App\Services\AuthService', 'AuthService');
+	if (!class_exists('UserAuthService')) {
+		class_alias('App\Services\Auth\UserAuthService', 'UserAuthService');
 	}
 
 	/**
