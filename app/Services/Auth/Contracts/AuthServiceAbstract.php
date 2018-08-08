@@ -6,36 +6,36 @@
 	 * Time: 11.33
 	 */
 
-	namespace App\Services;
+	namespace App\Services\Auth\Contracts;
 
 	use App\Repositories\UserRepository as User;
 	use Illuminate\Http\Request;
 	use JWTAuth;
 	use Tymon\JWTAuth\Exceptions\JWTException;
 
-	class AuthService
+	class AuthServiceAbstract
 	{
 		/** User Repository
 		 *
 		 * @var User
 		 */
-		private $user;
+		protected $auth;
 
 		/** Service for response
 		 *
 		 * @var ResponseService
 		 */
-		private $response;
+		protected $response;
 
 		/**
 		 * AuthService constructor.
 		 * @param User $user
 		 */
-		public function __construct(User $user)
+		public function __construct($auth)
 		{
 			$this->response = app('ResponseService');
 
-			$this->user = $user;
+			$this->auth = app($auth);
 		}
 
 		/** Register method
@@ -44,15 +44,10 @@
 		 */
 		public function register(Request $request)
 		{
-			$validator = $this->user->validateRequest($request->all(), "store");
+			$validator = $this->auth->validateRequest($request->all(), "store");
 
 			if ($validator->status() == "200") {
-				$user = $this->user->create([
-					'email' => $request["email"],
-					'password' => $request["password"],
-					'name' => $request["name"],
-					'surname' => $request["surname"],
-				]);
+				$user = $this->auth->create($request->all());
 
 				$token = JWTAuth::fromUser($user);
 				if (!$token)
@@ -79,5 +74,30 @@
 				return $this->response->error("error", 'Could not create token.');
 			}
 			return $this->response->custom(compact('token'));
+		}
+
+		public function getAuthenticatedUser()
+		{
+			try {
+
+				if (! $user = JWTAuth::parseToken()->authenticate()) {
+					return $this->response->custom('notFound');
+				}
+
+			} catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+
+				return $this->response->custom(['token expired']);
+
+			} catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+
+				return $this->response->custom(['token invalid']);
+
+			} catch (JWTException $e) {
+
+				return $this->response->custom(['token absent']);
+
+			}
+
+			return $this->response->custom(compact('user'));
 		}
 	}

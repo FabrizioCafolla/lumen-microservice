@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Services\AuthService;
+use App\Services\Auth\UserAuthService;
 use Illuminate\Support\ServiceProvider;
 use Tymon\JWTAuth\JWTAuth;
 use Dingo\Api\Auth\Auth as DingoAuth;
@@ -17,11 +17,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-	    /*
-		 * Service Helpers
+	    /**
+		 * Service User Auth
 		 */
-	    $this->app->bind(AuthService::class, function ($app) {
-		    return new AuthService($app);
+	    $this->app->bind(UserAuthService::class, function () {
+		    return new UserAuthService();
 	    });
     }
 
