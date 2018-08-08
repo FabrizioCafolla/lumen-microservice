@@ -7,6 +7,20 @@
 	 */
 
 	/**
+	 * Alias Facades Storage
+	 */
+	if (!class_exists('Storage')) {
+		class_alias('Illuminate\Support\Facades\Storage', 'Storage');
+	}
+
+	/**
+	 * Alias PermissionService
+	 */
+	if (!class_exists('PermissionService')) {
+		class_alias('App\Services\PermissionService', 'PermissionService');
+	}
+
+	/**
 	 * Alias ApiService
 	 */
 	if (!class_exists('ApiService')) {

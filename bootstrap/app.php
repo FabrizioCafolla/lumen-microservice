@@ -31,7 +31,7 @@
 	$app->alias('auth', 'Illuminate\Auth\AuthManager');
 
 	$app->configure('database');
-	$app->configure('filesystem');
+	$app->configure('filesystems');
 	$app->configure('auth');
 	$app->configure('jwt');
 
@@ -45,6 +45,14 @@
 	| your own bindings here if you like or you can make another file.
 	|
 	*/
+
+	$app->singleton('filesystem', function ($app) {
+		return $app->loadComponent(
+			'filesystems',
+			Illuminate\Filesystem\FilesystemServiceProvider::class,
+			'filesystem'
+		);
+	});
 
 	$app->singleton(
 		\Illuminate\Contracts\Console\Kernel::class,

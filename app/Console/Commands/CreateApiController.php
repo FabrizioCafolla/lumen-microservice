@@ -152,15 +152,44 @@
 
 EOT;
 
-			$dir_location = 'app/Api/'. $version .'/' . $name . 'Controller.php';
+			$dir_location = 'Api/'. $version;
+
+			if(! Storage::exists($dir_location)) {
+				Storage::disk('artisan')->makeDirectory($dir_location);
+
+				$file_destination =  $dir_location . '/ApiBaseController.php';
+				Storage::disk('artisan')->put($file_destination, $this->contentsBaseController($version));
+
+				$this->info('Created new ApiBaseController.');
+				$this->info('Created new directory for api version: '. $version .'.');
+			}
+
+			$file_destination = $dir_location . '/' . $name . 'Controller.php';
 
 
-			$file = file_put_contents($dir_location, $fileContents);
+			$file = Storage::disk('artisan')->put($file_destination, $fileContents);
 
 			if ($file) {
 				$this->info('Created new Api Controller ' . $name . 'Controller.php in App\Api\\'. $version .'.');
 			} else {
 				$this->info('Something went wrong');
 			}
+		}
+
+		private function contentsBaseController ($version){
+			$fileContents = <<<EOT
+<?php
+
+	namespace App\Api\\{$version};
+
+	use Laravel\Lumen\Routing\Controller as BaseController;
+
+	class ApiBaseController extends BaseController
+	{
+		//
+	}
+
+EOT;
+			return $fileContents;
 		}
 	}

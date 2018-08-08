@@ -46,6 +46,10 @@
 				'driver' => 'local',
 				'root' => storage_path('app'),
 			],
+			'artisan' => [
+				'driver' => 'local',
+				'root' => 'app',
+			],
 		]
 
 	];
