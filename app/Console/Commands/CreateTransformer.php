@@ -70,7 +70,8 @@ EOT;
 
 			$dir_location = 'app/Transformers/' . $name . 'Transformer.php';
 
-			$file = file_put_contents($dir_location, $fileContents);
+
+			$file = Storage::disk('artisan')->put($dir_location, $fileContents);
 
 			if ($file) {
 				$this->info('Created new Transformer ' . $name . 'Transformer.php in App\Transformer.');

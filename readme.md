@@ -1,7 +1,7 @@
 # DevOps Microservice Lumen Project
 [build] [stable]
 
-[version] [v0.0.2 beta]
+[version] [v0.0.3 beta]
 
 ##### Why use it?
 >Microservice Lumen allows you to start with a solid base for the construction of your back end, through the use of packages, services and patterns you can implement your app easily and efficiently.
@@ -12,6 +12,10 @@ The microservice communicates with the outside through api http calls with JWT a
 [wiki] [https://github.com/FabrizioCafolla/microservice-lumen/wiki]
 
 ## Features 
+   ##### v0.0.3 beta
+    -Fixed artisan commands with Storage class
+    -Add filesystem configuration
+    
    ##### v0.0.2 beta
     -Fixed Auth service to api controller
     -Create abstract auth service for authentication
