@@ -12,6 +12,11 @@ The microservice communicates with the outside through api http calls with JWT a
 [wiki] [https://github.com/FabrizioCafolla/microservice-lumen/wiki]
 
 ## Features 
+   ##### v0.0.4 beta
+    -Add laravel-permission package for ACL
+    -Create and register service for ACL
+    -Add Facades and fixed alias 
+    
    ##### v0.0.3 beta
     -Fixed artisan commands with Storage class
     -Add filesystem configuration
