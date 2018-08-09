@@ -14,38 +14,38 @@
 	}
 
 	/**
-	 * Alias PermissionService
+	 * Alias ResponseService
 	 */
-	if (!class_exists('ACLService')) {
-		class_alias('App\Services\ACL\ACLService', 'ACLService');
+	if (!class_exists('ResponseService')) {
+		class_alias('App\Facades\ResponseFacade', 'ResponseService');
 	}
 
 	/**
 	 * Alias ApiService
 	 */
 	if (!class_exists('ApiService')) {
-		class_alias('App\Services\ApiService', 'ApiService');
+		class_alias('App\Facades\ApiFacade', 'ApiService');
 	}
 
 	/**
-	 * Alias ResponseService
+	 * Alias PermissionService
 	 */
-	if (!class_exists('ResponseService')) {
-		class_alias('App\Services\ResponseService', 'ResponseService');
+	if (!class_exists('ACLService')) {
+		class_alias('App\Facades\ACLFacade', 'ACLService');
 	}
 
 	/**
 	 * Alias HelpersService
 	 */
 	if (!class_exists('HelpersService')) {
-		class_alias('App\Services\HelpersService', 'HelpersService');
+		class_alias('App\Facades\HelpersFacade', 'HelpersService');
 	}
 
 	/**
 	 * Alias UserAuthService
 	 */
 	if (!class_exists('UserAuthService')) {
-		class_alias('App\Services\Auth\UserAuthService', 'UserAuthService');
+		class_alias('App\Facades\UserAuthFacade', 'UserAuthService');
 	}
 
 	/**

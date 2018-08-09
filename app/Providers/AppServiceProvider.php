@@ -2,10 +2,6 @@
 
 	namespace App\Providers;
 
-	use ApiService;
-	use HelpersService;
-	use ResponseService;
-	use ACLService;
 	use Illuminate\Support\ServiceProvider;
 
 	class AppServiceProvider extends ServiceProvider
@@ -18,31 +14,24 @@
 		public function register()
 		{
 			/**
-			 * Service Api
-			 */
-			$this->app->bind(ApiService::class, function () {
-				return new ApiService();
-			});
-
-			/**
 			 * Service Response
 			 */
-			$this->app->bind(ResponseService::class, function () {
-				return new ResponseService();
-			});
+			$this->app->bind('ResponseService', 'App\Services\ResponseService');
 
 			/**
-			 * Service Helpers
+			 * Service Api
 			 */
-			$this->app->bind(HelpersService::class, function () {
-				return new HelpersService();
-			});
+			$this->app->bind('ApiService', 'App\Services\ApiService');
 
 			/**
 			 * Service Permission
 			 */
-			$this->app->bind(ACLService::class, function () {
-				return new ACLService();
-			});
+			$this->app->bind('ACLService', 'App\Services\ACL\ACLService');
+
+			/**
+			 * Service Helpers
+			 */
+			$this->app->bind('HelpersService', 'App\Services\HelpersService');
+
 		}
 	}

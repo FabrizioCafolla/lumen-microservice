@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\Auth\UserAuthService;
 use Illuminate\Support\ServiceProvider;
 use Tymon\JWTAuth\JWTAuth;
 use Dingo\Api\Auth\Auth as DingoAuth;
@@ -20,9 +19,7 @@ class AuthServiceProvider extends ServiceProvider
 	    /**
 		 * Service User Auth
 		 */
-	    $this->app->bind(UserAuthService::class, function () {
-		    return new UserAuthService();
-	    });
+	    $this->app->bind('UserAuthService', 'App\Services\Auth\UserAuthService');
     }
 
     /**
