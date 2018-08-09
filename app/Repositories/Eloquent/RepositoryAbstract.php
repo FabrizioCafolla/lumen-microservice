@@ -21,7 +21,7 @@
 		/**
 		 * @var Model
 		 */
-		protected $model;
+		public $model;
 
 		/**
 		 * @var ResponseService

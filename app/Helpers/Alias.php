@@ -16,8 +16,8 @@
 	/**
 	 * Alias PermissionService
 	 */
-	if (!class_exists('PermissionService')) {
-		class_alias('App\Services\PermissionService', 'PermissionService');
+	if (!class_exists('ACLService')) {
+		class_alias('App\Services\ACL\ACLService', 'ACLService');
 	}
 
 	/**

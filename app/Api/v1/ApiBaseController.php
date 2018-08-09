@@ -24,6 +24,11 @@
 		public $helpers;
 
 		/**
+		 * @var ACLService
+		 */
+		public $acl;
+
+		/**
 		 * @var Request
 		 */
 		public $request;
@@ -32,6 +37,7 @@
 		{
 			$this->api = app('ApiService');
 			$this->response = app('ResponseService');
+			$this->acl = app('ACLService');
 			$this->helpers = $this->api->helpers;
 			$this->request = new Request;
 		}

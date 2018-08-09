@@ -5,7 +5,7 @@
 	use ApiService;
 	use HelpersService;
 	use ResponseService;
-	use PermissionService;
+	use ACLService;
 	use Illuminate\Support\ServiceProvider;
 
 	class AppServiceProvider extends ServiceProvider
@@ -41,8 +41,8 @@
 			/**
 			 * Service Permission
 			 */
-			$this->app->bind(PermissionService::class, function () {
-				return new PermissionService();
+			$this->app->bind(ACLService::class, function () {
+				return new ACLService();
 			});
 		}
 	}
