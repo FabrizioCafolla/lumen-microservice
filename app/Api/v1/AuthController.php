@@ -19,7 +19,7 @@
 		public function __construct()
 		{
 			parent::__construct();
-			$this->auth = app('UserAuthService');
+			$this->auth = app('AuthService');
 		}
 
 		public function authenticate(Request $request)
@@ -29,7 +29,7 @@
 
 		public function register(Request $request)
 		{
-			return $this->auth->register($request);
+			return $this->auth->registerUser($request);
 		}
 
 		public function getAuthenticatedUser()

@@ -13,7 +13,7 @@
 	use JWTAuth;
 	use Tymon\JWTAuth\Exceptions\JWTException;
 
-	class AuthServiceAbstract
+	abstract class AuthServiceAbstract
 	{
 		/** User Repository
 		 *
@@ -27,6 +27,12 @@
 		 */
 		protected $response;
 
+		/** Service for response
+		 *
+		 * @var ResponseService
+		 */
+		protected $acl;
+
 		/**
 		 * AuthService constructor.
 		 * @param User $user
@@ -34,6 +40,7 @@
 		public function __construct($auth)
 		{
 			$this->response = app('ResponseService');
+			$this->acl = app('ACLService');
 
 			$this->auth = app($auth);
 		}
@@ -55,7 +62,7 @@
 
 				return $this->response->custom(compact('user','token'));
 			}
-			return $this->response->custom($validator->content());
+			return $this->response->custom($validator->content(), 400);
 		}
 
 		/**

@@ -25,7 +25,7 @@
 		 * @param $pemissions
 		 * @return mixed
 		 */
-		public function createACL($roles, $pemissions)
+		public function createACL(array $roles, array $pemissions)
 		{
 			$role = $this->role->create($roles);
 			$permission = $this->permission->create($pemissions);

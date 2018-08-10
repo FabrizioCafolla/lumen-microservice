@@ -9,10 +9,10 @@
 
 	use Illuminate\Support\Facades\Facade;
 
-	class UserAuthFacade extends Facade
+	class AuthFacade extends Facade
 	{
 		protected static function getFacadeAccessor()
 		{
-			return 'UserAuthService';
+			return 'AuthService';
 		}
 	}

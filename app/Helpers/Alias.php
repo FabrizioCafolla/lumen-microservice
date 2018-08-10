@@ -6,6 +6,7 @@
 	 * Time: 14.09
 	 */
 
+	// APP SERVICES //
 	/**
 	 * Alias Facades Storage
 	 */
@@ -28,6 +29,22 @@
 	}
 
 	/**
+	 * Alias HelpersService
+	 */
+	if (!class_exists('HelpersService')) {
+		class_alias('App\Facades\HelpersFacade', 'HelpersService');
+	}
+	// END //
+
+	// AUTH SERVICES //
+	/**
+	 * Alias AuthService
+	 */
+	if (!class_exists('AuthService')) {
+		class_alias('App\Facades\AuthFacade', 'AuthService');
+	}
+
+	/**
 	 * Alias ACLService
 	 */
 	if (!class_exists('ACLService')) {
@@ -39,20 +56,6 @@
 	 */
 	if (!class_exists('AdminACLService')) {
 		class_alias('App\Facades\AdminACLFacade', 'AdminACLService');
-	}
-
-	/**
-	 * Alias HelpersService
-	 */
-	if (!class_exists('HelpersService')) {
-		class_alias('App\Facades\HelpersFacade', 'HelpersService');
-	}
-
-	/**
-	 * Alias UserAuthService
-	 */
-	if (!class_exists('UserAuthService')) {
-		class_alias('App\Facades\UserAuthFacade', 'UserAuthService');
 	}
 
 	/**
@@ -68,3 +71,4 @@
 	if (!class_exists('JWTFactory')) {
 		class_alias('Tymon\JWTAuth\Facades\JWTFactory', 'JWTFactory');
 	}
+	// END //

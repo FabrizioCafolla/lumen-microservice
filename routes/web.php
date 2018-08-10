@@ -30,7 +30,7 @@
 		/**
 		 * Group routes with api jwt authentication
 		 */
-		$api->group(['middleware' => 'api.auth:customers'], function () use ($api){
+		$api->group(['middleware' => 'api.auth'], function () use ($api){
 			$api->group(['prefix' => 'user'], function () use ($api) {
 				$api->get('/{id}', 'App\Api\v1\UserController@show');
 				$api->get('/{id}/edit', 'App\Api\v1\UserController@edit');
