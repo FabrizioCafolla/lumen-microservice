@@ -96,6 +96,8 @@
 
 	$app->register(App\Providers\AuthServiceProvider::class);
 
+	$app->register(App\Providers\ACLServiceProvider::class);
+
 	$app->register(App\Providers\AppServiceProvider::class);
 
 	$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);

@@ -28,10 +28,17 @@
 	}
 
 	/**
-	 * Alias PermissionService
+	 * Alias ACLService
 	 */
 	if (!class_exists('ACLService')) {
 		class_alias('App\Facades\ACLFacade', 'ACLService');
+	}
+
+	/**
+	 * Alias AdminACLService
+	 */
+	if (!class_exists('AdminACLService')) {
+		class_alias('App\Facades\AdminACLFacade', 'AdminACLService');
 	}
 
 	/**

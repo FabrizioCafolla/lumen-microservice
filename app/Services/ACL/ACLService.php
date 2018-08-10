@@ -8,37 +8,16 @@
 
 	namespace App\Services\ACL;
 
-	use Spatie\Permission\Models\Role;
-	use Spatie\Permission\Models\Permission;
+	use App\Services\ACL\Contracts\ACLAbstract;
 
-	class ACLService
+	class ACLService extends ACLAbstract
 	{
-
-		/**
-		 * @var Role
-		 */
-		public $role;
-
-		/**
-		 * @var Permission
-		 */
-		public $permission;
-
-
-		/**
-		 * @var Permission
-		 */
-		public $response;
-
 		/**
 		 * ACLService constructor.
 		 */
 		public function __construct()
 		{
-			$this->role = new Role;
-			$this->permission = new Permission;
-
-			$this->response = app('ResponseService');
+			parent::__construct();
 		}
 
 		/** Assign ACL to user return response

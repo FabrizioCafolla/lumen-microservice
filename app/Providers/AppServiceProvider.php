@@ -24,11 +24,6 @@
 			$this->app->bind('ApiService', 'App\Services\ApiService');
 
 			/**
-			 * Service Permission
-			 */
-			$this->app->bind('ACLService', 'App\Services\ACL\ACLService');
-
-			/**
 			 * Service Helpers
 			 */
 			$this->app->bind('HelpersService', 'App\Services\HelpersService');
