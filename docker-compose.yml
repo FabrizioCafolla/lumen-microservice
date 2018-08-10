@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   ####################################################################################################
   # Creating container MySQL
@@ -24,14 +24,10 @@ services:
     build:
       context: ./
       dockerfile: app.dockerfile
-    working_dir: /var/www
     volumes:
       - ./:/var/www
-    ports:
-        - "9000:9000"
     links:
-        - mysql
-
+      - mysql
   ####################################################################################################
   # The Web Server
   ####################################################################################################
@@ -40,10 +36,9 @@ services:
       context: ./
       dockerfile: web.dockerfile
     working_dir: /var/www
-    volumes_from:
-      - app
+    volumes:
+      - ./:/var/www/
     ports:
-      - 80:80
-
-volumes:
-  dbdata:
+      - "80:80"
+    depends_on:
+      - app
