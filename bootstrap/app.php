@@ -30,6 +30,7 @@
 	$app->alias('cache', 'Illuminate\Cache\CacheManager');
 	$app->alias('auth', 'Illuminate\Auth\AuthManager');
 
+	$app->configure('cache');
 	$app->configure('database');
 	$app->configure('filesystems');
 	$app->configure('auth');
@@ -94,11 +95,13 @@
 	*/
 	// $app->register(App\Providers\EventServiceProvider::class);
 
+	$app->register(App\Providers\AppServiceProvider::class);
+
+	$app->register(App\Providers\CacheServiceProvider::class);
+
 	$app->register(App\Providers\AuthServiceProvider::class);
 
 	$app->register(App\Providers\ACLServiceProvider::class);
-
-	$app->register(App\Providers\AppServiceProvider::class);
 
 	$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 

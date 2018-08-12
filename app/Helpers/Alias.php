@@ -17,6 +17,13 @@
 	/**
 	 * Alias ResponseService
 	 */
+	if (!class_exists('CacheService')) {
+		class_alias('App\Facades\CacheFacade', 'CacheService');
+	}
+
+	/**
+	 * Alias ResponseService
+	 */
 	if (!class_exists('ResponseService')) {
 		class_alias('App\Facades\ResponseFacade', 'ResponseService');
 	}

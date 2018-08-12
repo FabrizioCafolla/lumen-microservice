@@ -4,6 +4,7 @@
 
 	use Dingo\Api\Http\Request;
 	use Laravel\Lumen\Routing\Controller as BaseController;
+	use App\Repositories\CacheRepository;
 
 
 	class ApiBaseController extends BaseController
@@ -33,11 +34,17 @@
 		 */
 		public $request;
 
+		/**
+		 * @var Cache
+		 */
+		public $cache;
+
 		public function __construct()
 		{
 			$this->api = app('ApiService');
 			$this->response = app('ResponseService');
 			$this->acl = app('ACLService');
+			$this->cache = app('CacheService');
 			$this->helpers = $this->api->helpers;
 			$this->request = new Request;
 		}
