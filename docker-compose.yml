@@ -24,6 +24,7 @@ services:
     build:
       context: ./
       dockerfile: app.dockerfile
+    working_dir: /var/www
     volumes:
       - ./:/var/www
     links:
