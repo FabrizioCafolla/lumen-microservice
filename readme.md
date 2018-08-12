@@ -12,6 +12,11 @@ The microservice communicates with the outside through api http calls with JWT a
 [wiki] [https://github.com/FabrizioCafolla/microservice-lumen/wiki]
 
 ## Features 
+   ##### v0.0.5 beta
+    -Fixed ACL service (ACL for Admin and ACL for controll)
+    -Fixed auth service and included ACL when users registered
+    -New version docker-compose, update dockerfile 
+    
    ##### v0.0.4 beta
     -Add laravel-permission package for ACL
     -Create and register service for ACL
