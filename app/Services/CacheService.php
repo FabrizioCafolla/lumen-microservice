@@ -8,30 +8,24 @@
 
 	namespace App\Services;
 
-	use App\Models\User;
-	use App\Repositories\CacheRepository;
 	use Carbon\Carbon;
-	use Illuminate\Support\Facades\Cache;
+	use Illuminate\Contracts\Cache\Repository as CacheRepository;
 
 	class CacheService
 	{
-		/**
+		/**Use method for storage cache in file
+		 *
 		 * @var CacheService
 		 */
-		public $cache;
+		public $file;
 
+		/**
+		 * CacheService constructor.
+		 * @param CacheRepository $cache
+		 * @return CacheRepository for instance in
+		 */
 		public function __construct(CacheRepository $cache)
 		{
-			$this->cache = $cache;
+			$this->file = $cache;
 		}
-
-		public function function($method) {
-			$this->cache->cache->get('users', function () {
-				$users = User::all();
-				$expiresAt = Carbon::now()->addDay();
-				Cache::store('file')->put('users', $users, $expiresAt);
-				return $users;
-			});
-		}
-
 	}

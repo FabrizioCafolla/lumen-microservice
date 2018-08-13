@@ -105,6 +105,8 @@
 
 	$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 
+	$app->register(Illuminate\Redis\RedisServiceProvider::class);
+
 	$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 	$app->register(Spatie\Permission\PermissionServiceProvider::class);
