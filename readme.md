@@ -9,7 +9,7 @@
 ## Official Documentation
 [wiki] [https://github.com/FabrizioCafolla/microservice-lumen/wiki]
 
-![](Microservice%20Lumen.png)
+![](.github/Microservice%20Lumen.png)
 
 ## Features 
    ##### v0.0.5 beta

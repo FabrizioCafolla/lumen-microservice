@@ -18,12 +18,24 @@ services:
         MYSQL_DATABASE: test_develop
 
   ####################################################################################################
+  # The Redis Server
+  ####################################################################################################
+  redis:
+    image: redis:latest
+    ports:
+        - "6379:6379"
+    expose:
+        - 6379
+    volumes:
+        - ./image/redis/data:/data
+
+  ####################################################################################################
   # The Application
   ####################################################################################################
   app:
     build:
       context: ./
-      dockerfile: app.dockerfile
+      dockerfile: Docker/app.dockerfile
     working_dir: /var/www
     volumes:
       - ./:/var/www
@@ -35,7 +47,7 @@ services:
   web:
     build:
       context: ./
-      dockerfile: web.dockerfile
+      dockerfile: Docker/web.dockerfile
     working_dir: /var/www
     volumes:
       - ./:/var/www/
