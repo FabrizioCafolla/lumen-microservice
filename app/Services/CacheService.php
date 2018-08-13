@@ -18,6 +18,10 @@
 		 * @var CacheService
 		 */
 		public $file;
+		/**
+		 * @var Redis
+		 */
+		public $redis;
 
 		/**
 		 * CacheService constructor.
@@ -27,5 +31,6 @@
 		public function __construct(CacheRepository $cache)
 		{
 			$this->file = $cache;
+			$this->redis = app('redis');
 		}
 	}
