@@ -24,7 +24,7 @@
 		realpath(__DIR__ . '/../')
 	);
 
-	$app->withFacades(true, 	[
+	$app->withFacades(true, [
 		'Illuminate\Support\Facades\Storage' => 'Storage',
 
 		'App\Facades\CacheFacade' => 'CacheService',
@@ -91,10 +91,15 @@
 	|
 	*/
 
+	//call in all route for cors request
+	$app->middleware([
+		App\Http\Middleware\CorsMiddleware::class
+	]);
+
 	$app->routeMiddleware([
 		'api.jwt' => App\Http\Middleware\JwtMiddleware::class,
 		'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
-		'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
+		'role' => Spatie\Permission\Middlewares\RoleMiddleware::class,
 	]);
 
 	/*
