@@ -8,5 +8,8 @@
 				'driver' => 'file',
 				'path' => storage_path('framework/cache'),
 			],
+			'array' => [
+				'driver' => 'array',
+			],
 		],
 	];
