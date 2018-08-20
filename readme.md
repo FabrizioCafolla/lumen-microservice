@@ -14,7 +14,7 @@
 ## Features 
 _The 1.0.0 beta version is the release that includes the following components in the framework:_
 
-**Doker** to start the application with `Nginx`, `PHP 7`, `MySQL` and `Redis`;
+**Docker** to start the application with `Nginx`, `PHP 7`, `MySQL` and `Redis`;
 
 **JWT** for the authentication of routes usable with the implemented service;
 
