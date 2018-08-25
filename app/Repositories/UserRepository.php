@@ -10,6 +10,7 @@
 
 	use App\Repositories\Eloquent\RepositoryAbstract;
 	use Illuminate\Container\Container as App;
+	use Illuminate\Support\Facades\Hash;
 	use Illuminate\Support\Facades\Validator;
 
 	class UserRepository extends RepositoryAbstract
@@ -39,6 +40,18 @@
 		function model()
 		{
 			return 'App\Models\User';
+		}
+
+		/**
+		 * @param array $data
+		 * @param $id
+		 * @param string $attribute
+		 * @return mixed
+		 */
+		public function updateUser(array $data, $id, $attribute="id") {
+			$data["password"] = Hash::make($data["password"]);
+			$response = $this->update($data,  $id, $attribute);
+			return $response;
 		}
 
 		/** Validate request api

@@ -30,11 +30,6 @@
 		public $acl;
 
 		/**
-		 * @var Request
-		 */
-		public $request;
-
-		/**
 		 * @var Cache
 		 */
 		public $cache;
@@ -46,6 +41,5 @@
 			$this->acl = app('ACLService');
 			$this->cache = app('CacheService');
 			$this->helpers = $this->api->helpers;
-			$this->request = new Request;
 		}
 	}

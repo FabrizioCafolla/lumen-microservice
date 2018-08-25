@@ -4,6 +4,7 @@
 
 	use App\Repositories\PostRepository as Post;
 	use App\Transformers\PostTransformer;
+	use Illuminate\Http\Request;
 
 	/**
 	 * Post resource representation.
@@ -89,12 +90,12 @@
 		 * @Request(array -> {"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam .."})
 		 * @Response(200, success or error)
 		 */
-		public function store()
+		public function store(Request $request)
 		{
-			$validator = $this->post->validateRequest($this->request->all());
+			$validator = $this->post->validateRequest($request->all());
 
 			if ($validator->status() == "200") {
-				$task = $this->post->create($this->request->all());
+				$task = $this->post->create($request->all());
 				if ($task) {
 					return $this->response->success("Post created");
 				}
@@ -125,12 +126,12 @@
 		 * @Request(array -> {"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam .."}, id)
 		 * @Response(200, success or error)
 		 */
-		public function update($id)
+		public function update(Request $request, $id)
 		{
-			$validator = $this->post->validateRequest($this->request->all());
+			$validator = $this->post->validateRequest($request->all());
 
 			if ($validator->status() == "200") {
-				$task = $this->post->update($this->request->all(), $id);
+				$task = $this->post->update($request->all(), $id);
 				if ($task) {
 					return $this->response->success("Post updated");
 				}
