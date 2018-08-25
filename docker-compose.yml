@@ -11,11 +11,8 @@ services:
         - 3306
     volumes:
         - ./image/mysql/data/:/var/lib/mysql
-    environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_USER: root
-        MYSQL_PASSWORD: root
-        MYSQL_DATABASE: test_develop
+    env_file:
+      - Docker/mysql/.mysql-env
 
   ####################################################################################################
   # The Redis Server
@@ -28,6 +25,8 @@ services:
         - 6379
     volumes:
         - ./image/redis/data:/data
+    env_file:
+      - Docker/redis/.redis-env
 
   ####################################################################################################
   # The Application
@@ -35,23 +34,28 @@ services:
   app:
     build:
       context: ./
-      dockerfile: Docker/app.dockerfile
+      dockerfile: Docker/app/app.dockerfile
     working_dir: /var/www
     volumes:
       - ./:/var/www
+    env_file:
+      - Docker/app/.app-env
     links:
       - mysql
       - redis
+
   ####################################################################################################
   # The Web Server
   ####################################################################################################
-  web:
+  nginx:
     build:
       context: ./
-      dockerfile: Docker/web.dockerfile
+      dockerfile: Docker/nginx/web.dockerfile
     working_dir: /var/www
     volumes:
       - ./:/var/www/
+    env_file:
+      - Docker/nginx/.nginx-env
     ports:
       - "80:80"
     depends_on:
