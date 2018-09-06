@@ -22,11 +22,7 @@
 			/**
 			 * Service ACL
 			 */
-			$this->app->bind('ACLService', 'App\Services\ACL\ACLService');
 
-			/**
-			 * Service Admin ACL
-			 */
-			$this->app->bind('AdminACLService', 'App\Services\ACL\AdminACLService');
+
 		}
 	}

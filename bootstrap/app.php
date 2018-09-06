@@ -120,8 +120,6 @@
 
 	$app->register(App\Providers\AuthServiceProvider::class);
 
-	$app->register(App\Providers\ACLServiceProvider::class);
-
 	$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 
 	$app->register(Illuminate\Redis\RedisServiceProvider::class);

@@ -28,5 +28,10 @@
 			 */
 			$this->app->bind('HelpersService', 'App\Services\HelpersService');
 
+			/**
+			 * Service ACL
+			 */
+			$this->app->bind('ACLService', 'App\Services\ACL\ACLService');
+
 		}
 	}
