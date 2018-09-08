@@ -12,7 +12,12 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-	protected $commands = [];
+	protected $commands = [
+		Commands\CreateRepositroy::class,
+		Commands\CreateApiController::class,
+		Commands\CreateTransformer::class,
+		Commands\CreateExample::class
+	];
 
     /**
      * Define the application's command schedule.
