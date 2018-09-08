@@ -38,7 +38,7 @@ RUN composer install --no-dev \
 # Install php redis
 RUN printf "\n" | pecl install -o -f redis \
         &&  rm -rf /tmp/pear \
-        &&  docker-php-ext-enable redis \
+        &&  docker-php-ext-enable redis
 
 # Copy env file
 RUN cp .env.example .env
@@ -48,3 +48,5 @@ RUN chown -R www-data:www-data ./* \
     && chown -R www-data:www-data ./.* \
     && find . -type f -exec chmod 644 {} \; \
     && find . -type d -exec chmod 775 {} \;
+
+CMD ["bash"]
