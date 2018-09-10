@@ -49,4 +49,6 @@ RUN chown -R www-data:www-data ./* \
     && find . -type f -exec chmod 644 {} \; \
     && find . -type d -exec chmod 775 {} \;
 
+EXPOSE 9000
+
 CMD ["bash"]
