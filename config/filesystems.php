@@ -54,6 +54,10 @@
 				'driver' => 'local',
 				'root' => 'app',
 			],
+			'logs' => [
+				'driver' => 'local',
+				'root' => storage_path('logs'),
+			],
 		]
 
 	];
