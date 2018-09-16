@@ -18,3 +18,17 @@
 			return app()->basePath() . '/config' . ($path ? '/' . $path : $path);
 		}
 	}
+
+	if ( ! function_exists('logger_path'))
+	{
+		/**
+		 * Get the logger_path path.
+		 *
+		 * @param  string $path
+		 * @return string
+		 */
+		function logger_path($path = '')
+		{
+			return app()->storagePath() . '/logs' . ($path ? '/' . $path : $path);
+		}
+	}
