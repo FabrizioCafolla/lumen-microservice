@@ -6,7 +6,10 @@
 	use Laravel\Lumen\Routing\Controller as BaseController;
 	use App\Repositories\CacheRepository;
 
-
+	/**
+	 * Class ApiBaseController
+	 * @package App\Api\v1
+	 */
 	class ApiBaseController extends BaseController
 	{
 		/**
@@ -33,6 +36,10 @@
 		 * @var Cache
 		 */
 		public $cache;
+		/**
+		 * @var Log
+		 */
+		public $log;
 
 		public function __construct()
 		{
@@ -40,6 +47,7 @@
 			$this->response = app('ResponseService');
 			$this->acl = app('ACLService');
 			$this->cache = app('CacheService');
+			$this->log = app('LogService');
 			$this->helpers = $this->api->helpers;
 		}
 	}

@@ -33,5 +33,10 @@
 			 */
 			$this->app->bind('ACLService', 'App\Services\ACL\ACLService');
 
+			/**
+			 * Service Log
+			 */
+			$this->app->singleton('LogService', 'App\Services\LogService');
+
 		}
 	}
