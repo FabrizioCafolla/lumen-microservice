@@ -1,7 +1,7 @@
 # DevOps Microservice Lumen Project
 [build] [stable]
 
-[version] [v1.0.2 beta]
+[version] [v1.0.3 beta]
 
 ##### Why use it?
 >Microservice Lumen allows you to start from a solid foundation to build your backend. Using packages, services and patterns you'll be able to implement your app in an easy and efficient way. With this framework you can build your REST API in a few steps using artisan commands to create the Controller, the Repository linked to the data model and the Trasformer for data display. The microservice communicates with the outside through HTTP API calls with JWT authentication (stateless token). It implements base services for API controller, response and helpers.
@@ -12,7 +12,7 @@
 ![](.github/Microservice%20Lumen.png)
 
 ## Features 
-_The 1.0.2 beta version is the release that includes the following components in the framework:_
+_The 1.0.3 beta version is the release that includes the following components in the framework:_
 
 **Doker** to start the application with `Nginx`, `PHP 7`, `MySQL` and `Redis`;
 
@@ -28,12 +28,19 @@ _The 1.0.2 beta version is the release that includes the following components in
     -ApiService to facilitate bee controllers through already implemented methods
     -HelpersService to easily use helpers throughout the app
     -CacheService to allow the use of the cache in a more simple and centralized way
+    -LogService to create and use log with Monolog package
 
 **Repository pattern** implemented to manage the models in an abstract way and to allow the scalability of the business logic (used to guarantee also the code cleaning)
 
 **Transformer** classes to manipulate data and better manage the recovery of related information (are transformed through functions implemented in ApiService)
   
 **Artisan commands** to create Repository, ApiController and Transoformers (Other commands to create example file view documentation)
+  
+  ##### v1.0.3 beta
+    -Fixed docker-compose build
+    -Add redis cli to develop env (docker-compose) 
+    -Add LogService for log managment
+  
    ##### v1.0.2 beta
        The release is ready to be used in develop and production environments using in the first case docker-compose while in the second Docker. The code you develop when ready will have to build it with the Docker commands and then upload to Dockerhub or AWS ECR. The image created will allow you to have your app ready to be used by the ECS tasks
        
@@ -42,7 +49,7 @@ _The 1.0.2 beta version is the release that includes the following components in
        Features
        Add Dockerfile and dockerignore for ecs production
 
-    
+   
    ##### v1.0.1 beta
     -Fixed directory file
     -Fixed docker compose file
