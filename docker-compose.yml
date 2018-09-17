@@ -28,6 +28,12 @@ services:
     env_file:
       - Docker/redis/.redis-env
 
+  redis-cli:
+    image: redis:latest
+    links:
+      - redis
+    command: redis-cli -h redis
+
   ####################################################################################################
   # The Application
   ####################################################################################################
@@ -53,7 +59,7 @@ services:
       dockerfile: Docker/nginx/web.dockerfile
     working_dir: /var/www
     volumes:
-      - ./:/var/www/
+      - ./image/nginx/data/:/var/www/
     env_file:
       - Docker/nginx/.nginx-env
     ports:
