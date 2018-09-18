@@ -23,11 +23,6 @@
 		public $response;
 
 		/**
-		 * @var HelpersService
-		 */
-		public $helpers;
-
-		/**
 		 * @var ACLService
 		 */
 		public $acl;
@@ -36,6 +31,7 @@
 		 * @var Cache
 		 */
 		public $cache;
+
 		/**
 		 * @var Log
 		 */
@@ -48,6 +44,5 @@
 			$this->acl = app('ACLService');
 			$this->cache = app('CacheService');
 			$this->log = app('LogService');
-			$this->helpers = $this->api->helpers;
 		}
 	}

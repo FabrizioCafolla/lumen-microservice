@@ -17,4 +17,6 @@
 		 */
 		use Helpers;
 
+		// Add your methods to helps controllers
+
 	}

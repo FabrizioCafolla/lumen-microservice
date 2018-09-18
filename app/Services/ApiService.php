@@ -8,71 +8,56 @@
 
 	namespace App\Services;
 
+	use App\Facades\ResponseFacade;
+	use Illuminate\Support\Collection;
+
 	class ApiService
 	{
 		/**
-		 * @var array
-		 */
-		private $availableIncludes = [];
-
-		/** Response for internal controller
-		 * @var ResponseService
-		 */
-		private $response;
-
-		/**
+		 * You can also use the Helpers service on controllers with this command $this->api->helpers
+		 *
 		 * @var HelpersService
 		 */
 		public $helpers;
 
+		/**
+		 * Array that contains any relationships that the transformer must retrieve to add then add to the response
+		 * @var array
+		 */
+		private $availableIncludes = [];
+
+		/**
+		 * ApiService constructor.
+		 */
 		public function __construct()
 		{
 			$this->helpers = app('HelpersService');
-			$this->response = app('ResponseService');
 		}
 
 		/**
-		 * @param $tyep => "collection" or "item"
-		 * @param $data => data to transform
+		 * Method to use the Transformers, it receives in input the type of transformer ("collection" "item" or "paginator"), the data and the additional parameters, including an array to retrieve data related to those required. This function returns a collaction or a json error response.
+		 *
+		 * @param $type
+		 * @param $data
 		 * @param array $paramatres
-		 * @param function $function
+		 * @param \Closure $function
 		 * @param array $availableData => string content for add element to collect
-		 * @return collect
+		 * @return Collection
 		 */
-		public function transform($type, $data, $model, array $paramatres = [], \Closure $function = NULL, array $availableData = [])
+		public function transform($type = "collection", $data, $model, array $paramatres = [], \Closure $function = NULL, array $availableData = [])
 		{
 			$this->availableIncludes = $availableData;
 
-			if ($type == "collection") {
-				if ($this->availableIncludes)
-					$response = $this->helpers->response->collection($data, new $model, $paramatres, function ($resource, $fractal) {
-						$fractal->parseIncludes($this->availableIncludes);
-					});
-				else
-					$response = $this->helpers->response->collection($data, new $model, $paramatres, $function);
-			}
-			if ($type == "item") {
-				if ($this->availableIncludes)
-					$response = $this->helpers->response->item($data, new $model, $paramatres, function ($resource, $fractal) {
-						$fractal->parseIncludes($this->availableIncludes);
-					});
-				else
-					$response = $this->helpers->response->item($data, new $model, $paramatres, $function);
-			}
+			if ($this->availableIncludes)
+				$response = $this->helpers->response->{$type}($data, new $model, $paramatres, function ($resource, $fractal) {
+					$fractal->parseIncludes($this->availableIncludes);
+				});
+			else
+				$response = $this->helpers->response->{$type}($data, new $model, $paramatres, $function);
 
-			if ($type == "paginator") {
-				if ($this->availableIncludes)
-					$response = $this->helpers->response->paginator($data, new $model, $paramatres, function ($resource, $fractal) {
-						$fractal->parseIncludes($this->availableIncludes);
-					});
-				else
-					$response = $this->helpers->response->paginator($data, new $model, $paramatres, $function);
-			}
-
-			// Return transformer in collection or error not found data
-			if (!$response->isEmpty())
+			if ($response->isEmpty())
 				return collect($response)->get("original");
 			else
-				return $this->response->error("notFound");
+				return ResponseFacade::error("notFound");
 		}
 	}
