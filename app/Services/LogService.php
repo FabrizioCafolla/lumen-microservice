@@ -37,7 +37,7 @@
 		public function __construct()
 		{
 			foreach ($this->logs as $log) {
-				$this->logs[$log] = $this->initializesLog($log, true);
+				$this->logs[$log] = $this->createLog($log, true);
 			}
 		}
 
@@ -46,12 +46,12 @@
 		 * @return mixed
 		 * @throws \Exception
 		 */
-		private function initializesLog($log, $data = false)
+		private function initializesLog($log, $data, $formatter)
 		{
 			$create = new Logger(str_singular($log));
 
 			$path = $data ? $log . '-' . Carbon::now()->toDateString() : $log;
-			$create->pushHandler($this->stream($path));
+			$create->pushHandler($this->stream($path, $formatter));
 
 			return $create;
 		}
@@ -62,7 +62,7 @@
 		 * @return StreamHandler
 		 * @throws \Exception
 		 */
-		private function stream($path, $formatter = 'json')
+		private function stream($path, $formatter)
 		{
 			switch ($formatter) {
 				case 'json':
@@ -103,10 +103,10 @@
 		 * @return mixed
 		 * @throws \Exception
 		 */
-		public function createLog($log, $data)
+		public function createLog($log, $data = false, $formatter = 'json')
 		{
 			try {
-				return $this->initializesLog($log, $data);
+				return $this->initializesLog($log, $data, $formatter);
 			} catch (LogsException $exception) {
 				return $exception->response("Failed get Log", 500);
 			}
