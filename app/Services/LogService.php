@@ -20,45 +20,77 @@
 
 	class LogService
 	{
-		/** Primary logs if you add new element in array
-		 *  use it without invoke create method
+		/** Arrays with the basic logs initialized by the manufacturer with the default date of the day.
+		 * Add your basic logs here to be used immediately.
+		 * Example: $this->log->default['mails']->info('Example used');
 		 * @var array
 		 */
-		private $logs = [
+		public $default = [
 			'mails',
 			'queries',
 			'generics',
 		];
 
 		/**
-		 * HelpersService constructor.
+		 * Initialize the default logs with the instance of the Monolog class with today's date when the log file is created
+		 *
 		 * @throws \Exception
 		 */
 		public function __construct()
 		{
-			foreach ($this->logs as $log) {
-				$this->logs[$log] = $this->createLog($log, true);
+			foreach ($this->default as $log) {
+				$this->default[$log] = $this->initializesLog($log, 'today');
 			}
 		}
 
 		/**
-		 * @param $log
-		 * @return mixed
+		 * Method used to initialize the logs, returns the Monolog object, you can define the name of the log file by adding the date to it and choose the format.
+		 *
+		 * @param $log name log file
+		 * @param bool $data data to add in file name
+		 * @param string $formatter type of format log file
+		 * @return Logger object Monolog
 		 * @throws \Exception
 		 */
-		private function initializesLog($log, $data, $formatter)
+		public function initializesLog($log, $data = false, $formatter = 'json')
 		{
-			$create = new Logger(str_singular($log));
+			try {
+				$create = new Logger(str_singular($log));
 
-			$path = $data ? $log . '-' . Carbon::now()->toDateString() : $log;
-			$create->pushHandler($this->stream($path, $formatter));
+				$path = $data ? $log . '-' . Carbon::parse($data)->toDateString() : $log;
+				$create->pushHandler($this->stream($path, $formatter));
 
-			return $create;
+				return $create;
+			} catch (LogsException $exception) {
+				return $exception->response("Error load Log", 500);
+			}
+
 		}
 
 		/**
+		 * Method to retrieve an existing log file that is either a default or a created one, if it does not exist it returns a null value
+		 * @param string $log
+		 * @return mixed
+		 * @throws \Exception
+		 */
+		public function getLog($log = '', $data = '')
+		{
+			if (array_has($this->default, $log) && !$data)
+				return $this->default[$log];
+
+			$path = $data ? $log . '-' . Carbon::parse($data)->toDateString() : $log;;
+			if (Storage::disk('logs')->exists($path)) {
+				return $this->initializesLog($path);
+			}
+
+			return null;
+		}
+
+		/**
+		 * Private method to manage the log stream
+		 *
 		 * @param $path
-		 * @param string $formatter
+		 * @param $formatter
 		 * @return StreamHandler
 		 * @throws \Exception
 		 */
@@ -79,37 +111,4 @@
 			$stream->setFormatter($formatter);
 			return $stream;
 		}
-
-		/**
-		 * @param string $log
-		 * @return mixed
-		 * @throws \Exception
-		 */
-		public function getLog($log = '')
-		{
-			if (array_has($this->logs, $log))
-				return $this->logs[$log];
-
-			if (Storage::disk('logs')->exists($log)) {
-				return $this->initializesLog($log);
-			}
-
-			return ResponseFacade::error("generic", "Not found Log", 500);
-		}
-
-		/**
-		 * @param $log
-		 * @param $data
-		 * @return mixed
-		 * @throws \Exception
-		 */
-		public function createLog($log, $data = false, $formatter = 'json')
-		{
-			try {
-				return $this->initializesLog($log, $data, $formatter);
-			} catch (LogsException $exception) {
-				return $exception->response("Failed get Log", 500);
-			}
-		}
-
 	}
