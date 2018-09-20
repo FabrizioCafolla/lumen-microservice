@@ -34,6 +34,6 @@
 
 		public function getAuthenticatedUser()
 		{
-			return $this->auth->getAuthenticatedUser();
+			return $this->acl->createACL(['admin'], ['prova']);
 		}
 	}

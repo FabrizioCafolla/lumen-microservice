@@ -16,22 +16,22 @@
 			/**
 			 * Service Response
 			 */
-			$this->app->bind('ResponseService', 'App\Services\ResponseService');
+			$this->app->singleton('ResponseService', 'App\Services\ResponseService');
 
 			/**
 			 * Service Api
 			 */
-			$this->app->bind('ApiService', 'App\Services\ApiService');
+			$this->app->singleton('ApiService', 'App\Services\ApiService');
 
 			/**
 			 * Service Helpers
 			 */
-			$this->app->bind('HelpersService', 'App\Services\HelpersService');
+			$this->app->singleton('HelpersService', 'App\Services\HelpersService');
 
 			/**
 			 * Service ACL
 			 */
-			$this->app->bind('ACLService', 'App\Services\ACL\ACLService');
+			$this->app->singleton('ACLService', 'App\Services\ACLService');
 
 			/**
 			 * Service Log
