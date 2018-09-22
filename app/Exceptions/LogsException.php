@@ -7,11 +7,6 @@
 	 */
 	namespace App\Exceptions;
 
-	use App\Facades\ResponseFacade;
-	use Exception;
-
-	class LogsException extends Exception {
-		public function response ($message = 'Error log') {
-			return ResponseFacade::error("generic", $message, 500);
-		}
+	class LogsException extends ErrorsException {
+		//Log Exception
 	}

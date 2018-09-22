@@ -9,7 +9,9 @@
 	namespace App\Services;
 
 	use Spatie\Permission\Exceptions\PermissionAlreadyExists;
+	use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 	use Spatie\Permission\Exceptions\RoleAlreadyExists;
+	use Spatie\Permission\Exceptions\RoleDoesNotExist;
 	use Spatie\Permission\Models\Role;
 	use Spatie\Permission\Models\Permission;
 	use JWTAuth;
@@ -53,19 +55,33 @@
 		 * @param $pemissions
 		 * @return mixed
 		 */
-		public function assign($user, $roles, $pemissions)
+		public function assign($user, array $roles = [], array $permissions = [])
 		{
-			if (!$user)
-				$this->response->error("notFound");
+			try {
+				$user->assignRole($roles);
 
-			$user->assignRole($roles);
-
-			if ($user->hasRole($roles)) {
-				$user->givePermissionTo($pemissions);
-				return $this->response->success("Added roles and permission to user");
+				if ($user->hasAllRoles($roles)) {
+					$user->givePermissionTo($permissions);
+					return $this->response->success("Assigned successful " . $user->id);
+				}
+			} catch (RoleDoesNotExist $e) {
+				foreach ($roles as $role) {
+					$this->role->findByName($role);
+				}
+			} catch (PermissionDoesNotExist $e) {
+				foreach ($permissions as $permission) {
+					$this->permission->findByName($permission);
+				}
 			}
 			return $this->response->error("notFound");
 		}
+
+
+		public function update()
+		{
+
+		}
+
 
 		/**
 		 * Method for create Role and Permission in DB
@@ -92,9 +108,9 @@
 						$createdRole->givePermissionTo($createdPermission);
 					}
 				} catch (PermissionAlreadyExists $e) {
-					return $e->create($permission,'api');
+					return $e->create($permission, 'api');
 				} catch (RoleAlreadyExists $e) {
-					return $e->create($role,'api');
+					return $e->create($role, 'api');
 				}
 			}
 			return $this->response->success("Created roles and permission");

@@ -61,8 +61,8 @@
 				$create->pushHandler($this->stream($path, $formatter));
 
 				return $create;
-			} catch (LogsException $exception) {
-				return $exception->response("Error load Log", 500);
+			} catch (LogsException $e) {
+				return $e->response("internal","Error load Log");
 			}
 
 		}
