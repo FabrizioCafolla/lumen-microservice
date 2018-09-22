@@ -55,15 +55,25 @@
 		 * @param $pemissions
 		 * @return mixed
 		 */
-		public function assign($user, array $roles = [], array $permissions = [])
+		public function assign($user, array $roles = [], array $permissions = [], $sync = false)
 		{
-			try {
-				$user->assignRole($roles);
+			if ($this->check($user, ['roles' => $roles]))
+				return $this->response->error("generic", "User already has one of these roles " . $roles);
 
-				if ($user->hasAllRoles($roles)) {
+			if ($this->check($user, ['permissions' => $permissions]))
+				return $this->response->error("generic", "User already has one of these permissions " . $permissions);
+
+			try {
+				if ($sync) {
+					$roles ? $user->syncRoles($roles) : null;
+					$permissions ? $user->syncPermissions($permissions) : null;
+				} else {
+					$user->assignRole($roles);
 					$user->givePermissionTo($permissions);
-					return $this->response->success("Assigned successful " . $user->id);
 				}
+
+				return $this->response->success("Assigned successful to user id: " . $user->id);
+
 			} catch (RoleDoesNotExist $e) {
 				foreach ($roles as $role) {
 					$this->role->findByName($role);
@@ -76,12 +86,18 @@
 			return $this->response->error("notFound");
 		}
 
-
-		public function update()
+		public function check($user, array $data) :bool
 		{
+			$checkedRoles = array_get($data, 'roles', 0);
+			if ($checkedRoles && $user->hasAnyRole($data))
+				return true;
 
+			$checkedPermissions = array_get($data, 'permissions', 0);
+			if ($checkedPermissions && $user->hasAnyPermission($checkedPermissions))
+				return true;
+
+			return false;
 		}
-
 
 		/**
 		 * Method for create Role and Permission in DB
