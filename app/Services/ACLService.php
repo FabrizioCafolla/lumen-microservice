@@ -8,9 +8,8 @@
 
 	namespace App\Services;
 
-
-	use App\Facades\AuthFacade;
-	use Dingo\Api\Routing\Helpers;
+	use Spatie\Permission\Exceptions\PermissionAlreadyExists;
+	use Spatie\Permission\Exceptions\RoleAlreadyExists;
 	use Spatie\Permission\Models\Role;
 	use Spatie\Permission\Models\Permission;
 	use JWTAuth;
@@ -54,9 +53,9 @@
 		 * @param $pemissions
 		 * @return mixed
 		 */
-		public function assignACL($user, $roles, $pemissions)
+		public function assign($user, $roles, $pemissions)
 		{
-			if(! $user)
+			if (!$user)
 				$this->response->error("notFound");
 
 			$user->assignRole($roles);
@@ -67,29 +66,37 @@
 			}
 			return $this->response->error("notFound");
 		}
-		use Helpers;
-		/** Create ACL roles and permission into DB
-		 * @param $roles
-		 * @param $pemissions
-		 * @return mixed
+
+		/**
+		 * Method for create Role and Permission in DB
+		 * This function can be used by default only by Admin, but it is possible to change or choose to remove this restriction.
+		 * Example of the array to pass ["nameRole" => "namePermission", "nameRole1" => "namePermission2"]
+		 * For more information follow the official spatie guide
+		 *
+		 * @param array $roles
+		 * @return static
 		 */
-		public function createACL(array $roles, array $pemissions = [])
+		public function create(array $roles)
 		{
-			$user = JWTAuth::parseToken()->authenticate();
+			$user = JWTAuth::user();
 
-			if (!$user->hasRole('admin')) {
-				$role = $this->role->create($roles);
-
-				if (!$pemissions->isEmpty()) {
-					$permission = $this->permission->create($pemissions);
-					$role->givePermissionTo($permission);
-				}
-
-				return $this->response->success("Created roles and permission");
-			}
-			else
+			if (!$user->hasRole('admin'))
 				return $this->response->error("unauthorized", "User logged is not Admin");
 
+			foreach ($roles as $role => $permission) {
+				try {
+					$createdRole = $this->role->create(['name' => $role]);
 
+					if ($permission) {
+						$createdPermission = $this->permission->create(['name' => $permission]);
+						$createdRole->givePermissionTo($createdPermission);
+					}
+				} catch (PermissionAlreadyExists $e) {
+					return $e->create($permission,'api');
+				} catch (RoleAlreadyExists $e) {
+					return $e->create($role,'api');
+				}
+			}
+			return $this->response->success("Created roles and permission");
 		}
 	}
