@@ -49,10 +49,16 @@
 			$this->response = app('ResponseService');
 		}
 
-		/** Assign ACL to user return response
+		/**
+		 * Method for assigning roles or permissions to a user.
+		 * The parameters are simple arrays, with the possibility to use the sync method (optional),
+		 * a failure response is returned if one of the roles or permissions are already assigned to the user,
+		 * otherwise a successful answer occurs, in addition there are exceptions if the roles or permissions you wish to assign are not present in the system
+		 *
 		 * @param $user
-		 * @param $roles
-		 * @param $pemissions
+		 * @param array $roles
+		 * @param array $permissions
+		 * @param bool $sync
 		 * @return mixed
 		 */
 		public function assign($user, array $roles = [], array $permissions = [], $sync = false)
@@ -83,17 +89,29 @@
 					$this->permission->findByName($permission);
 				}
 			}
-			return $this->response->error("notFound");
 		}
 
-		public function check($user, array $data) :bool
+		/**
+		 * Method to check if a user has permissions or roles already assigned.
+		 * The parameters passed are three the first is User, the second is an array that can be composed in these three ways:
+		 * 1) ["roles" => ["role1", "role2", "roleN"]] or ["roles" => "role1"]
+		 * 2) ["permissions" => ["permission1", "permission2", "permissionN"]] or ["permissions" => "permission"]
+		 * 3) It is possible to put the two keys together in the array
+		 * The third parameter is the choice to check if the user is in possession of all the roles or permissions.
+		 * The true result is determined by the fact that a role or permission is already assigned to the user, it returns false if the user does not own any of those roles or permissions.
+		 *
+		 * @param $user
+		 * @param array $data
+		 * @return bool
+		 */
+		public function check($user, array $data, $all = false) :bool
 		{
 			$checkedRoles = array_get($data, 'roles', 0);
-			if ($checkedRoles && $user->hasAnyRole($data))
+			if ($checkedRoles && ($all ? $user->hasAllRoles($data): $user->hasAnyRole($data)))
 				return true;
 
 			$checkedPermissions = array_get($data, 'permissions', 0);
-			if ($checkedPermissions && $user->hasAnyPermission($checkedPermissions))
+			if ($checkedPermissions && ($all ? $user->hasAllPermissions($data) : $user->hasAnyPermission($checkedPermissions)))
 				return true;
 
 			return false;
