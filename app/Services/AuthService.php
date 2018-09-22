@@ -6,63 +6,43 @@
 	 * Time: 11.33
 	 */
 
-	namespace App\Services\Auth\Contracts;
+	namespace App\Services;
 
 	use App\Repositories\UserRepository as User;
 	use Illuminate\Http\Request;
 	use JWTAuth;
 	use Tymon\JWTAuth\Exceptions\JWTException;
 
-	abstract class AuthServiceAbstract
+	class AuthService
 	{
+
 		/** User Repository
 		 *
 		 * @var User
 		 */
-		protected $auth;
+		private $user;
 
 		/** Service for response
 		 *
 		 * @var ResponseService
 		 */
-		protected $response;
+		private $acl;
 
 		/** Service for response
 		 *
 		 * @var ResponseService
 		 */
-		protected $acl;
+		private $response;
 
 		/**
 		 * AuthService constructor.
 		 * @param User $user
 		 */
-		public function __construct($auth)
+		public function __construct()
 		{
 			$this->response = app('ResponseService');
 			$this->acl = app('ACLService');
-
-			$this->auth = app($auth);
-		}
-
-		/** Register method
-		 * @param Request $request
-		 * @return mixed (user + token) or (errors)
-		 */
-		public function register(Request $request)
-		{
-			$validator = $this->auth->validateRequest($request->all(), "store");
-
-			if ($validator->status() == "200") {
-				$user = $this->auth->create($request->all());
-
-				$token = JWTAuth::fromUser($user);
-				if (!$token)
-					return $this->response->error("internal");
-
-				return $this->response->custom(compact('user','token'));
-			}
-			return $this->response->custom($validator->content(), 400);
+			$this->user = app(User::class);
 		}
 
 		/**
@@ -83,28 +63,45 @@
 			return $this->response->custom(compact('token'));
 		}
 
+		/**
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function getAuthenticatedUser()
 		{
 			try {
-
-				if (! $user = JWTAuth::parseToken()->authenticate()) {
+				if (!$user = JWTAuth::parseToken()->userenticate())
 					return $this->response->custom('notFound');
-				}
-
 			} catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
 				return $this->response->custom(['token expired']);
-
 			} catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-
 				return $this->response->custom(['token invalid']);
-
 			} catch (JWTException $e) {
-
 				return $this->response->custom(['token absent']);
-
 			}
-
 			return $this->response->custom(compact('user'));
 		}
+
+		/** Register method
+		 * @param Request $request
+		 * @return mixed (user + token) or (errors)
+		 */
+		public function register(Request $request)
+		{
+			$validator = $this->user->validateRequest($request->all(), "store");
+
+			if ($validator->status() != "200")
+				return $this->response->error("badRequest", $validator->content(), 400);
+
+			$user = $this->user->create($request->all());
+			$token = JWTAuth::fromUser($user);
+			if (!$token)
+				return $this->response->error("internal");
+
+			$assign = $this->acl->assign($user, ['user'], ['read write publish']);
+			if($assign->status() == "200")
+				return $this->response->custom(compact('user', 'token'));
+			else
+				return $assign;
+		}
+
 	}

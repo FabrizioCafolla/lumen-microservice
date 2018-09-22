@@ -29,11 +29,11 @@
 
 		public function register(Request $request)
 		{
-			return $this->auth->registerUser($request);
+			return $this->auth->register($request);
 		}
 
 		public function getAuthenticatedUser()
 		{
-			return $this->acl->createACL(['admin'], ['prova']);
+			return $this->auth->getAuthenticatedUser();
 		}
 	}

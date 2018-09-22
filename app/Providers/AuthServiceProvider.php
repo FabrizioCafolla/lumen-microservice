@@ -19,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
 	    /**
 		 * Service User Auth
 		 */
-	    $this->app->bind('AuthService', 'App\Services\Auth\AuthService');
+	    $this->app->bind('AuthService', 'App\Services\AuthService');
     }
 
     /**
