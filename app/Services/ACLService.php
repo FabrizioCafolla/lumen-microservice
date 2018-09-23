@@ -104,10 +104,10 @@
 		 * @param array $data
 		 * @return bool
 		 */
-		public function check($user, array $data, $all = false) :bool
+		public function check($user, array $data, $all = false): bool
 		{
 			$checkedRoles = array_get($data, 'roles', 0);
-			if ($checkedRoles && ($all ? $user->hasAllRoles($data): $user->hasAnyRole($data)))
+			if ($checkedRoles && ($all ? $user->hasAllRoles($data) : $user->hasAnyRole($data)))
 				return true;
 
 			$checkedPermissions = array_get($data, 'permissions', 0);
@@ -120,13 +120,50 @@
 		/**
 		 * Method for create Role and Permission in DB
 		 * This function can be used by default only by Admin, but it is possible to change or choose to remove this restriction.
-		 * Example of the array to pass ["nameRole" => "namePermission", "nameRole1" => "namePermission2"]
+		 * Example of the array to pass ["role1", "role2", "roleN"] or ["permission1", "permission2", "permissionN"]
+		 * For more information follow the official spatie guide
+		 *
+		 * @param array $roles
+		 * @param array $permissions
+		 * @param string $guard
+		 * @return static
+		 */
+		public function create(array $roles = [], array $permissions = [], $guard = 'api')
+		{
+			$user = JWTAuth::user();
+			if (!$user->hasRole('admin'))
+				return $this->response->error("unauthorized", "User logged is not Admin");
+
+			foreach ($roles as $role) {
+				try {
+					$this->role->create(['guard_name' => $guard, 'name' => $role]);
+				} catch (RoleAlreadyExists $e) {
+					return $e->create($role, 'api');
+				}
+			}
+			foreach ($permissions as $permission) {
+				try {
+					$this->permission->create(['guard_name' => $guard, 'name' => $permission]);
+				} catch (PermissionAlreadyExists $e) {
+					return $e->create($permission, 'api');
+				}
+			}
+			return $this->response->success("Roles and Permissions successful created");
+		}
+
+		/**
+		 * Assigning permissions to roles.
+		 * If roles not exist are created.
+		 * Example of the array to pass:
+		 * ["nameRole" => "namePermission", "nameRole1" => "namePermission2"]
+		 * or ["nameRole" => ["namePermission", namePermission2"]]
+		 * or ["nameRole" => ["namePermission", namePermission2"], "nameRole1" => "namePermission",]
 		 * For more information follow the official spatie guide
 		 *
 		 * @param array $roles
 		 * @return static
 		 */
-		public function create(array $roles)
+		public function give(array $roles)
 		{
 			$user = JWTAuth::user();
 
@@ -135,18 +172,12 @@
 
 			foreach ($roles as $role => $permission) {
 				try {
-					$createdRole = $this->role->create(['name' => $role]);
-
-					if ($permission) {
-						$createdPermission = $this->permission->create(['name' => $permission]);
-						$createdRole->givePermissionTo($createdPermission);
-					}
-				} catch (PermissionAlreadyExists $e) {
+					$giveRole = $this->role->findOrCreate($role);
+					$giveRole->givePermissionTo($permission);
+				} catch (PermissionDoesNotExist $e) {
 					return $e->create($permission, 'api');
-				} catch (RoleAlreadyExists $e) {
-					return $e->create($role, 'api');
 				}
 			}
-			return $this->response->success("Created roles and permission");
+			return $this->response->success("Assigned successful");
 		}
 	}

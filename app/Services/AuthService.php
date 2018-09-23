@@ -8,6 +8,7 @@
 
 	namespace App\Services;
 
+	use App\Facades\ACLFacade;
 	use App\Repositories\UserRepository as User;
 	use Illuminate\Http\Request;
 	use JWTAuth;
@@ -22,13 +23,7 @@
 		 */
 		private $user;
 
-		/** Service for response
-		 *
-		 * @var ResponseService
-		 */
-		private $acl;
-
-		/** Service for response
+		/** Service Response
 		 *
 		 * @var ResponseService
 		 */
@@ -36,16 +31,19 @@
 
 		/**
 		 * AuthService constructor.
+		 *
 		 * @param User $user
 		 */
 		public function __construct()
 		{
 			$this->response = app('ResponseService');
-			$this->acl = app('ACLService');
 			$this->user = app(User::class);
 		}
 
 		/**
+		 * User authentication with JWT.
+		 * Returns the token or an error response
+		 *
 		 * @param Request $request
 		 * @return mixed (token) or (errors)
 		 */
@@ -64,6 +62,9 @@
 		}
 
 		/**
+		 * Method for check user authenticated.
+		 * Return user playload or Exception
+		 *
 		 * @return \Illuminate\Http\JsonResponse
 		 */
 		public function getAuthenticatedUser()
@@ -81,7 +82,12 @@
 			return $this->response->custom(compact('user'));
 		}
 
-		/** Register method
+		/**
+		 * Register method.
+		 * The request is validated by the user repository method, then it is created and then authenticated with JWT which creates the token.
+		 * If the token is successfully created, the roles and permssi are assigned to the user.
+		 * Return a reply with the user and the token
+		 *
 		 * @param Request $request
 		 * @return mixed (user + token) or (errors)
 		 */
@@ -97,7 +103,7 @@
 			if (!$token)
 				return $this->response->error("internal");
 
-			$assign = $this->acl->assign($user, ['user'], ['read write publish']);
+			$assign = ACLFacade::assign($user, ['user'], ['read write publish']);
 			if($assign->status() == "200")
 				return $this->response->custom(compact('user', 'token'));
 			else
