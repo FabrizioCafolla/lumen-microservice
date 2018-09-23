@@ -35,7 +35,12 @@ _The 1.0.3 beta version is the release that includes the following components in
 **Transformer** classes to manipulate data and better manage the recovery of related information (are transformed through functions implemented in ApiService)
   
 **Artisan commands** to create Repository, ApiController and Transoformers (Other commands to create example file view documentation)
-  
+
+  ##### v1.0.4 beta
+    -Fixed AuthService and remove Abstract class
+    -Fixed ApiService transform
+    -Fixed and Add method ACLService
+      
   ##### v1.0.3 beta
     -Fixed docker-compose build
     -Add redis cli to develop env (docker-compose) 
