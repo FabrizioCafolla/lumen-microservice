@@ -26,9 +26,9 @@
 		 * @param string $content
 		 * @return \Illuminate\Http\JsonResponse
 		 */
-		public function success($content = "")
+		public function success($content = "", $status = 200, array $headers = [], $options = 0)
 		{
-			return $this->custom(['status' => $content ? $content : "success"], 200);
+			return $this->custom(['status' => $content ? $content : "success"], $status, $headers, $options);
 		}
 
 		/**
@@ -38,7 +38,7 @@
 		 * @param int $options
 		 * @return \Illuminate\Http\JsonResponse
 		 */
-		public function custom($content, $status = 200, array $headers = [], $options = 0)
+		public function custom($content, $status, array $headers = [], $options = 0)
 		{
 			if (empty($content))
 				$this->custom(["data" => null]);
@@ -52,12 +52,12 @@
 		 * @param int $status
 		 * @return \Illuminate\Http\JsonResponse|void
 		 */
-		public function error($type = "generic", $content = "", $status = 400)
+		public function error($type = "generic", $content = "", $status = 400, array $headers = [], $options = 0)
 		{
 			switch ($type) {
 				case "error":
 					// A generic error with custom message and status code.
-					return $this->helpers->response->error($content ? $content : 'This is an error.', 404);
+					return $this->helpers->response->error($content ? $content : 'This is an error.');
 					break;
 
 				case "notFound":
@@ -86,7 +86,7 @@
 					break;
 
 				case "generic":
-					return $this->custom(['errors' => $content ? $content : "generic error"], $status);
+					return $this->custom(['errors' => $content ? $content : "generic error"], $status, $headers, $options);
 					break;
 			}
 		}
