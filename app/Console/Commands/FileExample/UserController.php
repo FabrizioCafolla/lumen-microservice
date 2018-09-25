@@ -96,7 +96,7 @@
 				}
 				return $this->response->error("internal");
 			}
-			return $this->response->custom($validator->content());
+			return $this->response->error("generic", $validator->content());
 		}
 
 		/**

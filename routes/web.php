@@ -20,4 +20,8 @@
 		$api->post('auth/login', 'App\Api\v1\AuthController@authenticate');
 		$api->post('auth/register', 'App\Api\v1\AuthController@register');
 		$api->get('auth/getAuthenticatedUser', 'App\Api\v1\AuthController@getAuthenticatedUser');
+
+		$api->group(['middleware' => 'api.auth', 'prefix' => 'test'], function () use ($api){
+			$api->get('/test', 'App\Api\v1\TestController@testCreate');
+		});
 	});

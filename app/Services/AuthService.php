@@ -58,7 +58,7 @@
 			} catch (JWTException $e) {
 				return $this->response->error("error", 'Could not create token.');
 			}
-			return $this->response->custom(compact('token'));
+			return $this->response->success(compact('token'));
 		}
 
 		/**
@@ -71,15 +71,15 @@
 		{
 			try {
 				if (!$user = JWTAuth::parseToken()->userenticate())
-					return $this->response->custom('notFound');
+					return $this->response->error('notFound');
 			} catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-				return $this->response->custom(['token expired']);
+				return $this->response->custom('token expired', 400);
 			} catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-				return $this->response->custom(['token invalid']);
+				return $this->response->custom('token invalid', 400);
 			} catch (JWTException $e) {
-				return $this->response->custom(['token absent']);
+				return $this->response->custom('token absent', 400);
 			}
-			return $this->response->custom(compact('user'));
+			return $this->response->success(compact('user'));
 		}
 
 		/**
@@ -105,7 +105,7 @@
 
 			$assign = ACLFacade::assign($user, ['user'], ['read write publish']);
 			if($assign->status() == "200")
-				return $this->response->custom(compact('user', 'token'));
+				return $this->response->success(compact('user', 'token'));
 			else
 				return $assign;
 		}

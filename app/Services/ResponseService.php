@@ -28,7 +28,7 @@
 		 */
 		public function success($content = "", $status = 200, array $headers = [], $options = 0)
 		{
-			return $this->custom(['status' => $content ? $content : "success"], $status, $headers, $options);
+			return $this->custom( $content ? $content : ['status' => "Success", 'code' => $status], $status, $headers, $options);
 		}
 
 		/**
@@ -40,9 +40,6 @@
 		 */
 		public function custom($content, $status, array $headers = [], $options = 0)
 		{
-			if (empty($content))
-				$this->custom(["data" => null]);
-
 			return response()->json($content, $status, $headers, $options);
 		}
 
@@ -86,7 +83,7 @@
 					break;
 
 				case "generic":
-					return $this->custom(['errors' => $content ? $content : "generic error"], $status, $headers, $options);
+					return $this->custom($content ? $content : ['status' => "errors", "code" => $status], $status, $headers, $options);
 					break;
 			}
 		}
