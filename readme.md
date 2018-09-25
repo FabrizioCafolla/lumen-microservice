@@ -1,7 +1,7 @@
 # DevOps Microservice Lumen Project
 [build] [stable]
 
-[version] [v1.0.3 beta]
+[version] [vv1.1.0 beta]
 
 ##### Why use it?
 >Microservice Lumen allows you to start from a solid foundation to build your backend. Using packages, services and patterns you'll be able to implement your app in an easy and efficient way. With this framework you can build your REST API in a few steps using artisan commands to create the Controller, the Repository linked to the data model and the Trasformer for data display. The microservice communicates with the outside through HTTP API calls with JWT authentication (stateless token). It implements base services for API controller, response and helpers.
@@ -36,6 +36,11 @@ _The 1.0.3 beta version is the release that includes the following components in
   
 **Artisan commands** to create Repository, ApiController and Transoformers (Other commands to create example file view documentation)
 
+  ##### v1.1.0 beta
+    -Fixed ResponseService custom method
+    -Add new Cache service system, implement repository with method.
+    -Create serialization json encode for cache system
+    
   ##### v1.0.4 beta
     -Fixed AuthService and remove Abstract class
     -Fixed ApiService transform
