@@ -40,6 +40,20 @@
 		}
 
 		/**
+		 * Method for creating multiple items in the cache
+		 * Example ['key' => $value, 'key2' => $value2]
+		 *
+		 * @param array $values
+		 * @param $type
+		 * @param int $minutes
+		 */
+		public function putMany(array $values, $type, $minutes = 0)
+		{
+			foreach ($values as $key => $data)
+				$this->put($key, $data, $type, $minutes);
+		}
+
+		/**
 		 * Cache creation through serialization in json coding.
 		 * If you want to cache response you pass the $data parameter as a Response instance
 		 *
@@ -57,20 +71,6 @@
 				return $this->redis->set($key, $serialize, $minutes);
 
 			return $this->file->{$minutes ? 'put' : 'forever'}($key, $serialize, $minutes);
-		}
-
-		/**
-		 * Method for creating multiple items in the cache
-		 * Example ['key' => $value, 'key2' => $value2]
-		 *
-		 * @param array $values
-		 * @param $type
-		 * @param int $minutes
-		 */
-		public function putMany(array $values, $type, $minutes = 0)
-		{
-			foreach ($values as $key => $data)
-				$this->put($key, $data, $type, $minutes);
 		}
 
 		/**
@@ -138,4 +138,27 @@
 
 			return $response;
 		}
+
+		public function forgetFile(string $key): bool
+		{
+			return $this->file->forget($key);
+		}
+
+		public function forgetManyFile(array $keys): void
+		{
+			foreach ($keys as $key)
+				$this->forgetFile($key);
+		}
+
+		public function forgetRedis(string $key): bool
+		{
+			return $this->redis->del($key);
+		}
+
+		public function forgetManyRedis(array $keys): void
+		{
+			foreach ($keys as $key)
+				$this->forgetRedis($key);
+		}
+
 	}
