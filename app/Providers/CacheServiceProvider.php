@@ -13,6 +13,6 @@
 		 */
 		public function register()
 		{
-			$this->app->singleton('CacheService', 'App\Services\CacheService');
+			$this->app->bind('CacheService', 'App\Services\CacheService');
 		}
 	}
