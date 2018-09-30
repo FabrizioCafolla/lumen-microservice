@@ -66,8 +66,8 @@
 		/**
 		 * Method for taking multiple keys together, returns a key associative array => value
 		 *
-		 * @param array $values
-		 * @param $type
+		 * @param array $keys
+		 * @return mixed
 		 */
 		public function getMany(array $keys)
 		{

@@ -9,6 +9,8 @@
 	namespace App\Services\Cache\CacheAbstract;
 
 	use App\Facades\ResponseFacade;
+	use Illuminate\Database\Eloquent\Model;
+	use Illuminate\Http\JsonResponse;
 	use \Illuminate\Http\Response;
 
 	/**
@@ -17,45 +19,118 @@
 	 */
 	class CacheAbstract
 	{
+		const GENERIC_TYPE = 'generic_type_normal';
 		const RESPONSE_TYPE = 'response_type_normal';
+		const MODEL_TYPE = 'model_type_normal';
 
 		/**
 		 * Private method for serialization, implements a control to correctly cache responses.
 		 *
 		 * @param $response
+		 * @param bool $withoutObj
 		 * @return string
 		 */
-		protected function serialize($response): string
+		protected function serialize($data, $withObj = true)
 		{
-			if (!($response instanceof Response))
-				return json_encode($response);
+			if ((($data instanceof Response) || ($data instanceof JsonResponse)) && $withObj)
+				return $this->responseSerialize($data);
 
-			$headers = $response->headers;
-			$status = $response->getStatusCode();
-			$content = $response->getContent();
-			$type = self::RESPONSE_TYPE;
+			if (($data instanceof Model) && $withObj)
+				return $this->serializeModel($data);
 
-			$responseSerialized = response(compact('content', 'type', 'status'))
-				->withHeaders($headers);
-
-			return json_encode($responseSerialized);
+			return $this->makeSerializedCache(self::GENERIC_TYPE, $data);
 		}
 
 		/**
 		 * Private method that decodes the data recovered from the cache, using json decode and if the cachet data is an response will be decoded correctly
 		 *
 		 * @param string $serializedResponse
-		 * @return $this|string|Response
+		 * @return $this|string|Response|Model
 		 */
-		protected function unserialize(string $serializedResponse)
+		protected function unserialize($serializedCache, $withObj = true)
 		{
-			$responseProperties = json_decode($serializedResponse, true);
-			$type = $responseProperties['original']['type'] ?? false;
-			if ($type !== self::RESPONSE_TYPE)
-				return $responseProperties;
+			if (!$serializedCache)
+				return ResponseFacade::error('notFound', 'Cache not found');
 
-			$response = ResponseFacade::custom($responseProperties['original']['content'], $responseProperties['original']['status'], $responseProperties['headers']);
+			$cache = $this->getSerializedCache($serializedCache);
+
+			if (($cache['type'] === self::RESPONSE_TYPE) && $withObj)
+				return $this->unserializeResponse($cache['data']);
+
+			if (($cache['type'] === self::MODEL_TYPE) && $withObj)
+				return $this->unserializeModel($cache['data']);
+
+			return $cache['data'];
+		}
+
+		/**
+		 * @param $response
+		 * @return string
+		 */
+		protected function responseSerialize($response)
+		{
+			$headers = $response->headers;
+			$status = $response->getStatusCode();
+			$content = $response->getContent();
+
+			$type = self::RESPONSE_TYPE;
+			$data = ResponseFacade::custom(compact('content', 'status'), $status, array($headers));
+
+			return $this->makeSerializedCache($type, $data);
+		}
+
+		/**
+		 * @param $serializedResponse
+		 * @return mixed
+		 */
+		protected function unserializeResponse($serializedResponse)
+		{
+			$response = ResponseFacade::custom($serializedResponse['original']['content'], $serializedResponse['original']['status'], $serializedResponse['headers']);
 
 			return $response;
+		}
+
+		/**
+		 * @param $response
+		 */
+		protected function serializeModel($model)
+		{
+			$data = func_get_args($model);
+			$type = self::MODEL_TYPE;
+
+			return $this->makeSerializedCache($type, $data);
+		}
+
+		/**
+		 * @param $responseProperties
+		 */
+		protected function unserializeModel($serializedModel)
+		{
+			return (object) array_map(__FUNCTION__, $serializedModel);
+		}
+
+		/**
+		 * @param $type
+		 * @param $data
+		 * @return string
+		 */
+		private function makeSerializedCache($type, $data): string
+		{
+			$responseSerialized = ['type' => $type, 'data' => $data];
+
+			return json_encode($responseSerialized);
+		}
+
+		/**
+		 * @param $serializedCache
+		 * @return array
+		 */
+		private function getSerializedCache($serializedCache): array
+		{
+			$serializedData = json_decode($serializedCache, true);
+
+			$cache = ['type' => $serializedData['type'], 'data' => $serializedData['data']];
+
+			return $cache;
 		}
 	}
