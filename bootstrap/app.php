@@ -131,6 +131,8 @@
 
 	$app->register(Spatie\Permission\PermissionServiceProvider::class);
 
+	$app->register(Aws\Laravel\AwsServiceProvider::class);
+
 	$app->register(Dingo\Api\Provider\LumenServiceProvider::class);
 	$app['Dingo\Api\Exception\Handler']->setErrorFormat([
 		'error' => [
