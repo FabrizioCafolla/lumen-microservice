@@ -9,9 +9,9 @@
 	namespace App\Services\Cache\CacheAbstract;
 
 	use App\Facades\ResponseFacade;
-	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\JsonResponse;
 	use \Illuminate\Http\Response;
+	use Illuminate\Support\Collection;
 
 	/**
 	 * Class CacheAbstract
@@ -21,7 +21,7 @@
 	{
 		const GENERIC_TYPE = 'generic_type_normal';
 		const RESPONSE_TYPE = 'response_type_normal';
-		const MODEL_TYPE = 'model_type_normal';
+		const COLLECT_TYPE = 'collect_type_normal';
 
 		/**
 		 * Private method for serialization, implements a control to correctly cache responses.
@@ -35,10 +35,11 @@
 			if ((($data instanceof Response) || ($data instanceof JsonResponse)) && $withObj)
 				return $this->responseSerialize($data);
 
-			if (($data instanceof Model) && $withObj)
-				return $this->serializeModel($data);
+			if (($data instanceof Collection) && $withObj)
+				return $this->serializeCollect($data);
 
-			return $this->makeSerializedCache(self::GENERIC_TYPE, $data);
+			$type = self::GENERIC_TYPE;
+			return $this->makeSerializedCache($type, $data);
 		}
 
 		/**
@@ -57,8 +58,8 @@
 			if (($cache['type'] === self::RESPONSE_TYPE) && $withObj)
 				return $this->unserializeResponse($cache['data']);
 
-			if (($cache['type'] === self::MODEL_TYPE) && $withObj)
-				return $this->unserializeModel($cache['data']);
+			if (($cache['type'] === self::COLLECT_TYPE) && $withObj)
+				return $this->unserializeCollect($cache['data']);
 
 			return $cache['data'];
 		}
@@ -91,22 +92,25 @@
 		}
 
 		/**
-		 * @param $response
+		 * @param $collect
+		 * @return string
 		 */
-		protected function serializeModel($model)
+		protected function serializeCollect($collect)
 		{
-			$data = func_get_args($model);
-			$type = self::MODEL_TYPE;
+			$type = self::COLLECT_TYPE;
 
-			return $this->makeSerializedCache($type, $data);
+			return $this->makeSerializedCache($type, $collect);
 		}
 
 		/**
-		 * @param $responseProperties
+		 * @param $serializedCollect
+		 * @return Collection
 		 */
-		protected function unserializeModel($serializedModel)
+		protected function unserializeCollect($serializedCollect)
 		{
-			return (object) array_map(__FUNCTION__, $serializedModel);
+			$collect = collect($serializedCollect);
+
+			return $collect;
 		}
 
 		/**
@@ -118,7 +122,7 @@
 		{
 			$responseSerialized = ['type' => $type, 'data' => $data];
 
-			return json_encode($responseSerialized);
+			return json_encode($responseSerialized, JSON_FORCE_OBJECT);
 		}
 
 		/**
