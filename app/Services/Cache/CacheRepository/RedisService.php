@@ -17,7 +17,7 @@
 	 */
 	class RedisService extends CacheAbstract {
 		/**
-		 * @var Redis
+		 * @var \Laravel\Lumen\Application|mixed
 		 */
 		private $redis;
 

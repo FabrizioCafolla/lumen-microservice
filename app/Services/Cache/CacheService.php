@@ -37,4 +37,26 @@
 			$this->file = $fileService;
 			$this->redis = $redisService;
 		}
+
+		/**
+		 * This method returns the class to be able to use the primitive methods and not those implemented by the Reids Cache Repository
+		 *
+		 * use into controller: $this->cache->file()-> any method that class implement
+		 *
+		 * @return \Illuminate\Cache\CacheManager
+		 */
+		public function file(){
+			return $this->file->file();
+		}
+
+		/**
+		 * This method returns the class to be able to use the primitive methods and not those implemented by the Reids Cache Repository
+		 *
+		 * use into controller: $this->cache->redis()-> any method that class implement
+		 *
+		 * @return Redis
+		 */
+		public function redis(){
+			return $this->file->redis();
+		}
 	}
