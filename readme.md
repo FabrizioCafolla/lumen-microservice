@@ -1,7 +1,7 @@
 # DevOps Microservice Lumen Project
 [build] [stable]
 
-[version] [vv1.1.0 beta]
+[version] [v1.1.1  beta]
 
 ##### Why use it?
 >Microservice Lumen allows you to start from a solid foundation to build your backend. Using packages, services and patterns you'll be able to implement your app in an easy and efficient way. With this framework you can build your REST API in a few steps using artisan commands to create the Controller, the Repository linked to the data model and the Trasformer for data display. The microservice communicates with the outside through HTTP API calls with JWT authentication (stateless token). It implements base services for API controller, response and helpers.
@@ -12,7 +12,7 @@
 ![](.github/Microservice%20Lumen.png)
 
 ## Features 
-_The 1.0.3 beta version is the release that includes the following components in the framework:_
+_The v1.1.1 beta version is the release that includes the following components in the framework:_
 
 **Doker** to start the application with `Nginx`, `PHP 7`, `MySQL` and `Redis`;
 
@@ -36,6 +36,12 @@ _The 1.0.3 beta version is the release that includes the following components in
   
 **Artisan commands** to create Repository, ApiController and Transoformers (Other commands to create example file view documentation)
 
+  ##### v1.1.1 beta
+    -Fixed ResponseService success method
+    -Fixed transform and give method
+    -Fixed AbstractCache with serialization method
+    -Install aws sdk
+    
   ##### v1.1.0 beta
     -Fixed ResponseService custom method
     -Add new Cache service system, implement repository with method.
@@ -58,19 +64,6 @@ _The 1.0.3 beta version is the release that includes the following components in
        
        Features
        Add Dockerfile and dockerignore for ecs production
-
-   
-   ##### v1.0.1 beta
-    -Fixed directory file
-    -Fixed docker compose file
-    -Deleted ACL admin 
-    -Fixed request 
-    
-   ##### v1.0.0 beta
-    -Fixed docker compose file
-    -Fixed redis connection
-    -Fixed phpunit command
-    -Fixed .env file
 
 ## License
 
