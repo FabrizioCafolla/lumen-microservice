@@ -30,7 +30,7 @@
 				'title' => $post->title,
 				'description' => $post->description,
 				'status' => $post->status,
-				'created_at' => $post->created_at->format('d-m-Y')
+				'created_at' => $post->created_at
 			];
 		}
 

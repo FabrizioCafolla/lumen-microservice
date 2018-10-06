@@ -44,7 +44,7 @@
 		 * @param array $availableData => string content for add element to collect
 		 * @return Collection
 		 */
-		public function transform($type = "collection", $data, $model, array $paramatres = [], \Closure $function = NULL, array $availableData = [])
+		public function transform($type = "collection", $data, $model, array $availableData = [], array $paramatres = [], \Closure $function = NULL)
 		{
 			$this->availableIncludes = $availableData;
 
@@ -55,7 +55,7 @@
 			else
 				$response = $this->helpers->response->{$type}($data, new $model, $paramatres, $function);
 
-			if ($response->isEmpty())
+			if (!$response->isEmpty())
 				return collect($response)->get("original");
 			else
 				return ResponseFacade::error("notFound");
