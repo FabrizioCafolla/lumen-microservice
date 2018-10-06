@@ -26,9 +26,13 @@
 		 * @param string $content
 		 * @return \Illuminate\Http\JsonResponse
 		 */
-		public function success($content = "", $status = 200, array $headers = [], $options = 0)
+		public function success($message = "", $status = 200, array $headers = [], $options = 0)
 		{
-			return $this->custom( $content ? $content : ['status' => "Success", 'code' => $status], $status, $headers, $options);
+			$content = ['status' => "Success", 'code' => $status];
+			if ($message)
+				$content = array_merge(['message' => $message], $content);
+
+			return $this->custom($content, $status, $headers, $options);
 		}
 
 		/**
