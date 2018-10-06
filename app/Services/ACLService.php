@@ -123,6 +123,8 @@
 		 * Example of the array to pass ["role1", "role2", "roleN"] or ["permission1", "permission2", "permissionN"]
 		 * For more information follow the official spatie guide
 		 *
+		 * tip: Use this function only if the logged in user is admin or in methods that are only called by the internal system
+		 *
 		 * @param array $roles
 		 * @param array $permissions
 		 * @param string $guard
@@ -130,10 +132,6 @@
 		 */
 		public function create(array $roles = [], array $permissions = [], $guard = 'api')
 		{
-			$user = JWTAuth::user();
-			if (!$user->hasRole('admin'))
-				return $this->response->error("unauthorized", "User logged is not Admin");
-
 			foreach ($roles as $role) {
 				try {
 					$this->role->create(['guard_name' => $guard, 'name' => $role]);
@@ -160,20 +158,21 @@
 		 * or ["nameRole" => ["namePermission", namePermission2"], "nameRole1" => "namePermission",]
 		 * For more information follow the official spatie guide
 		 *
+		 * tip: if permissions into array are set to null and sync parameter is true, the Role are remove all permissions assigned
+		 * tip: Use this function only if the logged in user is admin or in methods that are only called by the internal system
+		 *
 		 * @param array $roles
 		 * @return static
 		 */
-		public function give(array $roles)
+		public function give(array $roles, $sync = false)
 		{
-			$user = JWTAuth::user();
-
-			if (!$user->hasRole('admin'))
-				return $this->response->error("unauthorized", "User logged is not Admin");
-
 			foreach ($roles as $role => $permission) {
 				try {
 					$giveRole = $this->role->findOrCreate($role);
-					$giveRole->givePermissionTo($permission);
+					if ($sync)
+						$giveRole->syncPermissions($permission);
+					else
+						$giveRole->givePermissionTo($permission);
 				} catch (PermissionDoesNotExist $e) {
 					return $e->create($permission, 'api');
 				}
