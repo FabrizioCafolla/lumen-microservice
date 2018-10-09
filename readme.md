@@ -36,6 +36,11 @@ _The v1.1.1 beta version is the release that includes the following components i
   
 **Artisan commands** to create Repository, ApiController and Transoformers (Other commands to create example file view documentation)
 
+  ##### v1.1.2 beta
+    -Create external package for Cache and require
+    -Fixed App and Auth providers
+    -Fixed boostrap file load
+    
   ##### v1.1.1 beta
     -Fixed ResponseService success method
     -Fixed transform and give method
