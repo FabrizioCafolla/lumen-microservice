@@ -42,7 +42,7 @@
 			$this->api = app('ApiService');
 			$this->response = app('ResponseService');
 			$this->acl = app('ACLService');
-			$this->cache = app('CacheService');
+			$this->cache = app('cache.service');
 			$this->log = app('LogService');
 		}
 	}

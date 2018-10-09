@@ -30,7 +30,6 @@
 	$app->withFacades(true, [
 		'Illuminate\Support\Facades\Storage' => 'Storage',
 
-		'App\Facades\CacheFacade' => 'CacheService',
 		'App\Facades\ResponseFacade' => 'ResponseService',
 		'App\Facades\ApiFacade' => 'ApiService',
 		'App\Facades\HelpersFacade' => 'HelpersService',
@@ -42,10 +41,6 @@
 		'Tymon\JWTAuth\Facades\JWTFactory' => 'JWTFactory',
 	]);
 	$app->withEloquent();
-
-	$app->alias('cache', 'Illuminate\Cache\CacheManager');
-	$app->alias('auth', 'Illuminate\Auth\AuthManager');
-
 
 	$app->configure('cache');
 	$app->configure('database');
@@ -119,13 +114,11 @@
 
 	$app->register(App\Providers\AppServiceProvider::class);
 
-	$app->register(App\Providers\CacheServiceProvider::class);
-
 	$app->register(App\Providers\AuthServiceProvider::class);
 
 	$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 
-	$app->register(Illuminate\Redis\RedisServiceProvider::class);
+	$app->register(LumenCacheService\CacheServiceProvider::class);
 
 	$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 

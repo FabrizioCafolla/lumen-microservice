@@ -9,14 +9,12 @@
         "laravel/lumen-framework": "5.7.*",
         "vlucas/phpdotenv": "~2.2",
         "dingo/api": "2.0.0-alpha2",
-        "firebase/php-jwt": "^5.0",
         "league/flysystem": "^1.0",
         "tymon/jwt-auth": "1.0.*@dev",
         "spatie/laravel-permission": "^2.13",
-        "illuminate/redis": "^5.6",
-        "predis/predis": "^1.1",
         "monolog/monolog": "^1.23",
-        "aws/aws-sdk-php-laravel": "^3.2"
+        "aws/aws-sdk-php-laravel": "^3.2",
+        "fabrizio-cafolla/lumen-cache-service": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
