@@ -8,7 +8,7 @@
 
 	namespace App\Services;
 
-	use App\Facades\ResponseFacade;
+	use ResponseService;
 	use Illuminate\Support\Collection;
 
 	class ApiService
@@ -58,6 +58,6 @@
 			if (!$response->isEmpty())
 				return collect($response)->get("original");
 			else
-				return ResponseFacade::error("notFound");
+				return ResponseService::error("notFound");
 		}
 	}

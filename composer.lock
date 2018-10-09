@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "922583470c944d3e1092c630742855b9",
+    "content-hash": "05c38599c8d718203d5adada9109717a",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -533,7 +533,7 @@
         },
         {
             "name": "fabrizio-cafolla/lumen-cache-service",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FabrizioCafolla/lumen-cache-service.git",
@@ -5431,8 +5431,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "tymon/jwt-auth": 20,
-        "fabrizio-cafolla/lumen-cache-service": 20
+        "tymon/jwt-auth": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

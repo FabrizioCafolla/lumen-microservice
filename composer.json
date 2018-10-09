@@ -14,7 +14,7 @@
         "spatie/laravel-permission": "^2.13",
         "monolog/monolog": "^1.23",
         "aws/aws-sdk-php-laravel": "^3.2",
-        "fabrizio-cafolla/lumen-cache-service": "dev-master"
+        "fabrizio-cafolla/lumen-cache-service": "1.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

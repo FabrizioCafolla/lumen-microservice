@@ -20,6 +20,8 @@ class AuthServiceProvider extends ServiceProvider
 		 * Service User Auth
 		 */
 	    $this->app->bind('AuthService', 'App\Services\AuthService');
+
+	    $this->registerClassAlias();
     }
 
     /**
@@ -35,5 +37,10 @@ class AuthServiceProvider extends ServiceProvider
 		    });
 		    return $auth;
 	    });
+    }
+
+    protected function registerClassAlias() {
+	    class_alias(\Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
+	    class_alias(\Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
     }
 }

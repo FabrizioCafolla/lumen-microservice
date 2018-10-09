@@ -8,7 +8,6 @@
 
 	namespace App\Services;
 
-	use App\Facades\ACLFacade;
 	use App\Repositories\UserRepository as User;
 	use Illuminate\Http\Request;
 	use JWTAuth;
@@ -103,7 +102,7 @@
 			if (!$token)
 				return $this->response->error("internal");
 
-			$assign = ACLFacade::assign($user, ['user'], ['read write publish']);
+			$assign = ACLService::assign($user, ['user'], ['read write publish']);
 			if($assign->status() == "200")
 				return $this->response->success(compact('user', 'token'));
 			else

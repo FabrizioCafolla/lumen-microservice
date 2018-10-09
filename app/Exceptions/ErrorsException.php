@@ -7,11 +7,11 @@
 	 */
 	namespace App\Exceptions;
 
-	use App\Facades\ResponseFacade;
+	use ResponseService;
 	use Exception;
 
 	class ErrorsException extends Exception {
 		public function response (string $type, $message) {
-			return ResponseFacade::error($type, $message);
+			return ResponseService::error($type, $message);
 		}
 	}

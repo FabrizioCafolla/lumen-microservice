@@ -27,27 +27,8 @@
 	$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
 	$app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
 
-	$app->withFacades(true, [
-		'Illuminate\Support\Facades\Storage' => 'Storage',
-
-		'App\Facades\ResponseFacade' => 'ResponseService',
-		'App\Facades\ApiFacade' => 'ApiService',
-		'App\Facades\HelpersFacade' => 'HelpersService',
-		'App\Facades\AuthFacade' => 'AuthService',
-		'App\Facades\ACLFacade' => 'ACLService',
-		'App\Facades\LogFacade' => 'LogService',
-
-		'Tymon\JWTAuth\Facades\JWTAuth' => 'JWTAuth',
-		'Tymon\JWTAuth\Facades\JWTFactory' => 'JWTFactory',
-	]);
+	$app->withFacades();
 	$app->withEloquent();
-
-	$app->configure('cache');
-	$app->configure('database');
-	$app->configure('filesystems');
-	$app->configure('auth');
-	$app->configure('jwt');
-	$app->configure('permission');
 
 	/*
 	|--------------------------------------------------------------------------
@@ -116,11 +97,11 @@
 
 	$app->register(App\Providers\AuthServiceProvider::class);
 
+	$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+
 	$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
 
 	$app->register(LumenCacheService\CacheServiceProvider::class);
-
-	$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 	$app->register(Spatie\Permission\PermissionServiceProvider::class);
 
