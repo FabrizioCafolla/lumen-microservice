@@ -68,7 +68,7 @@ EOT;
 
 			$dir_location = 'app/Repositories/' . $name . 'Repository.php';
 
-			$file = Storage::disk('artisan')->put($dir_location, $fileContents);
+			$file = Storage::disk('command')->put($dir_location, $fileContents);
 
 			if($file) {
 				$this->info('Created new Repo '.$name.'Repository.php in App\Repositories.');

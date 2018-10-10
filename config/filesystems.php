@@ -50,7 +50,7 @@
 				'driver' => 'local',
 				'root' => '.',
 			],
-			'file' => [
+			'command' => [
 				'driver' => 'local',
 				'root' => 'app',
 			],

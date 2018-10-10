@@ -45,14 +45,14 @@
 
 		private function createModels()
 		{
-			$file = Storage::disk('file')->copy('/Console/Commands/FileExample/User.php', '/Models/User.php');
+			$file = Storage::disk('command')->copy('/Console/Commands/FileExample/User.php', '/Models/User.php');
 			if ($file) {
 				$this->info('Created User Models/');
 			} else {
 				$this->error('Something went wrong (User)');
 			}
 
-			$file = Storage::disk('file')->copy('/Console/Commands/FileExample/Post.php', '/Models/Post.php');
+			$file = Storage::disk('command')->copy('/Console/Commands/FileExample/Post.php', '/Models/Post.php');
 			if ($file) {
 				$this->info('Created Post Models/');
 			} else {
@@ -62,14 +62,14 @@
 
 		private function createRepository()
 		{
-			$file = Storage::disk('file')->copy('/Console/Commands/FileExample/UserRepository.php', '/Repositories/UserRepository.php');
+			$file = Storage::disk('command')->copy('/Console/Commands/FileExample/UserRepository.php', '/Repositories/UserRepository.php');
 			if ($file) {
 				$this->info('Created UserRepository Repositories/');
 			} else {
 				$this->error('Something went wrong (UserRepository)');
 			}
 
-			$file = Storage::disk('file')->copy('/Console/Commands/FileExample/PostRepository.php', '/Repositories/PostRepository.php');
+			$file = Storage::disk('command')->copy('/Console/Commands/FileExample/PostRepository.php', '/Repositories/PostRepository.php');
 			if ($file) {
 				$this->info('Created PostRepository Repositories/');
 			} else {
@@ -79,14 +79,14 @@
 
 		private function createTransformers()
 		{
-			$file = Storage::disk('file')->copy('/Console/Commands/FileExample/UserTransformer.php', '/Transformers/UserTransformer.php');
+			$file = Storage::disk('command')->copy('/Console/Commands/FileExample/UserTransformer.php', '/Transformers/UserTransformer.php');
 			if ($file) {
 				$this->info('Created UserTransformer Transformers/');
 			} else {
 				$this->error('Something went wrong (UserTransformer)');
 			}
 
-			$file = Storage::disk('file')->copy('/Console/Commands/FileExample/PostTransformer.php', '/Transformers/PostTransformer.php');
+			$file = Storage::disk('command')->copy('/Console/Commands/FileExample/PostTransformer.php', '/Transformers/PostTransformer.php');
 			if ($file) {
 				$this->info('Created PostTransformer Transformers/');
 			} else {
@@ -96,14 +96,14 @@
 
 		private function createController()
 		{
-			$file = Storage::disk('file')->copy('/Console/Commands/FileExample/UserController.php', '/Api/v1/UserController.php');
+			$file = Storage::disk('command')->copy('/Console/Commands/FileExample/UserController.php', '/Api/v1/UserController.php');
 			if ($file) {
 				$this->info('Created UserController App/Api/v1');
 			} else {
 				$this->error('Something went wrong (UserController)');
 			}
 
-			$file = Storage::disk('file')->copy('/Console/Commands/FileExample/PostController.php', '/Api/v1/PostController.php');
+			$file = Storage::disk('command')->copy('/Console/Commands/FileExample/PostController.php', '/Api/v1/PostController.php');
 			if ($file) {
 				$this->info('Created PostController App/Api/v1');
 			} else {

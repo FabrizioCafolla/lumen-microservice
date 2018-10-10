@@ -155,10 +155,10 @@ EOT;
 			$dir_location = 'Api/'. $version;
 
 			if(! Storage::exists($dir_location)) {
-				Storage::disk('artisan')->makeDirectory($dir_location);
+				Storage::disk('command')->makeDirectory($dir_location);
 
 				$file_destination =  $dir_location . '/ApiBaseController.php';
-				Storage::disk('artisan')->put($file_destination, $this->contentsBaseController($version));
+				Storage::disk('command')->put($file_destination, $this->contentsBaseController($version));
 
 				$this->info('Created new ApiBaseController.');
 				$this->info('Created new directory for api version: '. $version .'.');
@@ -167,7 +167,7 @@ EOT;
 			$file_destination = $dir_location . '/' . $name . 'Controller.php';
 
 
-			$file = Storage::disk('artisan')->put($file_destination, $fileContents);
+			$file = Storage::disk('command')->put($file_destination, $fileContents);
 
 			if ($file) {
 				$this->info('Created new Api Controller ' . $name . 'Controller.php in App\Api\\'. $version .'.');
