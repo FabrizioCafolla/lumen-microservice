@@ -33,19 +33,24 @@ class AuthServiceProvider extends ServiceProvider
     {
 	    $this->setupAlias();
 	    $this->setupConfig();
-
 	    $this->registerMiddleware();
-	    $this->registerService();
+	    $this->registerServices();
 	    $this->registerProviders();
     }
 
-    protected function registerService(){
+	/**
+	 * Register Services
+	 */
+    protected function registerServices(){
 	    /**
 	     * Service User Auth
 	     */
 	    $this->app->bind('AuthService', 'App\Services\AuthService');
     }
 
+	/**
+	 * Register middleware
+	 */
 	protected function registerMiddleware()
 	{
 		$this->app->routeMiddleware([
@@ -53,15 +58,24 @@ class AuthServiceProvider extends ServiceProvider
 		]);
 	}
 
+	/**
+	 * Register providers dependency
+	 */
 	protected function registerProviders(){
 		$this->app->register(\Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 	}
 
+	/**
+	 * Load alias
+	 */
 	protected function setupAlias() {
 		class_alias(\Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
 		class_alias(\Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
 	}
 
+	/**
+	 * Load config
+	 */
 	protected function setupConfig(){
 		$this->app->configure('auth');
 		$this->app->configure('jwt');

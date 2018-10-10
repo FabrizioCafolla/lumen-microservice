@@ -15,13 +15,15 @@
 		{
 			$this->setupAlias();
 			$this->setupConfig();
-
 			$this->registerSystem();
-			$this->registerService();
+			$this->registerServices();
 			$this->registerMiddleware();
 			$this->registerProviders();
 		}
 
+		/**
+		 * Register system providers Kernel/Console/Filesystem etc..
+		 */
 		protected function registerSystem()
 		{
 			$this->app->singleton('filesystem', function ($app) {
@@ -43,7 +45,10 @@
 			);
 		}
 
-		protected function registerService()
+		/**
+		 * Register Services
+		 */
+		protected function registerServices()
 		{
 			/**
 			 * Service Response
@@ -71,6 +76,9 @@
 			$this->app->singleton('LogService', 'App\Services\LogService');
 		}
 
+		/**
+		 * Register middleware
+		 */
 		protected function registerMiddleware()
 		{
 			//call in all route for cors request
@@ -84,6 +92,9 @@
 			]);
 		}
 
+		/**
+		 * Register providers dependency
+		 */
 		protected function registerProviders(){
 			$this->app->register(\Illuminate\Filesystem\FilesystemServiceProvider::class);
 
@@ -105,6 +116,9 @@
 			]);
 		}
 
+		/**
+		 * Load alias
+		 */
 		protected function setupAlias()
 		{
 			class_alias(\Illuminate\Support\Facades\Storage::class, 'Storage');
@@ -115,6 +129,9 @@
 			class_alias(\App\Facades\LogFacade::class, 'LogService');
 		}
 
+		/**
+		 * Load config
+		 */
 		protected function setupConfig() {
 			$this->app->configure('cache');
 			$this->app->configure('database');
