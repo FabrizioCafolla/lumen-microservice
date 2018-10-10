@@ -13,6 +13,6 @@
 	{
 		protected static function getFacadeAccessor()
 		{
-			return 'AuthService';
+			return 'service.auth';
 		}
 	}

@@ -19,7 +19,7 @@
 		public function __construct()
 		{
 			parent::__construct();
-			$this->auth = app('AuthService');
+			$this->auth = app('service.auth');
 		}
 
 		public function authenticate(Request $request)

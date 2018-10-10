@@ -32,35 +32,6 @@
 
 	/*
 	|--------------------------------------------------------------------------
-	| Register Container Bindings
-	|--------------------------------------------------------------------------
-	|
-	| Now we will register a few bindings in the service container. We will
-	| register the exception handler and the console kernel. You may add
-	| your own bindings here if you like or you can make another file.
-	|
-	*/
-
-	$app->singleton('filesystem', function ($app) {
-		return $app->loadComponent(
-			'filesystems',
-			Illuminate\Filesystem\FilesystemServiceProvider::class,
-			'filesystem'
-		);
-	});
-
-	$app->singleton(
-		\Illuminate\Contracts\Console\Kernel::class,
-		\App\Console\Kernel::class
-	);
-
-	$app->singleton(
-		\Illuminate\Contracts\Debug\ExceptionHandler::class,
-		\App\Exceptions\Handler::class
-	);
-
-	/*
-	|--------------------------------------------------------------------------
 	| Register Middleware
 	|--------------------------------------------------------------------------
 	|
@@ -70,16 +41,7 @@
 	|
 	*/
 
-	//call in all route for cors request
-	$app->middleware([
-		App\Http\Middleware\CorsMiddleware::class
-	]);
-
-	$app->routeMiddleware([
-		'api.jwt' => App\Http\Middleware\JwtMiddleware::class,
-		'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
-		'role' => Spatie\Permission\Middlewares\RoleMiddleware::class,
-	]);
+	//Add middleware or in (CoreServiceProvider function registerMiddleware)
 
 	/*
 	|--------------------------------------------------------------------------
@@ -91,32 +53,8 @@
 	| totally optional, so you are not required to uncomment this line.
 	|
 	*/
-	// $app->register(App\Providers\EventServiceProvider::class);
 
-	$app->register(App\Providers\AppServiceProvider::class);
-
-	$app->register(App\Providers\AuthServiceProvider::class);
-
-	$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-
-	$app->register(Illuminate\Filesystem\FilesystemServiceProvider::class);
-
-	$app->register(LumenCacheService\CacheServiceProvider::class);
-
-	$app->register(Spatie\Permission\PermissionServiceProvider::class);
-
-	$app->register(Aws\Laravel\AwsServiceProvider::class);
-
-	$app->register(Dingo\Api\Provider\LumenServiceProvider::class);
-	$app['Dingo\Api\Exception\Handler']->setErrorFormat([
-		'error' => [
-			'message' => ':message',
-			'errors' => ':errors',
-			'code' => ':code',
-			'status_code' => ':status_code',
-			'debug' => ':debug'
-		]
-	]);
+	$app->register(App\Providers\ManagerServiceProvider::class);
 
 	/*
 	|--------------------------------------------------------------------------
@@ -128,7 +66,6 @@
 	| can respond to, as well as the controllers that may handle them.
 	|
 	*/
-
 	$app->router->group([
 		'namespace' => 'App\Http\Controllers',
 	], function ($router) {

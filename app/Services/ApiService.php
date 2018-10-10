@@ -31,7 +31,7 @@
 		 */
 		public function __construct()
 		{
-			$this->helpers = app('HelpersService');
+			$this->helpers = app('service.helpers');
 		}
 
 		/**

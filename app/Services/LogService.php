@@ -9,7 +9,6 @@
 	namespace App\Services;
 
 	use App\Exceptions\LogsException;
-	use App\Facades\ResponseFacade;
 	use Carbon\Carbon;
 	use Monolog\Formatter\JsonFormatter;
 	use Monolog\Formatter\MongoDBFormatter;

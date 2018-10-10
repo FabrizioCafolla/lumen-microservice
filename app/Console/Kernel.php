@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
 		Commands\CreateRepositroy::class,
 		Commands\CreateApiController::class,
 		Commands\CreateTransformer::class,
-		Commands\CreateExample::class
+		Commands\CreateProvider::class
 	];
 
     /**
