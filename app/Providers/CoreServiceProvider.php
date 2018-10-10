@@ -53,27 +53,27 @@
 			/**
 			 * Service Response
 			 */
-			$this->app->singleton('ResponseService', 'App\Services\ResponseService');
+			$this->app->singleton('service.response', 'App\Services\ResponseService');
 
 			/**
 			 * Service Api
 			 */
-			$this->app->singleton('ApiService', 'App\Services\ApiService');
+			$this->app->singleton('service.api', 'App\Services\ApiService');
 
 			/**
 			 * Service Helpers
 			 */
-			$this->app->singleton('HelpersService', 'App\Services\HelpersService');
+			$this->app->singleton('service.helpers', 'App\Services\HelpersService');
 
 			/**
 			 * Service ACL
 			 */
-			$this->app->singleton('ACLService', 'App\Services\ACLService');
+			$this->app->singleton('service.acl', 'App\Services\ACLService');
 
 			/**
 			 * Service Log
 			 */
-			$this->app->singleton('LogService', 'App\Services\LogService');
+			$this->app->singleton('service.log', 'App\Services\LogService');
 		}
 
 		/**
@@ -121,12 +121,18 @@
 		 */
 		protected function setupAlias()
 		{
-			class_alias(\Illuminate\Support\Facades\Storage::class, 'Storage');
-			class_alias(\App\Facades\ResponseFacade::class, 'ResponseService');
-			class_alias(\App\Facades\ApiFacade::class, 'ApiService');
-			class_alias(\App\Facades\HelpersFacade::class, 'HelpersService');
-			class_alias(\App\Facades\ACLFacade::class, 'AclService');
-			class_alias(\App\Facades\LogFacade::class, 'LogService');
+			$aliases=[
+				'Storage' => \Illuminate\Support\Facades\Storage::class,
+				'ResponseService' => \App\Facades\ResponseFacade::class,
+				'ApiService' => \App\Facades\ApiFacade::class,
+				'HelpersService' => \App\Facades\HelpersFacade::class,
+				'AclService' => \App\Facades\ACLFacade::class,
+				'LogService' => \App\Facades\LogFacade::class
+			];
+
+			foreach ($aliases as $key => $value){
+				class_alias($value, $key);
+			}
 		}
 
 		/**

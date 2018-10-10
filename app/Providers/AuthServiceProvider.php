@@ -45,7 +45,7 @@ class AuthServiceProvider extends ServiceProvider
 	    /**
 	     * Service User Auth
 	     */
-	    $this->app->bind('AuthService', 'App\Services\AuthService');
+	    $this->app->bind('service.auth', 'App\Services\AuthService');
     }
 
 	/**
@@ -69,8 +69,14 @@ class AuthServiceProvider extends ServiceProvider
 	 * Load alias
 	 */
 	protected function setupAlias() {
-		class_alias(\Tymon\JWTAuth\Facades\JWTAuth::class, 'JWTAuth');
-		class_alias(\Tymon\JWTAuth\Facades\JWTFactory::class, 'JWTFactory');
+		$aliases=[
+			'JWTAuth' => \Tymon\JWTAuth\Facades\JWTAuth::class,
+			'JWTFactory' => \Tymon\JWTAuth\Facades\JWTFactory::class
+		];
+
+		foreach ($aliases as $key => $value){
+			class_alias($value, $key);
+		}
 	}
 
 	/**

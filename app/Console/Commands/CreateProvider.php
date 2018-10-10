@@ -91,7 +91,15 @@
 		/**
 		 * Load alias
 		 */
-		protected function setupAlias() {}
+		protected function setupAlias() {
+			\$aliases=[
+				//
+			];
+
+			foreach (\$aliases as \$key => \$value){
+				class_alias(\$value, \$key);
+			}
+		}
 
 		/**
 		 * Load config

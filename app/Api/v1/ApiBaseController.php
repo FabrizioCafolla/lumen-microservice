@@ -39,10 +39,10 @@
 
 		public function __construct()
 		{
-			$this->api = app('ApiService');
-			$this->response = app('ResponseService');
-			$this->acl = app('ACLService');
+			$this->api = app('service.api');
+			$this->response = app('service.response');
+			$this->acl = app('service.acl');
 			$this->cache = app('cache.service');
-			$this->log = app('LogService');
+			$this->log = app('service.log');
 		}
 	}

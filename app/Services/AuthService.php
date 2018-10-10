@@ -35,7 +35,7 @@
 		 */
 		public function __construct()
 		{
-			$this->response = app('ResponseService');
+			$this->response = app('service.response');
 			$this->user = app(User::class);
 		}
 
