@@ -58,6 +58,6 @@
 			if (!$response->isEmpty())
 				return collect($response)->get("original");
 			else
-				return ResponseService::error("notFound");
+				return ResponseService::error("errorNotFound");
 		}
 	}

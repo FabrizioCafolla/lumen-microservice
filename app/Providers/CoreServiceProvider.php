@@ -111,7 +111,7 @@
 					'errors' => ':errors',
 					'code' => ':code',
 					'status_code' => ':status_code',
-					'debug' => ':debug'
+					'debug' => env('APP_DEBUG') ? ':debug' : env('APP_DEBUG')
 				]
 			]);
 		}

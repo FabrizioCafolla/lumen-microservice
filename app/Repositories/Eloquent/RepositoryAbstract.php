@@ -3,7 +3,6 @@
 
 	use App\Repositories\Contracts\RepositoryInterface;
 	use App\Repositories\Exceptions\RepositoryException;
-	use App\Services\ResponseService;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Container\Container as App;
 
@@ -33,7 +32,7 @@
 		 */
 		public function __construct(App $app) {
 			$this->app = $app;
-			$this->response = app('ResponseService');
+			$this->response = app('service.response');
 			$this->implementsModel();
 		}
 

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.69.2",
+            "version": "3.69.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "65c88e074dffe4cb25b840c154b2f39564b39287"
+                "reference": "cf01c814404a28a76a2431f80d2e6ea82c9045c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/65c88e074dffe4cb25b840c154b2f39564b39287",
-                "reference": "65c88e074dffe4cb25b840c154b2f39564b39287",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cf01c814404a28a76a2431f80d2e6ea82c9045c8",
+                "reference": "cf01c814404a28a76a2431f80d2e6ea82c9045c8",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-10-08T20:05:34+00:00"
+            "time": "2018-10-11T22:32:08+00:00"
         },
         {
             "name": "aws/aws-sdk-php-laravel",
@@ -533,24 +533,29 @@
         },
         {
             "name": "fabrizio-cafolla/lumen-cache-service",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FabrizioCafolla/lumen-cache-service.git",
-                "reference": "4d9196b5b0bb645f650b1eea169463291af4cb6c"
+                "reference": "fff81d5ac1008c7ad2e525dc1cc20da509f5a2fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FabrizioCafolla/lumen-cache-service/zipball/4d9196b5b0bb645f650b1eea169463291af4cb6c",
-                "reference": "4d9196b5b0bb645f650b1eea169463291af4cb6c",
+                "url": "https://api.github.com/repos/FabrizioCafolla/lumen-cache-service/zipball/fff81d5ac1008c7ad2e525dc1cc20da509f5a2fb",
+                "reference": "fff81d5ac1008c7ad2e525dc1cc20da509f5a2fb",
                 "shasum": ""
             },
             "require": {
                 "illuminate/redis": "^5.6",
+                "laravel/lumen-framework": ">=5.6",
+                "php": ">=7.1.3",
                 "predis/predis": "^1.1"
             },
             "type": "lumen-package",
             "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
                 "laravel": {
                     "providers": [
                         "LumenCacheService\\CacheServiceProvider"
@@ -586,7 +591,7 @@
                 "lumen",
                 "redis"
             ],
-            "time": "2018-10-09T17:54:20+00:00"
+            "time": "2018-10-12T07:55:46+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -3022,16 +3027,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "2.21.0",
+            "version": "2.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "5415d29d54d15985b8cf56fef30d7514c8608309"
+                "reference": "095fae92d5a0950405e251a10061ec64d768b842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/5415d29d54d15985b8cf56fef30d7514c8608309",
-                "reference": "5415d29d54d15985b8cf56fef30d7514c8608309",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/095fae92d5a0950405e251a10061ec64d768b842",
+                "reference": "095fae92d5a0950405e251a10061ec64d768b842",
                 "shasum": ""
             },
             "require": {
@@ -3082,7 +3087,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2018-09-29T04:20:17+00:00"
+            "time": "2018-10-12T00:42:03+00:00"
         },
         {
             "name": "symfony/console",

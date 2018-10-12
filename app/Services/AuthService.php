@@ -11,6 +11,7 @@
 	use App\Repositories\UserRepository as User;
 	use Illuminate\Http\Request;
 	use JWTAuth;
+	use ACLService;
 	use Tymon\JWTAuth\Exceptions\JWTException;
 
 	class AuthService
@@ -52,10 +53,10 @@
 			try {
 				$token = JWTAuth::attempt($credentials);
 				if (!$token) {
-					return $this->response->error("unauthorized", 'Invalid credentials');
+					return $this->response->error("errorUnauthorized", 'Invalid credentials');
 				}
 			} catch (JWTException $e) {
-				return $this->response->error("error", 'Could not create token.');
+				return $this->response->error("errorInternal", 'Could not create token.');
 			}
 			return $this->response->success(compact('token'));
 		}
@@ -70,13 +71,13 @@
 		{
 			try {
 				if (!$user = JWTAuth::parseToken()->userenticate())
-					return $this->response->error('notFound');
+					return $this->response->error('errorNotFound');
 			} catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-				return $this->response->custom('token expired', 400);
+				return $this->response->error('Token expired');
 			} catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-				return $this->response->custom('token invalid', 400);
+				return $this->response->error('errorBadRequest','Token invalid');
 			} catch (JWTException $e) {
-				return $this->response->custom('token absent', 400);
+				return $this->response->error('errorNotFound','Token absent');
 			}
 			return $this->response->success(compact('user'));
 		}
@@ -94,13 +95,13 @@
 		{
 			$validator = $this->user->validateRequest($request->all(), "store");
 
-			if ($validator->status() != "200")
-				return $this->response->error("badRequest", $validator->content(), 400);
+			if ($validator->status() != "200" )
+				return $validator;
 
 			$user = $this->user->create($request->all());
 			$token = JWTAuth::fromUser($user);
 			if (!$token)
-				return $this->response->error("internal");
+				return $this->response->error("errorInternal");
 
 			$assign = ACLService::assign($user, ['user'], ['read write publish']);
 			if($assign->status() == "200")

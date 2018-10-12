@@ -2,9 +2,7 @@
 
 	namespace App\Api\v1;
 
-	use Dingo\Api\Http\Request;
 	use Laravel\Lumen\Routing\Controller as BaseController;
-	use App\Repositories\CacheRepository;
 
 	/**
 	 * Class ApiBaseController
@@ -42,7 +40,7 @@
 			$this->api = app('service.api');
 			$this->response = app('service.response');
 			$this->acl = app('service.acl');
-			$this->cache = app('cache.service');
+			$this->cache = app('service.cache');
 			$this->log = app('service.log');
 		}
 	}

@@ -46,7 +46,7 @@
 			$this->role = new Role;
 			$this->permission = new Permission;
 
-			$this->response = app('ResponseService');
+			$this->response = app('service.response');
 		}
 
 		/**
@@ -64,10 +64,10 @@
 		public function assign($user, array $roles = [], array $permissions = [], $sync = false)
 		{
 			if ($this->check($user, ['roles' => $roles]))
-				return $this->response->error("generic", "User already has one of these roles " . $roles);
+				return $this->response->error("custom", "User already has one of these roles " . $roles);
 
 			if ($this->check($user, ['permissions' => $permissions]))
-				return $this->response->error("generic", "User already has one of these permissions " . $permissions);
+				return $this->response->error("custom", "User already has one of these permissions " . $permissions);
 
 			try {
 				if ($sync) {
