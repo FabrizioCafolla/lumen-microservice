@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "05c38599c8d718203d5adada9109717a",
+    "content-hash": "922583470c944d3e1092c630742855b9",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -533,21 +533,21 @@
         },
         {
             "name": "fabrizio-cafolla/lumen-cache-service",
-            "version": "1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FabrizioCafolla/lumen-cache-service.git",
-                "reference": "fff81d5ac1008c7ad2e525dc1cc20da509f5a2fb"
+                "reference": "eaf01dc034652a29c548177f26ae3b303df41ac9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FabrizioCafolla/lumen-cache-service/zipball/fff81d5ac1008c7ad2e525dc1cc20da509f5a2fb",
-                "reference": "fff81d5ac1008c7ad2e525dc1cc20da509f5a2fb",
+                "url": "https://api.github.com/repos/FabrizioCafolla/lumen-cache-service/zipball/eaf01dc034652a29c548177f26ae3b303df41ac9",
+                "reference": "eaf01dc034652a29c548177f26ae3b303df41ac9",
                 "shasum": ""
             },
             "require": {
-                "illuminate/redis": "^5.6",
-                "laravel/lumen-framework": ">=5.6",
+                "illuminate/redis": ">=5.7",
+                "laravel/lumen-framework": ">=5.7",
                 "php": ">=7.1.3",
                 "predis/predis": "^1.1"
             },
@@ -591,7 +591,7 @@
                 "lumen",
                 "redis"
             ],
-            "time": "2018-10-12T07:55:46+00:00"
+            "time": "2018-10-12T12:21:56+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -5436,7 +5436,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "tymon/jwt-auth": 20
+        "tymon/jwt-auth": 20,
+        "fabrizio-cafolla/lumen-cache-service": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
