@@ -21,6 +21,11 @@
 		public $response;
 
 		/**
+		 * @var AuthService
+		 */
+		public $auth;
+
+		/**
 		 * @var ACLService
 		 */
 		public $acl;
@@ -39,6 +44,7 @@
 		{
 			$this->api = app('service.api');
 			$this->response = app('service.response');
+			$this->auth = app('service.auth');
 			$this->acl = app('service.acl');
 			$this->cache = app('service.cache');
 			$this->log = app('service.log');

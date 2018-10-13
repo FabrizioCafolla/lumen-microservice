@@ -9,25 +9,23 @@
 	namespace App\Services;
 
 	use App\Repositories\UserRepository as User;
+	use Dingo\Api\Auth\Auth as DingoAuth;
 	use Illuminate\Http\Request;
-	use JWTAuth;
+	use Tymon\JWTAuth\JWTAuth;
 	use ACLService;
 	use Tymon\JWTAuth\Exceptions\JWTException;
 
 	class AuthService
 	{
-
-		/** User Repository
-		 *
-		 * @var User
+		/**
+		 * @var DingoAuth
 		 */
-		private $user;
+		private $dingo;
 
-		/** Service Response
-		 *
-		 * @var ResponseService
+		/**
+		 * @var JWTAuth
 		 */
-		private $response;
+		public $jwt;
 
 		/**
 		 * AuthService constructor.
@@ -36,78 +34,11 @@
 		 */
 		public function __construct()
 		{
-			$this->response = app('service.response');
-			$this->user = app(User::class);
+			$this->dingo = app(DingoAuth::class);
+			$this->jwt = app(JWTAuth::class);
 		}
 
-		/**
-		 * User authentication with JWT.
-		 * Returns the token or an error response
-		 *
-		 * @param Request $request
-		 * @return mixed (token) or (errors)
-		 */
-		public function authenticate(Request $request)
-		{
-			$credentials = $request->only('email', 'password');
-			try {
-				$token = JWTAuth::attempt($credentials);
-				if (!$token) {
-					return $this->response->error("errorUnauthorized", 'Invalid credentials');
-				}
-			} catch (JWTException $e) {
-				return $this->response->error("errorInternal", 'Could not create token.');
-			}
-			return $this->response->success(compact('token'));
+		public function utility() {
+			return $this->dingo;
 		}
-
-		/**
-		 * Method for check user authenticated.
-		 * Return user playload or Exception
-		 *
-		 * @return \Illuminate\Http\JsonResponse
-		 */
-		public function getAuthenticatedUser()
-		{
-			try {
-				if (!$user = JWTAuth::parseToken()->userenticate())
-					return $this->response->error('errorNotFound');
-			} catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-				return $this->response->error('Token expired');
-			} catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-				return $this->response->error('errorBadRequest','Token invalid');
-			} catch (JWTException $e) {
-				return $this->response->error('errorNotFound','Token absent');
-			}
-			return $this->response->success(compact('user'));
-		}
-
-		/**
-		 * Register method.
-		 * The request is validated by the user repository method, then it is created and then authenticated with JWT which creates the token.
-		 * If the token is successfully created, the roles and permssi are assigned to the user.
-		 * Return a reply with the user and the token
-		 *
-		 * @param Request $request
-		 * @return mixed (user + token) or (errors)
-		 */
-		public function register(Request $request)
-		{
-			$validator = $this->user->validateRequest($request->all(), "store");
-
-			if ($validator->status() != "200" )
-				return $validator;
-
-			$user = $this->user->create($request->all());
-			$token = JWTAuth::fromUser($user);
-			if (!$token)
-				return $this->response->error("errorInternal");
-
-			$assign = ACLService::assign($user, ['user'], ['read write publish']);
-			if($assign->status() == "200")
-				return $this->response->success(compact('user', 'token'));
-			else
-				return $assign;
-		}
-
 	}
