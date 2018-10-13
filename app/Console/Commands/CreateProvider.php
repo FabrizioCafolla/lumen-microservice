@@ -47,6 +47,13 @@
 
 	class {$name}ServiceProvider extends ServiceProvider
 	{
+		
+		/**
+		 * Boot the authentication services for the application.
+		 *
+		 */
+		public function boot() {}
+		
 		/**
 		 * Register any application services.
 		 *

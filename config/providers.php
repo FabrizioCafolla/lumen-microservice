@@ -6,7 +6,7 @@
 		'global' => [
 			'core' => \App\Providers\CoreServiceProvider::class,
 			'auth' => \App\Providers\AuthServiceProvider::class,
-			//'event' => \App\Providers\EventServiceProvider::class
+			'app' => \App\Providers\AppServiceProvider::class,
 		],
 
 		/*
