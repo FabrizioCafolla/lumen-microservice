@@ -5,6 +5,7 @@
 	 * Date: 02/08/18
 	 * Time: 14.48
 	 */
+
 	namespace App\Api\v1;
 
 	use App\Repositories\UserRepository;
@@ -44,7 +45,9 @@
 				$token = $this->auth->jwt->attempt($credentials);
 				if (!$token)
 					return $this->response->error("errorUnauthorized", 'Invalid credentials');
-				$this->auth->utility()->setUser($this->auth->jwt->user());
+
+				//set user logged
+				$this->auth->setUser($this->auth->jwt->user());
 			} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
 				return $this->response->error("errorInternal", 'Could not create token.');
 			}
@@ -70,13 +73,14 @@
 				return $validator;
 
 			$user = $this->model->create($request->all());
+
 			$token = $this->auth->jwt->fromUser($user);
 			if (!$token)
 				return $this->response->error("errorInternal");
 
 			$assign = ACLService::assign($user, ['user'], ['read write publish']);
 			if ($assign->status() == "200") {
-				$this->auth->utility()->setUser($user);
+				$this->auth->setUser($user);
 				return $this->response->success(compact('user', 'token'));
 			} else
 				return $assign;
@@ -90,16 +94,22 @@
 		 */
 		public function getAuthenticatedUser()
 		{
-			try {
-				if (!$user = $this->auth->jwt->parseToken()->authenticate())
-					return $this->response->error('errorNotFound');
-			} catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-				return $this->response->error('Token expired');
-			} catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-				return $this->response->error('errorBadRequest', 'Token invalid');
-			} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-				return $this->response->error('errorNotFound', 'Token absent');
-			}
-			return $this->response->success($this->auth->utility()->user());
+			return $this->auth->getUser();
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function invalidate()
+		{
+			return $this->auth->invalidate(true);
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function refresh()
+		{
+			return $this->auth->refresh(true);
 		}
 	}

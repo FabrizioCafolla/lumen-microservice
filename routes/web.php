@@ -20,4 +20,6 @@
 		$api->post('auth/login', 'App\Api\v1\AuthController@authenticate');
 		$api->post('auth/register', 'App\Api\v1\AuthController@register');
 		$api->get('auth/getAuthenticatedUser', 'App\Api\v1\AuthController@getAuthenticatedUser');
+		$api->get('auth/invalidate', 'App\Api\v1\AuthController@invalidate');
+		$api->get('auth/refresh', 'App\Api\v1\AuthController@refresh');
 	});
