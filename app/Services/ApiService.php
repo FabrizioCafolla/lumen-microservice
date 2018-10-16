@@ -8,42 +8,122 @@
 
 	namespace App\Services;
 
+	use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+	use League\Fractal\Resource\Item;
 	use ResponseService;
 	use HelpersService;
-	use Illuminate\Support\Collection;
+	use Dingo\Api\Dispatcher;
+	use League\Fractal\Resource\Collection;
+	use League\Fractal\Manager;
 
 	class ApiService
 	{
-		/**
-		 * Array that contains any relationships that the transformer must retrieve to add then add to the response
-		 * @var array
-		 */
-		private $availableIncludes = [];
+		private $fractal;
 
-		/**
-		 * Method to use the Transformers, it receives in input the type of transformer ("collection" "item" or "paginator"), the data and the additional parameters, including an array to retrieve data related to those required. This function returns a collaction or a json error response.
-		 *
-		 * @param $type
-		 * @param $data
-		 * @param array $paramatres
-		 * @param \Closure $function
-		 * @param array $availableData => string content for add element to collect
-		 * @return Collection
-		 */
-		public function transform($type = "collection", $data, $model, array $availableData = [], array $paramatres = [], \Closure $function = NULL)
+		public function __construct()
 		{
-			$this->availableIncludes = $availableData;
+			$this->fractal = app(Manager::class);
+		}
 
-			if ($this->availableIncludes)
-				$response = HelpersService::factory()->{$type}($data, new $model, $paramatres, function ($resource, $fractal) {
-					$fractal->parseIncludes($this->availableIncludes);
-				});
-			else
-				$response = HelpersService::factory()->{$type}($data, new $model, $paramatres, $function);
+		/**
+		 * Get the internal dispatcher instance.
+		 *
+		 * @return \Dingo\Api\Dispatcher
+		 */
+		public function dispatcher()
+		{
+			return app(Dispatcher::class);
+		}
 
-			if (!$response->isEmpty())
-				return collect($response)->get("original");
-			else
-				return ResponseService::error("errorNotFound");
+		/**
+		 * Create collection with data Transformer
+		 *
+		 * @param $data (instance of Collection)
+		 * @param $transformer (class of Transformer)
+		 * @param null $availableData (array or string to add data to collection
+		 * @param null $serializer (class of Serialize)
+		 * @return mixed
+		 */
+		public function collection($data, $transformer, $availableData = null, $serializer = null)
+		{
+			$resource = new Collection($data, $transformer);
+			return $this->transform($resource, $serializer, $availableData);
+		}
+
+		/**
+		 * @param $data (instance of Paginate)
+		 * @param $transformer (class of Transformer)
+		 * @param null $availableData (array or string to add data to collection
+		 * @param null $serializer (class of Serialize)
+		 * @return mixed
+		 */
+		public function paginate($data, $transformer, $availableData = null, $serializer = null)
+		{
+			$resource = new Collection($data->getCollection(), $transformer);
+			$resource->setPaginator(new IlluminatePaginatorAdapter($data));
+			return $this->transform($resource, $serializer, $availableData);
+		}
+
+		/**
+		 * @param $data
+		 * @param $transformer (class of Transformer)
+		 * @param null $availableData (array or string to add data to collection
+		 * @param null $serializer (class of Serialize)
+		 * @return mixed
+		 */
+		public function item($data, $transformer, $availableData = null, $serializer = null)
+		{
+			$resource = new Item($data, $transformer);
+			return $this->transform($resource, $serializer, $availableData);
+		}
+
+		/**
+		 * @param $serializer
+		 * @return $this
+		 */
+		public function serializer($serializer){
+			$this->fractal->setSerializer($serializer);
+			return $this;
+		}
+
+		/**
+		 * @param $includes
+		 * @return $this
+		 */
+		public function includes($includes){
+			$this->fractal->parseIncludes($includes);
+			return $this;
+		}
+
+		/**
+		 * @param $excludes
+		 * @return $this
+		 */
+		public function excludes($excludes){
+			$this->fractal->parseExcludes($excludes);
+			return $this;
+		}
+
+		/**
+		 * @param $limit
+		 * @return $this
+		 */
+		public function recursionLimit($limit){
+			$this->fractal->setRecursionLimit($limit);
+			return $this;
+		}
+
+		/**
+		 * @param $data
+		 * @param $serializer
+		 * @param $availableData
+		 * @return mixed
+		 */
+		private function transform($data, $serializer, $availableData){
+			if($serializer)
+				$this->serializer($serializer);
+			if($availableData)
+				$this->includes($availableData);
+			return $this->fractal->createData($data)->toArray();
 		}
 	}

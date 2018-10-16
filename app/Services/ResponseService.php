@@ -8,7 +8,7 @@
 
 	namespace App\Services;
 
-	use HelpersService;
+	use Dingo\Api\Http\Response\Factory;
 
 	class ResponseService
 	{
@@ -18,7 +18,7 @@
 		 */
 		public function success($content = "", $status = 200, array $headers = [], $options = 0)
 		{
-			$message = $this->responseData('success',$content, $status);
+			$message = $this->responseData('success', $content, $status);
 			return $this->custom($message, $status, $headers, $options);
 		}
 
@@ -52,15 +52,22 @@
 					return $this->custom($message, $status, $headers, $options);
 					break;
 				case "error":
-					return HelpersService::factory()->{$type}($content, $status);
+					return $this->factory()->{$type}($content, $status);
 					break;
 				default:
-					return HelpersService::factory()->{$type}($content);
+					return $this->factory()->{$type}($content);
 					break;
 			}
 		}
 
-		private function responseData(string $type, $data, $status){
+		/**
+		 * @param string $type
+		 * @param $data
+		 * @param $status
+		 * @return array
+		 */
+		private function responseData(string $type, $data, $status)
+		{
 			$message = [
 				$type => [
 					'status_code' => $status
@@ -73,5 +80,14 @@
 				$message[$type] = array_add($message[$type], 'message', $data);
 
 			return $message;
+		}
+		/**
+		 * Get the response factory instance.
+		 *
+		 * @return \Dingo\Api\Http\Response\Factory
+		 */
+		private function factory()
+		{
+			return app(Factory::class);
 		}
 	}

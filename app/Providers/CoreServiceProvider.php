@@ -61,11 +61,6 @@
 			$this->app->singleton('service.api', 'App\Services\ApiService');
 
 			/**
-			 * Service Helpers
-			 */
-			$this->app->singleton('service.helpers', 'App\Services\HelpersService');
-
-			/**
 			 * Service ACL
 			 */
 			$this->app->singleton('service.acl', 'App\Services\ACLService');
@@ -125,7 +120,6 @@
 				'Storage' => \Illuminate\Support\Facades\Storage::class,
 				'ResponseService' => \App\Facades\ResponseFacade::class,
 				'ApiService' => \App\Facades\ApiFacade::class,
-				'HelpersService' => \App\Facades\HelpersFacade::class,
 				'AclService' => \App\Facades\ACLFacade::class,
 				'LogService' => \App\Facades\LogFacade::class
 			];
