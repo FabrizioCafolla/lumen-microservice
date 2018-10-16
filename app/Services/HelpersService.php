@@ -8,15 +8,30 @@
 
 	namespace App\Services;
 
-	use Dingo\Api\Routing\Helpers;
+	use Dingo\Api\Dispatcher;
+	use Dingo\Api\Http\Response\Factory;
 
 	class HelpersService
 	{
 		/**
-		 * Dingo trait helpers
+		 * Get the internal dispatcher instance.
+		 *
+		 * @return \Dingo\Api\Dispatcher
 		 */
-		use Helpers;
+		public function dispatcher()
+		{
+			return app(Dispatcher::class);
+		}
+
+		/**
+		 * Get the response factory instance.
+		 *
+		 * @return \Dingo\Api\Http\Response\Factory
+		 */
+		public function factory()
+		{
+			return app(Factory::class);
+		}
 
 		// Add your methods to helps controllers
-
 	}

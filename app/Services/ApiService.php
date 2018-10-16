@@ -9,30 +9,16 @@
 	namespace App\Services;
 
 	use ResponseService;
+	use HelpersService;
 	use Illuminate\Support\Collection;
 
 	class ApiService
 	{
 		/**
-		 * You can also use the Helpers service on controllers with this command $this->api->helpers
-		 *
-		 * @var HelpersService
-		 */
-		public $helpers;
-
-		/**
 		 * Array that contains any relationships that the transformer must retrieve to add then add to the response
 		 * @var array
 		 */
 		private $availableIncludes = [];
-
-		/**
-		 * ApiService constructor.
-		 */
-		public function __construct()
-		{
-			$this->helpers = app('service.helpers');
-		}
 
 		/**
 		 * Method to use the Transformers, it receives in input the type of transformer ("collection" "item" or "paginator"), the data and the additional parameters, including an array to retrieve data related to those required. This function returns a collaction or a json error response.
@@ -49,11 +35,11 @@
 			$this->availableIncludes = $availableData;
 
 			if ($this->availableIncludes)
-				$response = $this->helpers->response->{$type}($data, new $model, $paramatres, function ($resource, $fractal) {
+				$response = HelpersService::factory()->{$type}($data, new $model, $paramatres, function ($resource, $fractal) {
 					$fractal->parseIncludes($this->availableIncludes);
 				});
 			else
-				$response = $this->helpers->response->{$type}($data, new $model, $paramatres, $function);
+				$response = HelpersService::factory()->{$type}($data, new $model, $paramatres, $function);
 
 			if (!$response->isEmpty())
 				return collect($response)->get("original");

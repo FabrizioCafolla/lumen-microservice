@@ -8,22 +8,10 @@
 
 	namespace App\Services;
 
+	use HelpersService;
+
 	class ResponseService
 	{
-		/**
-		 *
-		 * @var HelpersService
-		 */
-		private $helpers;
-
-		/**
-		 * ApiService constructor.
-		 */
-		public function __construct()
-		{
-			$this->helpers = app('service.helpers');
-		}
-
 		/**
 		 * @param string $content
 		 * @return \Illuminate\Http\JsonResponse
@@ -64,9 +52,9 @@
 					return $this->custom($message, $status, $headers, $options);
 					break;
 				case "error":
-					return $this->helpers->response->{$type}($content, $status);
+					return HelpersService::factory()->{$type}($content, $status);
 				default:
-					return $this->helpers->response->{$type}($content);
+					return HelpersService::factory()->{$type}($content);
 					break;
 			}
 		}
