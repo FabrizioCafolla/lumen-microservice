@@ -1,7 +1,7 @@
 # DevOps Microservice Lumen Project
 [build] [stable]
 
-[version] [v1.1.5  beta]
+[version] [v1.1.6  beta]
 
 ##### Why use it?
 >Microservice Lumen allows you to start from a solid foundation to build your backend. Using packages, services and patterns you'll be able to implement your app in an easy and efficient way. With this framework you can build your REST API in a few steps using artisan commands to create the Controller, the Repository linked to the data model and the Trasformer for data display. The microservice communicates with the outside through HTTP API calls with JWT authentication (stateless token). It implements base services for API controller, response and helpers.
@@ -9,7 +9,7 @@
 ## Official Documentation
 [wiki] [https://github.com/FabrizioCafolla/microservice-lumen/wiki]
 
-![](.github/Microservice%20Lumen.png)
+![](.github/Microservice-lumen-image.jpg)
 
 ## Features 
 _Release includes:_
@@ -36,6 +36,11 @@ _Release includes:_
   
 **Artisan commands** to create Repository, ApiController and Transoformers (Other commands to create example file view documentation)
 
+  ##### v1.1.6 beta
+    -Creative methods to manage Transformers
+    -Fixed Response service
+    -Delete Helpers service
+    
   ##### v1.1.5 beta
     -Restyling Auth service
     -Fixed auth controller
@@ -66,24 +71,6 @@ _Release includes:_
     -Fixed ResponseService custom method
     -Add new Cache service system, implement repository with method.
     -Create serialization json encode for cache system
-    
-  ##### v1.0.4 beta
-    -Fixed AuthService and remove Abstract class
-    -Fixed ApiService transform
-    -Fixed and Add method ACLService
-      
-  ##### v1.0.3 beta
-    -Fixed docker-compose build
-    -Add redis cli to develop env (docker-compose) 
-    -Add LogService for log managment
-  
-   ##### v1.0.2 beta
-       The release is ready to be used in develop and production environments using in the first case docker-compose while in the second Docker. The code you develop when ready will have to build it with the Docker commands and then upload to Dockerhub or AWS ECR. The image created will allow you to have your app ready to be used by the ECS tasks
-       
-       After docker build => in the image all the necessary php extensions are installed, the relative vendors are downloaded, the workdir permissions are set and above all the docker-compose and git files are ignored. The port are not exposed because it is done in ECS
-       
-       Features
-       Add Dockerfile and dockerignore for ecs production
 
 ## License
 
