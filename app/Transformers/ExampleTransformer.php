@@ -12,5 +12,12 @@
 
 	class ExampleTransformer extends TransformerAbstract
 	{
-		//
+		protected $availableIncludes = [];
+
+		protected $defaultIncludes = [];
+
+		public function transform()
+		{
+			return [];
+		}
 	}

@@ -53,6 +53,7 @@
 					break;
 				case "error":
 					return HelpersService::factory()->{$type}($content, $status);
+					break;
 				default:
 					return HelpersService::factory()->{$type}($content);
 					break;

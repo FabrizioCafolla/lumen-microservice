@@ -40,6 +40,11 @@
 		 */
 		public $log;
 
+		/**
+		 * @var Log
+		 */
+		public $helpers;
+
 		public function __construct()
 		{
 			$this->api = app('service.api');
@@ -48,5 +53,6 @@
 			$this->acl = app('service.acl');
 			$this->cache = app('service.cache');
 			$this->log = app('service.log');
+			$this->helpers = app('service.helpers');
 		}
 	}
