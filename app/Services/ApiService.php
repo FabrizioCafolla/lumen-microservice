@@ -8,11 +8,10 @@
 
 	namespace App\Services;
 
-	use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-	use League\Fractal\Resource\Item;
 	use ResponseService;
 	use HelpersService;
-	use Dingo\Api\Dispatcher;
+	use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+	use League\Fractal\Resource\Item;
 	use League\Fractal\Resource\Collection;
 	use League\Fractal\Manager;
 
@@ -23,16 +22,6 @@
 		public function __construct()
 		{
 			$this->fractal = app(Manager::class);
-		}
-
-		/**
-		 * Get the internal dispatcher instance.
-		 *
-		 * @return \Dingo\Api\Dispatcher
-		 */
-		public function dispatcher()
-		{
-			return app(Dispatcher::class);
 		}
 
 		/**
