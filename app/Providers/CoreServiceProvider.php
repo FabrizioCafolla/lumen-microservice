@@ -98,17 +98,6 @@
 			$this->app->register(\Spatie\Permission\PermissionServiceProvider::class);
 
 			$this->app->register(\Aws\Laravel\AwsServiceProvider::class);
-
-			$this->app->register(\Dingo\Api\Provider\LumenServiceProvider::class);
-			$this->app['Dingo\Api\Exception\Handler']->setErrorFormat([
-				'error' => [
-					'message' => ':message',
-					'errors' => ':errors',
-					'code' => ':code',
-					'status_code' => ':status_code',
-					'debug' => env('APP_DEBUG') ? ':debug' : env('APP_DEBUG')
-				]
-			]);
 		}
 
 		/**

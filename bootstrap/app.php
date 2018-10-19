@@ -57,7 +57,7 @@
 	|
 	*/
 	$app->router->group([
-		'namespace' => 'App\Http\Controllers',
+		'namespace' => 'App\Api',
 	], function ($router) {
 		require __DIR__ . '/../routes/web.php';
 	});
