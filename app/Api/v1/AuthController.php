@@ -45,9 +45,6 @@
 				$token = $this->auth->jwt->attempt($credentials);
 				if (!$token)
 					return $this->response->error("errorUnauthorized", 'Invalid credentials');
-
-				//set user logged
-				$this->auth->setUser($this->auth->jwt->user());
 			} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
 				return $this->response->error("errorInternal", 'Could not create token.');
 			}
@@ -78,12 +75,7 @@
 			if (!$token)
 				return $this->response->error("errorInternal");
 
-			$assign = ACLService::assign($user, ['user'], ['read write publish']);
-			if ($assign->status() == "200") {
-				$this->auth->setUser($user);
-				return $this->response->success(compact('user', 'token'));
-			} else
-				return $assign;
+			return $this->response->success(compact('user', 'token'));
 		}
 
 		/**

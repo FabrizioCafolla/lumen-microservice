@@ -8,8 +8,6 @@
 
 	namespace App\Services;
 
-	use Dingo\Api\Auth\Auth as DingoAuth;
-	use Illuminate\Database\Eloquent\Model;
 	use Tymon\JWTAuth\JWTAuth;
 	use ResponseService;
 
@@ -20,10 +18,6 @@
 		 * @var JWTAuth
 		 */
 		public $jwt;
-		/**
-		 * @var DingoAuth
-		 */
-		private $dingo;
 
 		/**
 		 * AuthService constructor.
@@ -32,7 +26,6 @@
 		 */
 		public function __construct()
 		{
-			$this->dingo = app(DingoAuth::class);
 			$this->jwt = app(JWTAuth::class);
 		}
 
@@ -44,8 +37,7 @@
 		 */
 		public function user()
 		{
-			$user = $this->dingo->getUser();
-
+			$user = $this->jwt->user();
 			if (!$user)
 				return ResponseService::error("errorNotFound", "User not found");
 
@@ -84,17 +76,6 @@
 				return ResponseService::error('errorNotFound', 'Token absent');
 			}
 			return ResponseService::success("Token is valid");
-		}
-
-		/**
-		 * Set the user logged in or registered in the app so as to make the recovery of the user without much easier using the user() function
-		 *
-		 * @param Model $user
-		 * @return mixed
-		 */
-		public function setUser($user)
-		{
-			return $this->dingo->setUser($user);
 		}
 
 		/**
