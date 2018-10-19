@@ -96,8 +96,8 @@
 		 * @param $message
 		 * @param $status
 		 */
-		public function errorException($message, $status){
-			throw new HttpException($status, $message);
+		public function errorException($content, $status = 400, array $headers = [], $code = 0){
+			throw new HttpException($status, $content, null, $headers, $code);
 		}
 
 		/**

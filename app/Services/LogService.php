@@ -58,11 +58,10 @@
 
 				$path = $data ? $log . '-' . Carbon::parse($data)->toDateString() : $log;
 				$create->pushHandler($this->stream($path, $formatter));
-
-				return $create;
 			} catch (LogsException $e) {
-				return $e->response("internal","Error load Log");
+				return $e->response("Error load Log", 500);
 			}
+			return $create;
 
 		}
 

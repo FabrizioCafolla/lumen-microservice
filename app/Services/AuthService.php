@@ -65,17 +65,16 @@
 		{
 			try {
 				if (!$user = $this->jwt->parseToken()->authenticate())
-					return ResponseService::error('errorNotFound');
+					return ResponseService::errorException('Error Exception');
 			} catch (\Tymon\JWTAuth\Exceptions\TokenBlacklistedException $e) {
-				return ResponseService::error('errorNotFound', 'The token has been blacklisted');
+				return ResponseService::errorException('The token has been blacklisted');
 			} catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-				return ResponseService::error('errorBadRequest', 'Token expired');
+				return ResponseService::errorException('Token expired');
 			} catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-				return ResponseService::error('errorBadRequest', 'Token invalid');
+				return ResponseService::errorException('Token invalid');
 			} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-				return ResponseService::error('errorNotFound', 'Token absent');
+				return ResponseService::errorException('Token absent');
 			}
-			return ResponseService::success("Token is valid");
 		}
 
 		/**
