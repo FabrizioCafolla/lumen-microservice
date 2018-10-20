@@ -10,8 +10,15 @@
 
 	use League\Fractal\Serializer\ArraySerializer;
 
-	class NullArraySerializer extends ArraySerializer
+	class KeyArraySerializer extends ArraySerializer
 	{
+		private $key;
+
+		public function __construct($key = null)
+		{
+			$this->key = $key;
+		}
+
 		/**
 		 * Serialize a collection.
 		 *
@@ -22,7 +29,14 @@
 		 */
 		public function collection($resourceKey, array $data)
 		{
-			return $data;
+			if($resourceKey === -1 || (!$resourceKey && !$this->key))
+				return $data;
+
+			if ($resourceKey)
+				return array_add([], $resourceKey, $data);
+
+			if ($this->key)
+				return array_add([], $this->key, $data);
 		}
 
 		/**
@@ -35,7 +49,14 @@
 		 */
 		public function item($resourceKey, array $data)
 		{
-			return $data;
+			if($resourceKey === -1 || (!$resourceKey && !$this->key))
+				return $data;
+
+			if ($resourceKey)
+				return array_add([], $resourceKey, $data);
+
+			if ($this->key)
+				return array_add([], $this->key, $data);
 		}
 
 		/**
