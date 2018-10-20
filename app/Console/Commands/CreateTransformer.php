@@ -50,9 +50,9 @@
 	namespace App\Transformers;
 
 	use App\Models\\{$model};
-	use League\Fractal\TransformerAbstract;
+	use App\Transformers\MasterTransformer;
 
-	class {$name}Transformer extends TransformerAbstract
+	class {$name}Transformer extends MasterTransformer
 	{
 		protected \$availableIncludes = [];
 		protected \$defaultIncludes = [];
