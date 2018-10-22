@@ -18,7 +18,6 @@
 		 */
 		protected $dontReport = [
 			AuthorizationException::class,
-			HttpException::class,
 			ModelNotFoundException::class,
 			ValidationException::class,
 		];
@@ -45,16 +44,20 @@
 		 */
 		public function render($request, Exception $e)
 		{
-			$status = $e->getStatusCode();
-			$headers = $e->getHeaders();
-
+			$status = 400;
+			$headers = [];
 			$response = [
 				'exception' => [
 					'message' => $e->getMessage(),
 					'code' => $e->getCode(),
-					'status_code' => $status,
 				],
 			];
+
+			if($e instanceof HttpException) {
+				$status = $e->getStatusCode();
+				$headers = $e->getHeaders();
+				$response['exception'] = array_add($response['exception'], 'status_code', $status);
+			}
 
 			if(env('APP_DEBUG')){
 				$response['exception'] = array_add($response['exception'], 'debug.file', $e->getFile());
