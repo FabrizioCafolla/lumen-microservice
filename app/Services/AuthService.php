@@ -9,6 +9,7 @@
 	namespace App\Services;
 
 	use Tymon\JWTAuth\JWTAuth;
+	use Illuminate\Contracts\Auth\Guard;
 	use ResponseService;
 
 	class AuthService
@@ -30,18 +31,13 @@
 		}
 
 		/**
-		 * Get User object without check token
-		 * If user don't exist response not found error
+		 * Method to use Auth\Guard function
 		 *
-		 * @return mixed
+		 * @return \Laravel\Lumen\Application|mixed
 		 */
-		public function user()
+		public function guard()
 		{
-			$user = $this->jwt->user();
-			if (!$user)
-				return ResponseService::error("errorNotFound", "User not found");
-
-			return ResponseService::success(compact('user'));
+			return app(Guard::class);
 		}
 
 		/**
@@ -57,7 +53,7 @@
 		}
 
 		/**
-		 * Verification of the jwt token with specific response
+		 * Verification of the jwt token with specific exception response
 		 *
 		 * @return mixed
 		 */
@@ -75,6 +71,21 @@
 			} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
 				return ResponseService::errorException('Token absent');
 			}
+		}
+
+		/**
+		 * Get User object without check token
+		 * If user don't exist response not found error
+		 *
+		 * @return mixed
+		 */
+		public function user()
+		{
+			$user = $this->guard()->user();
+			if (!$user)
+				return ResponseService::error("errorNotFound", "User not found");
+
+			return ResponseService::success(compact('user'));
 		}
 
 		/**

@@ -3,27 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Tymon\JWTAuth\JWTAuth;
-use Dingo\Api\Auth\Auth as DingoAuth;
-use Dingo\Api\Auth\Provider\JWT as JWTProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
-	/**
-	 * Boot the authentication services for the application.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-		$this->app->extend('api.auth', function (DingoAuth $auth) {
-			$auth->extend('jwt', function ($app) {
-				return new JWTProvider($app[JWTAuth::class]);
-			});
-			return $auth;
-		});
-	}
-
     /**
      * Register any application services.
      *
@@ -55,6 +37,7 @@ class AuthServiceProvider extends ServiceProvider
 	{
 		$this->app->routeMiddleware([
 			'api.jwt' => \App\Http\Middleware\JwtMiddleware::class,
+			'api.auth' => \App\Http\Middleware\AuthenticateMiddleware::class,
 		]);
 	}
 
@@ -71,7 +54,8 @@ class AuthServiceProvider extends ServiceProvider
 	protected function setupAlias() {
 		$aliases=[
 			'JWTAuth' => \Tymon\JWTAuth\Facades\JWTAuth::class,
-			'JWTFactory' => \Tymon\JWTAuth\Facades\JWTFactory::class
+			'JWTFactory' => \Tymon\JWTAuth\Facades\JWTFactory::class,
+			'AuthService' => \App\Facades\AuthFacade::class
 		];
 
 		foreach ($aliases as $key => $value){
