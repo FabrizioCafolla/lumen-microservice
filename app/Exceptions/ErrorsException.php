@@ -11,7 +11,7 @@
 	use Exception;
 
 	class ErrorsException extends Exception {
-		public function response ($content, $status = 400, array $headers = [], $code = 0) {
+		public function exception ($content, $status = 400, array $headers = [], $code = 0) {
 			return ResponseService::errorException($content, $status, null, $headers, $code);
 		}
 	}
