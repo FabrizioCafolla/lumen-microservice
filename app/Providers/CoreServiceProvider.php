@@ -106,7 +106,6 @@
 		protected function setupAlias()
 		{
 			$aliases=[
-				'Storage' => \Illuminate\Support\Facades\Storage::class,
 				'ResponseService' => \App\Facades\ResponseFacade::class,
 				'ApiService' => \App\Facades\ApiFacade::class,
 				'AclService' => \App\Facades\ACLFacade::class,

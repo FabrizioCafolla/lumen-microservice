@@ -52,7 +52,7 @@
 			],
 			'command' => [
 				'driver' => 'local',
-				'root' => 'app',
+				'root' => '.',
 			],
 			'logs' => [
 				'driver' => 'local',
