@@ -10,13 +10,21 @@
 
 	use League\Fractal\Serializer\ArraySerializer;
 
+	/**
+	 * Class KeyArraySerializer
+	 * @package App\Http\Serializer
+	 */
 	class KeyArraySerializer extends ArraySerializer
 	{
-		private $key;
+		/**
+		 *
+		 * @var null
+		 */
+		private $arrayKey;
 
-		public function __construct($key = null)
+		public function __construct(string $key = '')
 		{
-			$this->key = $key;
+			$this->arrayKey = $key;
 		}
 
 		/**
@@ -29,14 +37,18 @@
 		 */
 		public function collection($resourceKey, array $data)
 		{
-			if($resourceKey === -1 || (!$resourceKey && !$this->key))
+			//if resourceKey are equal -1, default value to exclude the arrayKey variable from the array that will be included by the includesName() methods of the Transformer
+			//or resourceKey and arrayKey are null
+			if($resourceKey === -1 || (!$resourceKey && !$this->arrayKey))
 				return $data;
 
+			//if value of resorceKey is different that null or -1
 			if ($resourceKey)
 				return array_add([], $resourceKey, $data);
 
-			if ($this->key)
-				return array_add([], $this->key, $data);
+			//if value of arrayKey is differet that null
+			if ($this->arrayKey)
+				return array_add([], $this->arrayKey, $data);
 		}
 
 		/**
@@ -49,14 +61,18 @@
 		 */
 		public function item($resourceKey, array $data)
 		{
-			if($resourceKey === -1 || (!$resourceKey && !$this->key))
+			//if resourceKey are equal -1, default value to exclude the arrayKey variable from the array that will be included by the includesName() methods of the Transformer
+			//or resourceKey and arrayKey are null
+			if($resourceKey === -1 || (!$resourceKey && !$this->arrayKey))
 				return $data;
 
+			//if value of resourceKey is different that null or -1
 			if ($resourceKey)
 				return array_add([], $resourceKey, $data);
 
-			if ($this->key)
-				return array_add([], $this->key, $data);
+			//if value of arrayKey is different that null
+			if ($this->arrayKey)
+				return array_add([], $this->arrayKey, $data);
 		}
 
 		/**
