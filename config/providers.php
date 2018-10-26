@@ -6,6 +6,7 @@
 		'global' => [
 			'core' => \App\Providers\CoreServiceProvider::class,
 			'auth' => \App\Providers\AuthServiceProvider::class,
+			'graphql' => \App\Providers\GraphQLServiceProvider::class,
 			'app' => \App\Providers\AppServiceProvider::class,
 		],
 
