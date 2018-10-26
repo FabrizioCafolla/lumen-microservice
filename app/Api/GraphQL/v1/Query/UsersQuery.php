@@ -6,7 +6,7 @@
 	 * Time: 22.20
 	 */
 
-	namespace App\Api\v1\GraphQL\Query;
+	namespace App\Api\GraphQL\v1\Query;
 
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;

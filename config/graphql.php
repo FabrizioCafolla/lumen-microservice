@@ -129,10 +129,10 @@ return [
 	    //Version Graph API
 	    'v1' => [
 		    'query' => [
-			    'users' => App\Api\v1\GraphQL\Query\UsersQuery::class,
+			    'users' => App\Api\GraphQL\v1\Query\UsersQuery::class,
 		    ],
 		    'mutation' => [
-			    'updateUserName' => App\Api\v1\GraphQL\Mutation\UpdateUserNameMutation::class,
+			    'updateUserName' => App\Api\GraphQL\v1\Mutation\UpdateUserNameMutation::class,
 		    ]
 	    ]
     ],
@@ -186,7 +186,7 @@ return [
      * ]
      */
     'types' => [
-	    'User' => App\Api\v1\GraphQL\Type\UserType::class
+	    'User' => App\Api\GraphQL\v1\Type\UserType::class
     ],
 
     /*
