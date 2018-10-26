@@ -14,7 +14,8 @@
         "monolog/monolog": "^1.23",
         "aws/aws-sdk-php-laravel": "^3.2",
         "fabrizio-cafolla/lumen-cache-service": "dev-master",
-        "league/fractal": "^0.17.0"
+        "league/fractal": "^0.17.0",
+        "folklore/graphql": "dev-develop"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

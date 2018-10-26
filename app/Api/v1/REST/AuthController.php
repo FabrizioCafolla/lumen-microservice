@@ -6,7 +6,7 @@
 	 * Time: 14.48
 	 */
 
-	namespace App\Api\v1;
+	namespace App\Api\v1\REST;
 
 	use App\Repositories\UserRepository;
 	use ACLService;

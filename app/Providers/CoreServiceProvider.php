@@ -98,6 +98,8 @@
 			$this->app->register(\Spatie\Permission\PermissionServiceProvider::class);
 
 			$this->app->register(\Aws\Laravel\AwsServiceProvider::class);
+
+			$this->app->register(\Folklore\GraphQL\LumenServiceProvider::class);
 		}
 
 		/**
@@ -125,5 +127,6 @@
 			$this->app->configure('database');
 			$this->app->configure('filesystems');
 			$this->app->configure('permission');
+			$this->app->configure('graphql');
 		}
 	}
