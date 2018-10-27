@@ -39,5 +39,6 @@
 		 */
 		protected function typeQL() {
 			GraphQL::addType('App\Api\GraphQL\v1\Type\UserType', 'User');
+			GraphQL::addType('App\Api\GraphQL\v1\Type\PostType', 'Post');
 		}
 	}

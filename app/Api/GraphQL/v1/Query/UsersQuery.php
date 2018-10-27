@@ -11,13 +11,21 @@
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Query;
-	use App\Models\User;
+	use App\Repositories\UserRepository as User;
 
-	class UsersQuery extends Query {
+	class UsersQuery extends Query
+	{
 
+		public $user;
 		protected $attributes = [
 			'name' => 'users'
 		];
+
+		public function __construct($attributes = [], User $model)
+		{
+			parent::__construct($attributes);
+			$this->user = $model;
+		}
 
 		public function type()
 		{
@@ -29,23 +37,19 @@
 			return [
 				'id' => ['name' => 'id', 'type' => Type::string()],
 				'email' => ['name' => 'email', 'type' => Type::string()],
-				'name' => ['name' => 'name', 'type' => Type::string()]
+				'name' => ['name' => 'name', 'type' => Type::string()],
+				'post' => ['name' => 'post', 'type' => Type::listOf(GraphQL::type('Post'))]
 			];
 		}
 
 		public function resolve($root, $args)
 		{
-			if(isset($args['id']))
-			{
-				return User::where('id' , $args['id'])->get();
-			}
-			else if(isset($args['email']))
-			{
-				return User::where('email', $args['email'])->get();
-			}
-			else
-			{
-				return User::all();
+			if (isset($args['id'])) {
+				return array($this->user->find($args['id']));
+			} else if (isset($args['email'])) {
+				return array($this->user->findBy('email', $args['email']));
+			} else {
+				return $this->user->all();
 			}
 		}
 

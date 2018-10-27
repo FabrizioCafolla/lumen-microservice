@@ -12,23 +12,16 @@ return [
 
     'variables_input_name' => 'variables',
 
-    'middleware' => ['api.jwt'],
+    'middleware' => [],
 
     'middleware_schema' => [
         'default' => [],
+        'v1' => ['api.jwt'],
     ],
 
     'headers' => [],
 
     'json_encoding_options' => 0,
-
-    'graphiql' => [
-        'routes' => '/api/graph/{graphql_schema?}',
-        'controller' => \Folklore\GraphQL\GraphQLController::class.'@graphiql',
-        'middleware' => ['api.jwt'],
-        'view' => 'graphql::graphiql',
-        'composer' => \Folklore\GraphQL\View\GraphiQLComposer::class,
-    ],
 
     'schema' => env('API_STABLE_VERSION', 'default'),
 
