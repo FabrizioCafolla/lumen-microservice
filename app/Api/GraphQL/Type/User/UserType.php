@@ -6,13 +6,14 @@
 	 * Time: 22.18
 	 */
 
-	namespace App\Api\GraphQL\v1\Type;
+	namespace App\Api\GraphQL\Type\User;
 
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
 
-	class UserType extends GraphQLType {
+	class UserType extends GraphQLType
+	{
 
 		protected $attributes = [
 			'name' => 'User',
@@ -33,10 +34,6 @@
 				'name' => [
 					'type' => Type::string(),
 					'description' => 'The email of user'
-				],
-				'post' => [
-					'type' => Type::listOf(GraphQL::type('Post')),
-					'description' => 'Posts published of user'
 				]
 			];
 		}

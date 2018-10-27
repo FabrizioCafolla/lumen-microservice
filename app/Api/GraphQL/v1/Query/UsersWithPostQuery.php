@@ -13,12 +13,12 @@
 	use Folklore\GraphQL\Support\Query;
 	use App\Repositories\UserRepository as User;
 
-	class UsersQuery extends Query
+	class UsersWithPostQuery extends Query
 	{
 
 		public $user;
 		protected $attributes = [
-			'name' => 'users'
+			'name' => 'usersWithPost'
 		];
 
 		public function __construct($attributes = [], User $model)
@@ -29,7 +29,7 @@
 
 		public function type()
 		{
-			return Type::listOf(GraphQL::type('User'));
+			return Type::listOf(GraphQL::type('UserWithPost'));
 		}
 
 		public function args()
@@ -44,9 +44,9 @@
 		public function resolve($root, $args)
 		{
 			if (isset($args['id'])) {
-				return $this->user->find($args['id']);
+				return array($this->user->find($args['id']));
 			} else if (isset($args['email'])) {
-				return $this->user->findBy('email', $args['email']);
+				return array($this->user->findBy('email', $args['email']));
 			} else {
 				return $this->user->all();
 			}

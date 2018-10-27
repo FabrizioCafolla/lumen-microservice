@@ -34,6 +34,8 @@ return [
 	    'v1' => [
 		    'query' => [
 			    'users' => App\Api\GraphQL\v1\Query\UsersQuery::class,
+			    'usersPaginate' => App\Api\GraphQL\v1\Query\UsersPaginateQuery::class,
+			    'usersWithPost' => App\Api\GraphQL\v1\Query\UsersWithPostQuery::class,
 		    ],
 		    'mutation' => [
 			    'updateUserName' => App\Api\GraphQL\v1\Mutation\UpdateUserNameMutation::class,

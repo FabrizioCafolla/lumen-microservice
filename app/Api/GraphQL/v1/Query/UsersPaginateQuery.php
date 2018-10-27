@@ -13,12 +13,13 @@
 	use Folklore\GraphQL\Support\Query;
 	use App\Repositories\UserRepository as User;
 
-	class UsersQuery extends Query
+	class UsersPaginateQuery extends Query
 	{
 
 		public $user;
+
 		protected $attributes = [
-			'name' => 'users'
+			'name' => 'usersPaginate'
 		];
 
 		public function __construct($attributes = [], User $model)
@@ -29,27 +30,31 @@
 
 		public function type()
 		{
-			return Type::listOf(GraphQL::type('User'));
+			return Type::listOf(GraphQL::type('UserPaginate'));
 		}
 
 		public function args()
 		{
 			return [
-				'id' => ['name' => 'id', 'type' => Type::string()],
-				'email' => ['name' => 'email', 'type' => Type::string()],
-				'name' => ['name' => 'name', 'type' => Type::string()],
+				'page' => [
+					'name' => 'page',
+					'description' => 'The page',
+					'type' => Type::int()
+				],
+				'perPage' => [
+					'name' => 'perPage',
+					'description' => 'The count',
+					'type' => Type::int()
+				]
 			];
 		}
 
 		public function resolve($root, $args)
 		{
-			if (isset($args['id'])) {
-				return $this->user->find($args['id']);
-			} else if (isset($args['email'])) {
-				return $this->user->findBy('email', $args['email']);
-			} else {
-				return $this->user->all();
-			}
+			$perPage = array_get($args, 'perPage', 15);
+			$page = array_get($args, 'page', 1);
+
+			return $this->user->model->paginate($perPage, ['*'], 'page', $page);
 		}
 
 	}

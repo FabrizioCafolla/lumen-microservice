@@ -6,7 +6,7 @@
 	 * Time: 22.18
 	 */
 
-	namespace App\Api\GraphQL\v1\Type;
+	namespace App\Api\GraphQL\Type;
 
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;

@@ -16,6 +16,7 @@
 		{
 			$this->setupConfig();
 			$this->registerProviders();
+			$this->typeContractsQL();
 			$this->typeQL();
 		}
 
@@ -38,7 +39,16 @@
 		 * Load Type of GraphQL without use config file
 		 */
 		protected function typeQL() {
-			GraphQL::addType('App\Api\GraphQL\v1\Type\UserType', 'User');
-			GraphQL::addType('App\Api\GraphQL\v1\Type\PostType', 'Post');
+			GraphQL::addType('App\Api\GraphQL\Type\User\UserType', 'User');
+			GraphQL::addType('App\Api\GraphQL\Type\User\UserWithPostType', 'UserWithPost');
+			GraphQL::addType('App\Api\GraphQL\Type\User\UserPaginateType', 'UserPaginate');
+			GraphQL::addType('App\Api\GraphQL\Type\PostType', 'Post');
+		}
+
+		/**
+		 * Load Type of GraphQL without use config file
+		 */
+		protected function typeContractsQL() {
+			GraphQL::addType('App\Api\GraphQL\Type\Contracts\PaginateType', 'pageInfo');
 		}
 	}
