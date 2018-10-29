@@ -34,8 +34,12 @@ return [
 	    'v1' => [
 		    'query' => [
 			    'users' => App\Api\GraphQL\v1\Query\UsersQuery::class,
-			    'usersPaginate' => App\Api\GraphQL\v1\Query\UsersPaginateQuery::class,
+			    'usersPagination' => App\Api\GraphQL\v1\Query\UsersPaginationQuery::class,
 			    'usersWithPost' => App\Api\GraphQL\v1\Query\UsersWithPostQuery::class,
+
+			    'postsPagination' => App\Api\GraphQL\v1\Query\PostsPaginationQuery::class,
+			    'posts' => App\Api\GraphQL\v1\Query\PostsQuery::class,
+
 		    ],
 		    'mutation' => [
 			    'updateUserName' => App\Api\GraphQL\v1\Mutation\UpdateUserNameMutation::class,

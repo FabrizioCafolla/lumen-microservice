@@ -9,20 +9,19 @@
 	namespace App\Api\GraphQL\v1\Query;
 
 	use ApiService;
-	use App\Http\Serializer\WithoutDataSerializer;
-	use App\Transformers\UserTransformer;
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Query;
 	use App\Repositories\UserRepository as User;
 
-	class UsersPaginateQuery extends Query
+	class UsersPaginationQuery extends Query
 	{
 
 		public $user;
 
 		protected $attributes = [
-			'name' => 'usersPaginate'
+			'name' => 'usersPaginate',
+			'uri' => 'query=query{usersPagination(perPage:15,page:1){user{id,name},meta{total}}}'
 		];
 
 		public function __construct($attributes = [], User $model)

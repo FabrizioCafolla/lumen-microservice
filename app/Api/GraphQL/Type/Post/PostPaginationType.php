@@ -6,27 +6,26 @@
 	 * Time: 22.18
 	 */
 
-	namespace App\Api\GraphQL\Type\User;
+	namespace App\Api\GraphQL\Type\Post;
 
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
 	use Illuminate\Pagination\LengthAwarePaginator;
 
-	class UserPaginationType extends GraphQLType
+	class PostPaginationType extends GraphQLType
 	{
 
 		protected $attributes = [
-			'name' => 'UserPagination',
+			'name' => 'PostPagination',
 			'description' => 'User with paginate',
-			'uri' => 'query=query{usersPagination(perPage:15,page:1){user{id,name},meta{total}}}'
 		];
 
 		public function fields()
 		{
 			return [
-				'user' => [
-					'type' => Type::listOf(GraphQL::type('User')),
+				'post' => [
+					'type' => Type::listOf(GraphQL::type('Post')),
 					'resolve' => function ($root) {
 						return $root;
 					}
@@ -34,7 +33,7 @@
 				'meta' => [
 					'type' => Type::nonNull(GraphQL::type('PaginationMeta')),
 					'resolve' => function (LengthAwarePaginator $paginator) {
-				return $paginator->toArray();
+						return $paginator->toArray();
 					},
 				]
 			];
