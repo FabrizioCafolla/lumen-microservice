@@ -11,17 +11,17 @@
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Query;
-	use App\Repositories\UserRepository as User;
+	use App\Repositories\PostRepository as Post;
 
-	class UsersQuery extends Query
+	class PostWithUserQuery extends Query
 	{
 
 		public $model;
 		protected $attributes = [
-			'name' => 'users'
+			'name' => 'postsWithUser'
 		];
 
-		public function __construct($attributes = [], User $model)
+		public function __construct($attributes = [], Post $model)
 		{
 			parent::__construct($attributes);
 			$this->model = $model;
@@ -29,15 +29,14 @@
 
 		public function type()
 		{
-			return Type::listOf(GraphQL::type('User'));
+			return Type::listOf(GraphQL::type('PostWithUser'));
 		}
 
 		public function args()
 		{
 			return [
 				'id' => ['name' => 'id', 'type' => Type::int()],
-				'email' => ['name' => 'email', 'type' => Type::string()],
-				'name' => ['name' => 'name', 'type' => Type::string()],
+				'title' => ['name' => 'email', 'type' => Type::string()],
 			];
 		}
 
@@ -45,8 +44,8 @@
 		{
 			if (isset($args['id'])) {
 				return array($this->model->find($args['id']));
-			} else if (isset($args['email'])) {
-				return array($this->model->findBy('email', $args['email']));
+			} else if (isset($args['title'])) {
+				return array($this->model->findBy('title', $args['title']));
 			} else {
 				return $this->model->all();
 			}

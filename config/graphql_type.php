@@ -9,6 +9,7 @@
 			'UserPagination' => App\Api\GraphQL\Type\User\UserPaginationType::class,
 
 			'Post' =>  App\Api\GraphQL\Type\Post\PostType::class,
+			'PostWithUser' => App\Api\GraphQL\Type\Post\PostWithUserType::class,
 			'PostPagination' =>  App\Api\GraphQL\Type\Post\PostPaginationType::class,
 		],
 

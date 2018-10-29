@@ -37,8 +37,9 @@ return [
 			    'usersPagination' => App\Api\GraphQL\v1\Query\UsersPaginationQuery::class,
 			    'usersWithPost' => App\Api\GraphQL\v1\Query\UsersWithPostQuery::class,
 
-			    'postsPagination' => App\Api\GraphQL\v1\Query\PostsPaginationQuery::class,
 			    'posts' => App\Api\GraphQL\v1\Query\PostsQuery::class,
+			    'postsWithUser' => App\Api\GraphQL\v1\Query\PostWithUserQuery::class,
+			    'postsPagination' => App\Api\GraphQL\v1\Query\PostsPaginationQuery::class,
 
 		    ],
 		    'mutation' => [

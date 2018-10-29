@@ -17,17 +17,17 @@
 	class PostsPaginationQuery extends Query
 	{
 
-		public $post;
+		public $model;
 
 		protected $attributes = [
 			'name' => 'usersPaginate',
-			'uri' => 'query=query{postsPagination(perPage:15,page:1){user{id,name},meta{total}}}'
+			'uri' => 'query=query{postsPagination(perPage:15,page:1){post{id},meta{total}}}'
 		];
 
 		public function __construct($attributes = [], Post $model)
 		{
 			parent::__construct($attributes);
-			$this->post = $model;
+			$this->model = $model;
 		}
 
 		public function type()
@@ -56,9 +56,9 @@
 			$page = array_get($args, 'page', 1);
 			$perPage = array_get($args, 'perPage', 15);
 
-			$users = $this->post->paginate($perPage, ['*']);
+			$posts = $this->model->paginate($perPage, ['*']);
 
-			return $users;
+			return $posts;
 		}
 
 	}

@@ -16,7 +16,7 @@
 	class UsersWithPostQuery extends Query
 	{
 
-		public $user;
+		public $model;
 		protected $attributes = [
 			'name' => 'usersWithPost'
 		];
@@ -24,7 +24,7 @@
 		public function __construct($attributes = [], User $model)
 		{
 			parent::__construct($attributes);
-			$this->user = $model;
+			$this->model = $model;
 		}
 
 		public function type()
@@ -44,11 +44,11 @@
 		public function resolve($root, $args)
 		{
 			if (isset($args['id'])) {
-				return array($this->user->find($args['id']));
+				return array($this->model->find($args['id']));
 			} else if (isset($args['email'])) {
-				return array($this->user->findBy('email', $args['email']));
+				return array($this->model->findBy('email', $args['email']));
 			} else {
-				return $this->user->all();
+				return $this->model->all();
 			}
 		}
 

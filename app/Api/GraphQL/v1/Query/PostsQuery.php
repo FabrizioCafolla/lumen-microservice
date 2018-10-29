@@ -16,7 +16,7 @@
 	class PostsQuery extends Query
 	{
 
-		public $post;
+		public $model;
 		protected $attributes = [
 			'name' => 'users'
 		];
@@ -24,7 +24,7 @@
 		public function __construct($attributes = [], Post $model)
 		{
 			parent::__construct($attributes);
-			$this->post = $model;
+			$this->model = $model;
 		}
 
 		public function type()
@@ -43,11 +43,11 @@
 		public function resolve($root, $args)
 		{
 			if (isset($args['id'])) {
-				return array($this->post->find($args['id']));
+				return array($this->model->find($args['id']));
 			} else if (isset($args['title'])) {
-				return array($this->post->findBy('title', $args['title']));
+				return array($this->model->findBy('title', $args['title']));
 			} else {
-				return $this->post->all();
+				return $this->model->all();
 			}
 		}
 
