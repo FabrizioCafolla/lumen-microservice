@@ -6,19 +6,19 @@
 	 * Time: 22.18
 	 */
 
-	namespace App\Api\GraphQL\Type\Post;
+	namespace App\Http\GraphQL\Type\User;
 
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
 	use TypeRegistry;
 
-	class PostWithUserType extends GraphQLType
+	class UserWithPostType extends GraphQLType
 	{
 
 		protected $attributes = [
-			'name' => 'PostWithUser',
-			'description' => 'Post with user'
+			'name' => 'UserWithPost',
+			'description' => 'User with post'
 		];
 
 		public function fields()
@@ -27,17 +27,14 @@
 				'id' => [
 					'type' => Type::nonNull(Type::string()),
 				],
-				'title' => [
+				'email' => [
 					'type' => Type::string(),
 				],
-				'description' => [
+				'name' => [
 					'type' => Type::string(),
 				],
-				'user' => [
-					'type' =>  Type::listOf(GraphQL::type('User')),
-					'resolve' => function ($root) {
-						return array($root->user);
-					},
+				'post' => [
+					'type' => Type::listOf(GraphQL::type('Post')),
 				],
 				'timestamp' => TypeRegistry::timestamp()
 			];

@@ -33,17 +33,17 @@ return [
 	    //Version Graph API
 	    'v1' => [
 		    'query' => [
-			    'users' => App\Api\GraphQL\v1\Query\UsersQuery::class,
-			    'usersPagination' => App\Api\GraphQL\v1\Query\UsersPaginationQuery::class,
-			    'usersWithPost' => App\Api\GraphQL\v1\Query\UsersWithPostQuery::class,
+			    'users' => App\Http\GraphQL\v1\Query\UsersQuery::class,
+			    'usersPagination' => App\Http\GraphQL\v1\Query\UsersPaginationQuery::class,
+			    'usersWithPost' => App\Http\GraphQL\v1\Query\UsersWithPostQuery::class,
 
-			    'posts' => App\Api\GraphQL\v1\Query\PostsQuery::class,
-			    'postsWithUser' => App\Api\GraphQL\v1\Query\PostWithUserQuery::class,
-			    'postsPagination' => App\Api\GraphQL\v1\Query\PostsPaginationQuery::class,
+			    'posts' => App\Http\GraphQL\v1\Query\PostsQuery::class,
+			    'postsWithUser' => App\Http\GraphQL\v1\Query\PostWithUserQuery::class,
+			    'postsPagination' => App\Http\GraphQL\v1\Query\PostsPaginationQuery::class,
 
 		    ],
 		    'mutation' => [
-			    'updateUserName' => App\Api\GraphQL\v1\Mutation\UpdateUserNameMutation::class,
+			    'updateUserName' => App\Http\GraphQL\v1\Mutation\UpdateUserNameMutation::class,
 		    ]
 	    ]
     ],

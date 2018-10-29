@@ -6,25 +6,25 @@
 	 * Time: 22.20
 	 */
 
-	namespace App\Api\GraphQL\v1\Query;
+	namespace App\Http\GraphQL\v1\Query;
 
 	use ApiService;
+	use App\Repositories\PostRepository as Post;
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Query;
-	use App\Repositories\UserRepository as User;
 
-	class UsersPaginationQuery extends Query
+	class PostsPaginationQuery extends Query
 	{
 
 		public $model;
 
 		protected $attributes = [
 			'name' => 'usersPaginate',
-			'uri' => 'query=query{usersPagination(perPage:15,page:1){user{id},meta{total}}}'
+			'uri' => 'query=query{postsPagination(perPage:15,page:1){post{id},meta{total}}}'
 		];
 
-		public function __construct($attributes = [], User $model)
+		public function __construct($attributes = [], Post $model)
 		{
 			parent::__construct($attributes);
 			$this->model = $model;
@@ -32,7 +32,7 @@
 
 		public function type()
 		{
-			return GraphQL::pagination(GraphQL::type('User'));
+			return GraphQL::pagination(GraphQL::type('Post'));
 		}
 
 		public function args()
@@ -56,9 +56,9 @@
 			$page = array_get($args, 'page', 1);
 			$perPage = array_get($args, 'perPage', 15);
 
-			$users = $this->model->paginate($perPage, ['*']);   //@TODO fix url page
+			$posts = $this->model->paginate($perPage, ['*']); //@TODO fix url page
 
-			return $users;
+			return $posts;
 		}
 
 	}

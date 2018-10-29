@@ -6,7 +6,7 @@
 	 * Time: 19.11
 	 */
 
-	namespace App\Api\GraphQL\Type\Contracts;
+	namespace App\Http\GraphQL\Type\Contracts;
 
 	use GraphQL\Type\Definition\Type;
 	use GraphQL;
@@ -16,7 +16,7 @@
 	 * Class TypeRegistry
 	 * Alias TypeRegistry
 	 *
-	 * @package App\Api\GraphQL\Type\Contracts
+	 * @package App\Http\GraphQL\Type\Contracts
 	 */
 	class TypeRegistry
 	{

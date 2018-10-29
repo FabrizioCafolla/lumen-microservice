@@ -20,7 +20,7 @@
 			$this->typeQL();
 
 			//load alias TypeRegistry
-			class_alias(\App\Api\GraphQL\Type\Contracts\TypeRegistry::class, 'TypeRegistry');
+			class_alias(\App\Http\GraphQL\Type\Contracts\TypeRegistry::class, 'TypeRegistry');
 		}
 
 		/**

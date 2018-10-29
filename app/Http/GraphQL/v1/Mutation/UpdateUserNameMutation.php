@@ -6,7 +6,7 @@
 	 * Time: 23.35
 	 */
 
-	namespace App\Api\GraphQL\v1\Mutation;
+	namespace App\Http\GraphQL\v1\Mutation;
 
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;

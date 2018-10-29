@@ -4,20 +4,20 @@
 		 * Load Type graphQL
 		 */
 		'model' => [
-			'User' => App\Api\GraphQL\Type\User\UserType::class,
-			'UserWithPost' => App\Api\GraphQL\Type\User\UserWithPostType::class,
-			'UserPagination' => App\Api\GraphQL\Type\User\UserPaginationType::class,
+			'User' => App\Http\GraphQL\Type\User\UserType::class,
+			'UserWithPost' => App\Http\GraphQL\Type\User\UserWithPostType::class,
+			'UserPagination' => App\Http\GraphQL\Type\User\UserPaginationType::class,
 
-			'Post' =>  App\Api\GraphQL\Type\Post\PostType::class,
-			'PostWithUser' => App\Api\GraphQL\Type\Post\PostWithUserType::class,
-			'PostPagination' =>  App\Api\GraphQL\Type\Post\PostPaginationType::class,
+			'Post' =>  App\Http\GraphQL\Type\Post\PostType::class,
+			'PostWithUser' => App\Http\GraphQL\Type\Post\PostWithUserType::class,
+			'PostPagination' =>  App\Http\GraphQL\Type\Post\PostPaginationType::class,
 		],
 
 		/*
 		 * Load contracts type
 		 */
 		'contracts' => [
-			'PaginationMeta' =>  App\Api\GraphQL\Type\Contracts\PaginationMetaType::class,
-			'Data' =>  App\Api\GraphQL\Type\Contracts\DataType::class,
+			'PaginationMeta' =>  App\Http\GraphQL\Type\Contracts\PaginationMetaType::class,
+			'Data' =>  App\Http\GraphQL\Type\Contracts\DataType::class,
 		],
 	];

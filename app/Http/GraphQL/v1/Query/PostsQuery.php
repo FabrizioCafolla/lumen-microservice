@@ -6,21 +6,20 @@
 	 * Time: 22.20
 	 */
 
-	namespace App\Api\GraphQL\v1\Query;
+	namespace App\Http\GraphQL\v1\Query;
 
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Query;
 	use App\Repositories\PostRepository as Post;
 
-	class PostWithUserQuery extends Query
+	class PostsQuery extends Query
 	{
 
 		public $model;
 		protected $attributes = [
-			'name' => 'postsWithUser',
-			'uri' => 'query=query{postsWithUser{id,title,description,user{},timestamp{}}}}'
-
+			'name' => 'posts',
+			'uri' => 'query=query{posts{id,title,description,timestamp{}}}}'
 		];
 
 		public function __construct($attributes = [], Post $model)
@@ -31,14 +30,14 @@
 
 		public function type()
 		{
-			return Type::listOf(GraphQL::type('PostWithUser'));
+			return Type::listOf(GraphQL::type('Post'));
 		}
 
 		public function args()
 		{
 			return [
 				'id' => ['name' => 'id', 'type' => Type::int()],
-				'title' => ['name' => 'email', 'type' => Type::string()],
+				'title' => ['name' => 'title', 'type' => Type::string()]
 			];
 		}
 

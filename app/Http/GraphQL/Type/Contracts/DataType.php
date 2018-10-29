@@ -6,7 +6,7 @@
 	 * Time: 14.17
 	 */
 
-	namespace App\Api\GraphQL\Type\Contracts;
+	namespace App\Http\GraphQL\Type\Contracts;
 
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;

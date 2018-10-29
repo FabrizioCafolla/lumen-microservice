@@ -6,7 +6,7 @@
 	 * Time: 22.18
 	 */
 
-	namespace App\Api\GraphQL\Type\User;
+	namespace App\Http\GraphQL\Type\User;
 
 	use Carbon\Carbon;
 	use GraphQL;
