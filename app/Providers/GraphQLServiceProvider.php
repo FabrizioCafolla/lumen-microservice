@@ -18,8 +18,9 @@
 			$this->registerProviders();
 			$this->typeContractsQL();
 			$this->typeQL();
-			class_alias(\App\Api\GraphQL\Type\TypeRegistry::class, 'TypeRegistry');
 
+			//load alias TypeRegistry
+			class_alias(\App\Api\GraphQL\Type\Contracts\TypeRegistry::class, 'TypeRegistry');
 		}
 
 		/**

@@ -18,7 +18,9 @@
 
 		public $model;
 		protected $attributes = [
-			'name' => 'postsWithUser'
+			'name' => 'postsWithUser',
+			'uri' => 'query=query{postsWithUser{id,title,description,user{},timestamp{}}}}'
+
 		];
 
 		public function __construct($attributes = [], Post $model)

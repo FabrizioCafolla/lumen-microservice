@@ -11,7 +11,7 @@
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
-	use Illuminate\Pagination\LengthAwarePaginator;
+	use TypeRegistry;
 
 	class UserPaginationType extends GraphQLType
 	{
@@ -19,7 +19,6 @@
 		protected $attributes = [
 			'name' => 'UserPagination',
 			'description' => 'User with paginate',
-			'uri' => 'query=query{usersPagination(perPage:15,page:1){user{id,name},meta{total}}}'
 		];
 
 		public function fields()
@@ -31,12 +30,7 @@
 						return $root;
 					}
 				],
-				'meta' => [
-					'type' => Type::nonNull(GraphQL::type('PaginationMeta')),
-					'resolve' => function (LengthAwarePaginator $paginator) {
-				return $paginator->toArray();
-					},
-				]
+				'meta' => TypeRegistry::paginationMeta()
 			];
 		}
 	}

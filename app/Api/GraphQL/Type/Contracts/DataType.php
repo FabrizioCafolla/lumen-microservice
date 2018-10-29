@@ -14,7 +14,8 @@
 	class DataType extends GraphQLType
 	{
 		protected $attributes = [
-			'name' => 'PaginationCursor'
+			'name' => 'DataType',
+			'description' => 'Standard to get timestamp of model'
 		];
 
 		public function fields()
@@ -37,7 +38,16 @@
 			];
 		}
 
-		public function timestampProcessor($time, string $toMethod = 'toDateTimeString'){
+		/**
+		 * Method to processes timestamp with Carbon method
+		 * Return null if $time is null/false
+		 * else return string of data
+		 *
+		 * @param $time
+		 * @param string $toMethod (Carbon method toDateTimeString, toDateString etc..)
+	     * @return string|null
+		 */
+		private function timestampProcessor($time, string $toMethod = 'toDateTimeString'){
 			return $time?$time->{$toMethod}():null;
 		}
 	}

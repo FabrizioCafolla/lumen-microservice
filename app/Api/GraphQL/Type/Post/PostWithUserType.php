@@ -11,7 +11,7 @@
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
-	use App\Repositories\UserRepository as User;
+	use TypeRegistry;
 
 	class PostWithUserType extends GraphQLType
 	{
@@ -26,23 +26,20 @@
 			return [
 				'id' => [
 					'type' => Type::nonNull(Type::string()),
-					'description' => 'The id of the post'
 				],
 				'title' => [
 					'type' => Type::string(),
-					'description' => 'The title of post'
 				],
 				'description' => [
 					'type' => Type::string(),
-					'description' => 'The description of post'
 				],
 				'user' => [
 					'type' =>  Type::listOf(GraphQL::type('User')),
-					'description' => 'The user of post',
 					'resolve' => function ($root) {
 						return array($root->user);
 					},
-				]
+				],
+				'timestamp' => TypeRegistry::timestamp()
 			];
 		}
 	}

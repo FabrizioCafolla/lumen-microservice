@@ -56,7 +56,7 @@
 			$page = array_get($args, 'page', 1);
 			$perPage = array_get($args, 'perPage', 15);
 
-			$users = $this->model->paginate($perPage, ['*']);
+			$users = $this->model->paginate($perPage, ['*']);   //@TODO fix url page
 
 			return $users;
 		}

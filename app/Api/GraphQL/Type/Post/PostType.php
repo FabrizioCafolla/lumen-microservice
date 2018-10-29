@@ -24,19 +24,15 @@
 			return [
 				'id' => [
 					'type' => Type::nonNull(Type::string()),
-					'description' => 'The id of the post'
 				],
 				'title' => [
 					'type' => Type::string(),
-					'description' => 'The title of post'
 				],
 				'description' => [
 					'type' => Type::string(),
-					'description' => 'The description of post'
 				],
 				'status' => [
 					'type' => Type::string(),
-					'description' => 'Status of post'
 				],
 				'timestamp' => TypeRegistry::timestamp()
 			];
