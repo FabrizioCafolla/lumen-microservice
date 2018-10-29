@@ -11,10 +11,10 @@
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
 
-	class PaginateType extends GraphQLType
+	class PaginationMetaType extends GraphQLType
 	{
 		protected $attributes = [
-			'name' => 'pageInfo'
+			'name' => 'PaginationCursor'
 		];
 
 		public function fields()

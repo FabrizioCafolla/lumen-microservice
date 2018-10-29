@@ -56,8 +56,8 @@
 		 * @param array $columns
 		 * @return mixed
 		 */
-		public function paginate($perPage = 15, $columns = array('*')) {
-			return $this->model->paginate($perPage, $columns);
+		public function paginate($perPage = 15, $columns = array('*'), $query = "", $value = null) {
+			return $this->model->paginate($perPage, $columns, $query, $value);
 		}
 
 		/**

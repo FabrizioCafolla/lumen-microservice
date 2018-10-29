@@ -8,6 +8,9 @@
 
 	namespace App\Api\GraphQL\v1\Query;
 
+	use ApiService;
+	use App\Http\Serializer\WithoutDataSerializer;
+	use App\Transformers\UserTransformer;
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Query;
@@ -30,7 +33,7 @@
 
 		public function type()
 		{
-			return Type::listOf(GraphQL::type('UserPaginate'));
+			return GraphQL::pagination(GraphQL::type('User'));
 		}
 
 		public function args()
@@ -51,10 +54,12 @@
 
 		public function resolve($root, $args)
 		{
-			$perPage = array_get($args, 'perPage', 15);
 			$page = array_get($args, 'page', 1);
+			$perPage = array_get($args, 'perPage', 15);
 
-			return $this->user->model->paginate($perPage, ['*'], 'page', $page);
+			$users = $this->user->paginate($perPage, ['*']);
+
+			return $users;
 		}
 
 	}
