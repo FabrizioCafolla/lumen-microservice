@@ -33,22 +33,26 @@
 		 */
 		protected function setupConfig() {
 			$this->app->configure('graphql');
+			$this->app->configure('graphql_type');
 		}
 
 		/**
 		 * Load Type of GraphQL without use config file
 		 */
 		protected function typeQL() {
-			GraphQL::addType('App\Api\GraphQL\Type\User\UserType', 'User');
-			GraphQL::addType('App\Api\GraphQL\Type\User\UserWithPostType', 'UserWithPost');
-			GraphQL::addType('App\Api\GraphQL\Type\User\UserPaginateType', 'UserPaginate');
-			GraphQL::addType('App\Api\GraphQL\Type\PostType', 'Post');
+			$models = config('graphql_type.model');
+			foreach ($models as $key => $model){
+				GraphQL::addType($model,$key);
+			}
 		}
 
 		/**
 		 * Load Type of GraphQL without use config file
 		 */
 		protected function typeContractsQL() {
-			GraphQL::addType('App\Api\GraphQL\Type\Contracts\PaginateType', 'pageInfo');
+			$contracts = config('graphql_type.contracts');
+			foreach ($contracts as $key => $contract){
+				GraphQL::addType($contract,$key);
+			}
 		}
 	}

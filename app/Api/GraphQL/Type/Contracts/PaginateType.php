@@ -35,6 +35,34 @@
 				'last_page' => [
 					'type' => Type::int(),
 					'description' => 'The last page'
+				],
+				'first_page_url' => [
+					'type' => Type::string(),
+					'description' => 'The last page'
+				],
+				'from' => [
+					'type' => Type::string(),
+					'description' => 'The last page'
+				],
+				'last_page_url' => [
+					'type' => Type::string(),
+					'description' => 'The last page'
+				],
+				'next_page_url' => [
+					'type' => Type::string(),
+					'description' => 'The last page'
+				],
+				'path' => [
+					'type' => Type::string(),
+					'description' => 'The last page'
+				],
+				'prev_page_url' => [
+					'type' => Type::string(),
+					'description' => 'The last page'
+				],
+				'to' => [
+					'type' => Type::string(),
+					'description' => 'The last page'
 				]
 			];
 		}

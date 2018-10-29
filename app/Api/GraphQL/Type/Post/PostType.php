@@ -6,7 +6,7 @@
 	 * Time: 22.18
 	 */
 
-	namespace App\Api\GraphQL\Type;
+	namespace App\Api\GraphQL\Type\Post;
 
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;

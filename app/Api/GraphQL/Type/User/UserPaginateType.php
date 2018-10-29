@@ -27,7 +27,7 @@
 				'pageInfo' => [
 					'type' => GraphQL::type('pageInfo'),
 					'resolve' => function ($root, $args) {
-						$paginate = new LengthAwarePaginator($root, $root->count(), 15); //@TODO fix perPage
+						$paginate = new LengthAwarePaginator($root, $root->count(), 15); //@TODO fix perPage, currentPage
 						return $paginate->toArray();
 					}
 				],
