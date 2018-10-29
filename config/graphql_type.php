@@ -18,5 +18,6 @@
 		 */
 		'contracts' => [
 			'PaginationMeta' =>  App\Api\GraphQL\Type\Contracts\PaginationMetaType::class,
+			'Data' =>  App\Api\GraphQL\Type\Contracts\DataType::class,
 		],
 	];

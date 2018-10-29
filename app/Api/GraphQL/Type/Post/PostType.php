@@ -8,6 +8,7 @@
 
 	namespace App\Api\GraphQL\Type\Post;
 
+	use TypeRegistry;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
 
@@ -36,7 +37,8 @@
 				'status' => [
 					'type' => Type::string(),
 					'description' => 'Status of post'
-				]
+				],
+				'timestamp' => TypeRegistry::timestamp()
 			];
 		}
 	}

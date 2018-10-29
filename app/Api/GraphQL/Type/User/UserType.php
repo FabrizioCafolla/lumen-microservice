@@ -8,9 +8,11 @@
 
 	namespace App\Api\GraphQL\Type\User;
 
+	use Carbon\Carbon;
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
+	use TypeRegistry;
 
 	class UserType extends GraphQLType
 	{
@@ -34,7 +36,8 @@
 				'name' => [
 					'type' => Type::string(),
 					'description' => 'The email of user'
-				]
+				],
+				'timestamp' => TypeRegistry::timestamp()
 			];
 		}
 	}
