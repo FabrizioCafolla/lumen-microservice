@@ -11,10 +11,10 @@
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
 
-	class DataType extends GraphQLType
+	class TimestampType extends GraphQLType
 	{
 		protected $attributes = [
-			'name' => 'DataType',
+			'name' => 'Timestamp',
 			'description' => 'Standard to get timestamp of model'
 		];
 

@@ -21,7 +21,7 @@
 	class TypeRegistry
 	{
 		/**
-		 * Method to call DataType in other graphQL type
+		 * Method to call TimestampType in other graphQL type
 		 * 'timestamp' => TypeRegistry::timestamp()
 		 *
 		 * @return array
@@ -29,7 +29,7 @@
 		public static function timestamp()
 		{
 			return [
-				'type' =>  Type::listOf(GraphQL::type('Data')),
+				'type' =>  Type::listOf(GraphQL::type('Timestamp')),
 				'resolve' => function ($root) {
 					return array($root);
 				}

@@ -18,6 +18,6 @@
 		 */
 		'contracts' => [
 			'PaginationMeta' =>  App\Http\GraphQL\Type\Contracts\PaginationMetaType::class,
-			'Data' =>  App\Http\GraphQL\Type\Contracts\DataType::class,
+			'Timestamp' =>  App\Http\GraphQL\Type\Contracts\TimestampType::class,
 		],
 	];
