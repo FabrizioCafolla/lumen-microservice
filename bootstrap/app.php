@@ -57,7 +57,7 @@
 	|
 	*/
 	$app->router->group([
-		'namespace' => 'App\Api\REST',
+		'namespace' => 'App\Http\REST',
 	], function ($router) {
 		require __DIR__ . '/../routes/web.php';
 	});

@@ -48,9 +48,9 @@
 			$fileContents = <<<EOT
 <?php
 
-	namespace App\Api\\{$version};
+	namespace App\Http\REST\\{$version};
 
-	use App\Api\\{$version}\ApiBaseController;
+	use App\Http\REST\\{$version}\ApiBaseController;
 	use App\Repositories\\{$repository}Repository as {$repository};
 	use Illuminate\Http\Request;
 	use App\Transformers\\{$repository}Transformer;
@@ -170,7 +170,7 @@ EOT;
 			$file = Storage::disk('command')->put($file_destination, $fileContents);
 
 			if ($file) {
-				$this->info('Created new Api Controller ' . $name . 'Controller.php in App\Api\\'. $version .'.');
+				$this->info('Created new Api Controller ' . $name . 'Controller.php in App\Http\REST\\'. $version .'.');
 			} else {
 				$this->info('Something went wrong');
 			}
@@ -180,7 +180,7 @@ EOT;
 			$fileContents = <<<EOT
 <?php
 
-	namespace App\Api\\{$version};
+	namespace App\Http\REST\\{$version};
 
 	use Laravel\Lumen\Routing\Controller as BaseController;
 
