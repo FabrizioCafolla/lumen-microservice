@@ -6,7 +6,7 @@
 	 * Time: 16.07
 	 */
 
-	namespace App\Http\Serializer;
+	namespace App\Helpers\Serializer;
 
 	use League\Fractal\Serializer\ArraySerializer;
 

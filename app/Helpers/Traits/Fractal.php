@@ -6,7 +6,7 @@
 	 * Time: 16.54
 	 */
 
-	namespace App\Http\Traits;
+	namespace App\Helpers\Traits;
 
 	use ResponseService;
 	use HelpersService;

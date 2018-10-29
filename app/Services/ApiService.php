@@ -8,7 +8,7 @@
 
 	namespace App\Services;
 
-	use App\Http\Traits\Fractal;
+	use App\Helpers\Traits\Fractal;
 
 
 	class ApiService
