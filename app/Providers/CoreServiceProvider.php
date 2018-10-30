@@ -84,6 +84,11 @@
 			$this->app->routeMiddleware([
 				'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
 				'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+
+				//middleware check if auth user is owner and can use routes
+				'owner' => [
+					'id' => \App\Http\Middleware\OwnerMiddleware::class, //Check id route with id auth user
+				],
 			]);
 		}
 

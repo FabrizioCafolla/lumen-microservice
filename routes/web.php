@@ -12,4 +12,28 @@
 			$router->get('invalidate', 'v1\AuthController@invalidate');
 			$router->get('refresh', 'v1\AuthController@refresh');
 		});
+
+		/**
+		 * Users routes with jwt middleware
+		 */
+		$router->group(['middleware' => 'api.jwt', 'prefix' => 'users'], function () use ($router) {
+			$router->get('/', 'v1\UserController@index');
+			$router->get('/{id}', 'v1\UserController@show');
+
+			$router->put('/{id}', 'v1\UserController@update');
+			$router->put('/{id}/password', ['middleware' => 'owner.id', 'uses' => 'v1\UserController@updatePassword']);
+			$router->delete('/{id}', 'v1\UserController@delete');
+		});
+
+		/**
+		 * Posts routes with jwt middleware
+		 */
+		$router->group(['middleware' => 'api.jwt', 'prefix' => 'posts'], function () use ($router) {
+			$router->get('/', 'v1\PostController@index');
+			$router->get('/{id}', 'v1\PostController@show');
+
+			$router->post('/store', 'v1\PostController@store');
+			$router->put('/{id}', 'v1\PostController@update');
+			$router->delete('/{id}', 'v1\PostController@delete');
+		});
 	});
