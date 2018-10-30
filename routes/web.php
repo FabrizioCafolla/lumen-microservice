@@ -8,9 +8,9 @@
 		$router->group(['prefix' => '/auth'], function () use ($router) {
 			$router->post('login', 'v1\AuthController@authenticate');
 			$router->post('register', 'v1\AuthController@register');
-			$router->get('getAuthenticatedUser', 'v1\AuthController@getAuthenticatedUser');
+			$router->get('authenticated',  'v1\AuthController@getAuthenticatedUser');
 			$router->get('invalidate', 'v1\AuthController@invalidate');
-			$router->get('refresh', 'v1\AuthController@refresh');
+			$router->get('refresh','v1\AuthController@refresh');
 		});
 
 		/**
@@ -20,9 +20,9 @@
 			$router->get('/', 'v1\UserController@index');
 			$router->get('/{id}', 'v1\UserController@show');
 
-			$router->put('/{id}', 'v1\UserController@update');
+			$router->put('/{id}', ['middleware' => 'owner.id', 'uses' => 'v1\UserController@update']);
 			$router->put('/{id}/password', ['middleware' => 'owner.id', 'uses' => 'v1\UserController@updatePassword']);
-			$router->delete('/{id}', 'v1\UserController@delete');
+			$router->delete('/{id}', ['middleware' => 'owner.id', 'uses' =>'v1\UserController@delete']);
 		});
 
 		/**
@@ -33,7 +33,7 @@
 			$router->get('/{id}', 'v1\PostController@show');
 
 			$router->post('/store', 'v1\PostController@store');
-			$router->put('/{id}', 'v1\PostController@update');
-			$router->delete('/{id}', 'v1\PostController@delete');
+			$router->put('/{id}', ['middleware' => 'owner.id', 'uses' => 'v1\PostController@update']);
+			$router->delete('/{id}', ['middleware' => 'owner.id', 'uses' =>'v1\PostController@delete']);
 		});
 	});

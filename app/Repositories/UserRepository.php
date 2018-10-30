@@ -23,7 +23,7 @@
 		];
 
 		private static $rules_update = [
-			'email' => 'email|unique:users,email|max:255',
+			'email' => 'email|max:255',
 			'name' => 'required|min:5|max:255',
 			'surname' => 'min:5|max:255'
 		];
