@@ -12,7 +12,7 @@
 	use App\Models\User;
 	use Illuminate\Http\Request;
 
-	class UserPolicy
+	class UserPolicy extends AbstractPolicy
 	{
 		/**
 		 * Determine if the given user can be updated by the user.
@@ -36,17 +36,5 @@
 		public function delete(User $user, Request $request)
 		{
 			return $this->checkId($user->id, $request->id);
-		}
-
-		/**
-		 * Check id user with id in request url
-		 *
-		 * @param int $userId
-		 * @param string $requestId
-		 * @return bool
-		 */
-		private function checkId(int $userId, string $requestId) :bool
-		{
-			return strval($userId) === $requestId;
 		}
 	}

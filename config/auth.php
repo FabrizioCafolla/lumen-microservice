@@ -89,11 +89,15 @@
 		|
 		*/
 		'policies' => [
-			\Illuminate\Http\Request::class => \App\Helpers\Policies\UserPolicy::class
+			\Illuminate\Http\Request::class => \App\Helpers\Policies\UserPolicy::class,
+			\App\Models\Post::class => \App\Helpers\Policies\PostPolicy::class,
 		],
 
 		'defines' => [
 			'users.update' => 'App\Helpers\Policies\UserPolicy@update',
 			'users.delete' => 'App\Helpers\Policies\UserPolicy@delete',
+
+			'posts.update' => 'App\Helpers\Policies\PostPolicy@update',
+			'posts.delete' => 'App\Helpers\Policies\PostPolicy@delete',
 		],
 	];

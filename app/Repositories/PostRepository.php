@@ -15,14 +15,12 @@
 	{
 		private static $rules = [
 			'user_id' => 'required|exists:users,id',
-			'status' => 'required',
 			'title' => 'required|min:5|max:255',
 			'description' => 'required|min:5|max:255'
 		];
 
 		private static $rules_update = [
 			'user_id' => 'exists:users,id',
-			'status' => 'required',
 			'title' => 'min:5|max:255',
 			'description' => 'min:5|max:255'
 		];

@@ -6,6 +6,7 @@
 	use App\Repositories\PostRepository as Post;
 	use App\Transformers\PostTransformer;
 	use Illuminate\Http\Request;
+	use Gate;
 
 	/**
 	 * Post resource representation.
@@ -48,7 +49,7 @@
 					->includes('post')
 					->serializer(new KeyArraySerializer('posts'))
 					->collection($posts, new PostTransformer);
-				$response = $this->response->success($data,200);
+				$response = $this->response->success($data, 200);
 				return $response;
 			}
 			return $this->response->error("errorNotFound");
@@ -73,7 +74,7 @@
 					->serializer(new KeyArraySerializer('post'))
 					->item($post, new PostTransformer);
 
-				$response = $this->response->success($data,200);
+				$response = $this->response->success($data, 200);
 				return $response;
 			}
 			return $this->response->error("errorNotFound");
@@ -89,7 +90,9 @@
 		 * @Request()
 		 * @Response
 		 */
-		public function create() {}
+		public function create()
+		{
+		}
 
 		/**
 		 * Create a new post
@@ -125,7 +128,9 @@
 		 * @Request {id}
 		 * @Response
 		 */
-		public function edit($id) {}
+		public function edit($id)
+		{
+		}
 
 		/**
 		 * Update post
@@ -137,15 +142,19 @@
 		 * @Request(array -> {"user_id":6,"status":"{\"status\": \"active\"}","title":"Dolore quis...","description":"Expedita et quam .."}, id)
 		 * @Response(200, success or error)
 		 */
-		public function update(Request $request, $id)
+		public function update(Request $request)
 		{
-			$validator = $this->post->validateRequest($request->all());
+			$post = $this->post->find($request->id);
+
+			if (Gate::denies('posts.update', $post ))
+				return $this->response->error("errorInternal");
+
+			$validator = $this->post->validateRequest($request->all(), "update");
 
 			if ($validator->status() == "200") {
-				$task = $this->post->update($request->all(), $id);
-				if ($task) {
+				$task = $this->post->update($request->all(), $request->id);
+				if ($task)
 					return $this->response->success("Post updated");
-				}
 				return $this->response->error("internal");
 			}
 			return $validator;
@@ -161,11 +170,16 @@
 		 * @Request(id)
 		 * @Response(200, success or error)
 		 */
-		public function delete($id)
+		public function delete(Request $request)
 		{
-			if ($this->post->find($id)) {
-				$task = $this->post->delete($id);
-				if($task)
+			$post = $this->post->find($request->id);
+
+			if (Gate::denies('posts.update', $post))
+				return $this->response->error("errorInternal");
+
+			if ($this->post->find($request->id)) {
+				$task = $this->post->delete($request->id);
+				if ($task)
 					return $this->response->success("Post deleted");
 
 				return $this->response->error("errorInternal");
