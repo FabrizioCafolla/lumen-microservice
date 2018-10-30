@@ -78,4 +78,22 @@
 		'passwords' => [
 			//
 		],
+
+		/*
+		|--------------------------------------------------------------------------
+		| Policies Gate
+		|--------------------------------------------------------------------------
+		|
+		| Here you may set the policy to including in the gate
+		| Add class => policy class
+		|
+		*/
+		'policies' => [
+			\Illuminate\Http\Request::class => \App\Helpers\Policies\UserPolicy::class
+		],
+
+		'defines' => [
+			'users.update' => 'App\Helpers\Policies\UserPolicy@update',
+			'users.delete' => 'App\Helpers\Policies\UserPolicy@delete',
+		],
 	];

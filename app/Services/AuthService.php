@@ -85,7 +85,7 @@
 			if (!$user)
 				return ResponseService::error("errorNotFound", "User not found");
 
-			return ResponseService::success(compact('user'));
+			return $user;
 		}
 
 		/**
