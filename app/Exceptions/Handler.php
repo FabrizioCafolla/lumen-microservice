@@ -47,7 +47,7 @@
 			$status = 400;
 			$headers = [];
 			$response = [
-				'exception' => [
+				'error' => [
 					'message' => $e->getMessage(),
 					'code' => $e->getCode(),
 				],
@@ -56,13 +56,13 @@
 			if($e instanceof HttpException) {
 				$status = $e->getStatusCode();
 				$headers = $e->getHeaders();
-				$response['exception'] = array_add($response['exception'], 'status_code', $status);
+				$response['error'] = array_add($response['error'], 'status_code', $status);
 			}
 
 			if(env('APP_DEBUG')){
-				$response['exception'] = array_add($response['exception'], 'debug.file', $e->getFile());
-				$response['exception'] = array_add($response['exception'], 'debug.line', $e->getLine());
-				$response['exception'] = array_add($response['exception'], 'debug.trace', $e->getTraceAsString());
+				$response['error'] = array_add($response['error'], 'debug.file', $e->getFile());
+				$response['error'] = array_add($response['error'], 'debug.line', $e->getLine());
+				$response['error'] = array_add($response['error'], 'debug.trace', $e->getTraceAsString());
 			}
 
 			return response()->json($response, $status,$headers);
