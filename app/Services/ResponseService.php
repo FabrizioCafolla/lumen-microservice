@@ -33,9 +33,16 @@
 			return $this->response($message, $status, $headers, $options);
 		}
 
+		/**
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function data($content = "", $status = 200, array $headers = [], $options = 0)
 		{
-			$message = $this->dataProcessor($content);
+			$message = $this->dataProcessor($content,$this->subArray);
 			return $this->response($message, $status, $headers, $options);
 		}
 
@@ -69,9 +76,6 @@
 		public function error($type = "error", $content = "", $status = 400, $data = [], array $headers = [], $options = 0)
 		{
 			switch ($type) {
-				case "errorValidator":
-					$message = $this->errorProcessor($content,'validator', $this->data);
-					break;
 				case "errorNotFound":
 					$message = $this->errorProcessor($content ? $content:'Not Found',$this->subArray, $this->data);
 					break;

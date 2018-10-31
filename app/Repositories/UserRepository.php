@@ -74,7 +74,7 @@
 
 			$validator = Validator::make($request, $rules);
 			if ($validator->fails()) {
-				return $this->response->error("errorValidator", $validator->errors());
+				return $this->response->withData($validator->errors()->toArray())->error("errorBadRequest");
 			}
 
 			return $this->response->success("Rules validate success");
