@@ -12,6 +12,10 @@
 
 	class ResponseService
 	{
+		private $data;
+		private $links;
+		private $subArray;
+
 		/**
 		 * Method for successful responses, the content parameter is processed by a function that returns the json response message.
 		 * The message will be:
@@ -23,9 +27,15 @@
 		 * @param int $options
 		 * @return \Illuminate\Http\JsonResponse
 		 */
-		public function success($content = "", $status = 200, array $headers = [], $options = 0)
+		public function success($content, $status = 200, array $headers = [], $options = 0)
 		{
-			$message = $this->contentProcessor('success', $content, $status);
+			$message = $this->successProcessor($content,$this->subArray, $this->data);
+			return $this->response($message, $status, $headers, $options);
+		}
+
+		public function data($content = "", $status = 200, array $headers = [], $options = 0)
+		{
+			$message = $this->dataProcessor($content);
 			return $this->response($message, $status, $headers, $options);
 		}
 
@@ -56,32 +66,32 @@
 		 * @param int $options
 		 * @return \Illuminate\Http\JsonResponse
 		 */
-		public function error($type = "error", $content = "", $status = 400, array $headers = [], $options = 0)
+		public function error($type = "error", $content = "", $status = 400, $data = [], array $headers = [], $options = 0)
 		{
 			switch ($type) {
 				case "errorValidator":
-					$message = $this->contentProcessor('error', $content, $status, 'validator');
+					$message = $this->errorProcessor($content,'validator');
 					break;
 				case "errorNotFound":
-					$message = $this->contentProcessor('error', $content ? $content:'Not Found', 404);
+					$message = $this->errorProcessor($content ? $content:'Not Found');
 					break;
 				case "errorBadRequest":
-					$message = $this->contentProcessor('error', $content ? $content:'Bad Request', 400);
+					$message = $this->errorProcessor($content ? $content:'Bad Request');
 					break;
 				case "errorForbidden":
-					$message = $this->contentProcessor('error', $content ? $content:'Forbidden', 403);
+					$message = $this->errorProcessor($content ? $content:'Forbidden');
 					break;
 				case "errorInternal":
-					$message = $this->contentProcessor('error', $content ? $content:'Internal Error', 500);
+					$message = $this->errorProcessor($content ? $content:'Internal Error');
 					break;
 				case "errorUnauthorized":
-					$message = $this->contentProcessor('error', $content ? $content:'Unauthorized', 401);
+					$message = $this->errorProcessor($content ? $content:'Unauthorized');
 					break;
 				case "errorMethodNotAllowed":
-					$message = $this->contentProcessor('error', $content ? $content:'Method Not Allowed', 405);
+					$message = $this->errorProcessor($content ? $content:'Method Not Allowed');
 					break;
 				case "error":
-					$message = $this->contentProcessor('error', $content ? $content:'Generic Error', $status);
+					$message = $this->errorProcessor($content ? $content:'Generic Error');
 					break;
 			}
 			if(!$message)
@@ -101,33 +111,109 @@
 		}
 
 		/**
-		 * Method for processing the message, used to standardize the basic template facilitating access to the response data.
-		 * If data is array or object add key 'data' else 'message'
-		 * $subArray is a parameter used for multidimensional management of the 'data' key, it is simply a string (which also recognizes the "dot" notation)
-		 *
-		 * @param string $type
-		 * @param $data
-		 * @param null $status
-		 * @param string|null $subArray
+		 * @param $content
+		 * @param string $subArray
 		 * @return array
 		 */
-		private function contentProcessor(string $type, $data, $status = null, string $subArray = null)
+		private function dataProcessor($content, $subArray = '')
 		{
-			$message = [
-				$type => [
+			$default = [
+				'data' => [
 				],
 			];
 
-			if (is_array($data) || is_object($data) && !$subArray)
-				$message[$type] = array_add($message[$type], 'data', $data);
-			elseif (is_array($data) || is_object($data) && $subArray)
-				$message[$type] = array_add($message[$type], 'data.'.$subArray, $data);
+			if ($subArray)
+				array_set($default, 'data', $content);
 			else
-				$message[$type] = array_add($message[$type], 'message', $data);
+				$default['data'] = array_add($default['data'], $subArray, $content);
 
-			if($status)
-				$message[$type] = array_add($message[$type], 'status_code', $status);
+			if ($this->links)
+				$default += ["links" => $this->links];
 
-			return $message;
+			return $default;
+		}
+
+		/**
+		 * @param $content
+		 * @param string $subArray
+		 * @param array $data
+		 * @return array
+		 */
+		private function errorProcessor($content, $subArray = '', $data = [])
+		{
+			$default = [
+				'error' => [
+				]
+			];
+			$default += $this->dataProcessor($data);
+
+			if ($subArray)
+				$default['error'] = array_add($default['error'], $subArray, $content);
+			else
+				array_set($default, 'error', $content);
+
+			return $default;
+		}
+
+		/**
+		 * @param $content
+		 * @param string $subArray
+		 * @param array $data
+		 * @return array
+		 */
+		private function successProcessor($content, $subArray = '', $data = [])
+		{
+			$default = [
+				'success' => [
+				]
+			];
+			$default += $this->dataProcessor($data);
+
+			if ($subArray)
+				$default['success'] = array_add($default['success'], $subArray, $content);
+			else
+				array_set($default, 'success', $content);
+
+			return $default;
+		}
+
+		/**
+		 * @param array $data
+		 * @return $this
+		 */
+		public function withData(array $data)
+		{
+			$this->data = $data;
+			return $this;
+		}
+
+		/**
+		 * @param array $links
+		 * @param bool $generate
+		 * @return $this
+		 */
+		public function withLinks(array $links, bool $hateoas = true)
+		{
+			if ($hateoas) {
+				foreach ($links as $key => $link)
+					array_set($filtered, $key, [
+						"rel" => $link[0],
+						"href" => $link[1],
+						"method" => $link[2],
+					]);
+				$this->links = $filtered;
+			} else
+				$this->links = $links;
+
+			return $this;
+		}
+
+		/**
+		 * @param string $subArray
+		 * @return $this
+		 */
+		public function withSubArray(string $subArray){
+			$this->subArray = $subArray;
+			return $this;
 		}
 	}
