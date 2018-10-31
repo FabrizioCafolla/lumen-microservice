@@ -49,7 +49,7 @@
 					->serializer(new KeyArraySerializer('users'))
 					->paginate($users, new UserTransformer());
 
-				$response = $this->response->success($data, 200);
+				$response = $this->response->data($data, 200);
 				return $response;
 			}
 			return $this->response->error("errorNotFound");
@@ -74,7 +74,7 @@
 					->serializer(new KeyArraySerializer('user'))
 					->item($user, new UserTransformer);
 
-				$response = $this->response->success($data, 200);
+				$response = $this->response->data($data, 200);
 				return $response;
 			}
 			return $this->response->error("errorNotFound");

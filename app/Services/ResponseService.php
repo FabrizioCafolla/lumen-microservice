@@ -12,8 +12,8 @@
 
 	class ResponseService
 	{
-		private $data;
-		private $links;
+		private $data = [];
+		private $links = [];
 		private $subArray;
 
 		/**
@@ -70,28 +70,28 @@
 		{
 			switch ($type) {
 				case "errorValidator":
-					$message = $this->errorProcessor($content,'validator');
+					$message = $this->errorProcessor($content,'validator', $this->data);
 					break;
 				case "errorNotFound":
-					$message = $this->errorProcessor($content ? $content:'Not Found');
+					$message = $this->errorProcessor($content ? $content:'Not Found',$this->subArray, $this->data);
 					break;
 				case "errorBadRequest":
-					$message = $this->errorProcessor($content ? $content:'Bad Request');
+					$message = $this->errorProcessor($content ? $content:'Bad Request',$this->subArray, $this->data);
 					break;
 				case "errorForbidden":
-					$message = $this->errorProcessor($content ? $content:'Forbidden');
+					$message = $this->errorProcessor($content ? $content:'Forbidden',$this->subArray, $this->data);
 					break;
 				case "errorInternal":
-					$message = $this->errorProcessor($content ? $content:'Internal Error');
+					$message = $this->errorProcessor($content ? $content:'Internal Error',$this->subArray, $this->data);
 					break;
 				case "errorUnauthorized":
-					$message = $this->errorProcessor($content ? $content:'Unauthorized');
+					$message = $this->errorProcessor($content ? $content:'Unauthorized',$this->subArray, $this->data);
 					break;
 				case "errorMethodNotAllowed":
-					$message = $this->errorProcessor($content ? $content:'Method Not Allowed');
+					$message = $this->errorProcessor($content ? $content:'Method Not Allowed',$this->subArray, $this->data);
 					break;
 				case "error":
-					$message = $this->errorProcessor($content ? $content:'Generic Error');
+					$message = $this->errorProcessor($content ? $content:'Generic Error',$this->subArray, $this->data);
 					break;
 			}
 			if(!$message)
@@ -123,9 +123,9 @@
 			];
 
 			if ($subArray)
-				array_set($default, 'data', $content);
-			else
 				$default['data'] = array_add($default['data'], $subArray, $content);
+			else
+				array_set($default, 'data', $content);
 
 			if ($this->links)
 				$default += ["links" => $this->links];

@@ -49,7 +49,7 @@
 					->includes('post')
 					->serializer(new KeyArraySerializer('posts'))
 					->collection($posts, new PostTransformer);
-				$response = $this->response->success($data, 200);
+				$response = $this->response->data($data, 200);
 				return $response;
 			}
 			return $this->response->error("errorNotFound");
@@ -74,7 +74,7 @@
 					->serializer(new KeyArraySerializer('post'))
 					->item($post, new PostTransformer);
 
-				$response = $this->response->success($data, 200);
+				$response = $this->response->data($data, 200);
 				return $response;
 			}
 			return $this->response->error("errorNotFound");
