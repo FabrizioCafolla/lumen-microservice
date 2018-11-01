@@ -8,10 +8,14 @@
 
 	namespace App\Services;
 
+	use App\Helpers\Traits\HeadersREST;
+	use Carbon\Carbon;
 	use Symfony\Component\HttpKernel\Exception\HttpException;
 
 	class ResponseService
 	{
+		use HeadersREST;
+
 		private $data = [];
 		private $links = [];
 		private $subArray;
@@ -26,7 +30,11 @@
 		 * @return \Illuminate\Http\JsonResponse
 		 */
 		public function response($content, $status, array $headers = [], $options = 0) {
-			return response()->json($content, $status, $headers, $options);
+			return response()->json($content, $status, $headers, $options)
+				->header("cache-control", $this->cacheHeaders) //variable in HeadersREST trait
+				->header("last-modified", $this->lastModified ?:Carbon::now()->toRfc7231String()) //variable in HeadersREST trait
+				->header("etag", $this->etag?:'new') //variable in HeadersREST trait
+				->withHeaders($this->headers);                      //variable in HeadersREST trait
 		}
 
 		/**
