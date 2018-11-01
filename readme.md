@@ -39,6 +39,13 @@
 
 [File example](https://gist.github.com/FabrizioCafolla/b132d6eafbb5c851b7610f8cf927bdf4)
 
+  ##### v1.3.1 beta
+    -Fixed Response service
+    -Fixed Handling
+    -Add REST API
+    -Fixed Middleware
+    -Create policy
+    
   ##### v1.3.0 beta
     -Add Folklore GraphQL package 
     -Add confiration package (with Provider and Config)
