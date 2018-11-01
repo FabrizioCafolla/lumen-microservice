@@ -16,6 +16,10 @@
 		private $links = [];
 		private $subArray;
 
+		public function response($content, $status, array $headers = [], $options = 0) {
+			return response()->json($content, $status, $headers, $options);
+		}
+
 		/**
 		 * Method for successful responses, the content parameter is processed by a function that returns the json response message.
 		 * The message will be:
@@ -47,61 +51,52 @@
 		}
 
 		/**
-		 *
-		 * @param $content
-		 * @param int $status
-		 * @param array $headers
-		 * @param int $options
-		 * @return \Illuminate\Http\JsonResponse
-		 */
-		public function response($content, $status, array $headers = [], $options = 0)
-		{
-			return response()->json($content, $status, $headers, $options);
-		}
-
-		/**
-		 * Method for error responses, the content parameter is processed by a function that returns the json response message.
-		 * The message will be:
-		 * ["error":["data" or "message": $content, "status_code": $ status]]
-		 * The parameter $ type is a string used to discriminate the type of error to be returned in the response, it can assume the following values:
-		 * error, errorValidator, errorNotFound, errorBadRequest, errorBadRequest, errorForbidden, errorInternal, errorUnauthorized, errorMethodNotAllowed
-		 *
-		 * @param string $type
 		 * @param string $content
 		 * @param int $status
 		 * @param array $headers
 		 * @param int $options
 		 * @return \Illuminate\Http\JsonResponse
 		 */
-		public function error($type = "error", $content = "", $status = 400, $data = [], array $headers = [], $options = 0)
+		public function error($content = "Generic Error", int $status = 400, array $headers = [], $options = 0)
 		{
-			switch ($type) {
-				case "errorNotFound":
-					$message = $this->errorProcessor($content ? $content:'Not Found',$this->subArray, $this->data);
-					break;
-				case "errorBadRequest":
-					$message = $this->errorProcessor($content ? $content:'Bad Request',$this->subArray, $this->data);
-					break;
-				case "errorForbidden":
-					$message = $this->errorProcessor($content ? $content:'Forbidden',$this->subArray, $this->data);
-					break;
-				case "errorInternal":
-					$message = $this->errorProcessor($content ? $content:'Internal Error',$this->subArray, $this->data);
-					break;
-				case "errorUnauthorized":
-					$message = $this->errorProcessor($content ? $content:'Unauthorized',$this->subArray, $this->data);
-					break;
-				case "errorMethodNotAllowed":
-					$message = $this->errorProcessor($content ? $content:'Method Not Allowed',$this->subArray, $this->data);
-					break;
-				case "error":
-					$message = $this->errorProcessor($content ? $content:'Generic Error',$this->subArray, $this->data);
-					break;
-			}
-			if(!$message)
-				$this->errorException('Internal Error response, message not found', $status);
-
+			$message = $this->contentProcessor($content, "error");
 			return $this->response($message, $status, $headers, $options);
+		}
+
+		public function errorBadRequest($content = "Bad Request", int $status = 400, array $headers = [], $options = 0){
+			return $this->error($content,$status,$headers,$options);
+		}
+
+		public function errorUnauthorized($content = "Unauthorized", int $status = 401, array $headers = [], $options = 0){
+			return $this->error($content,$status,$headers,$options);
+		}
+
+		public function errorForbidden($content = "Forbidden", int $status = 403, array $headers = [], $options = 0){
+			return $this->error($content,$status,$headers,$options);
+		}
+
+		public function errorNotFound($content = "Not Found", int $status = 404, array $headers = [], $options = 0) {
+			return $this->error($content,$status,$headers,$options);
+		}
+
+		public function errorMethodNotAllowed($content = "Method Not Allowed", int $status = 405, array $headers = [], $options = 0){
+			return $this->error($content,$status,$headers,$options);
+		}
+
+		public function errorRequestTimeout($content = "Error Request Timeout", int $status = 408, array $headers = [], $options = 0){
+			return $this->error($content,$status,$headers,$options);
+		}
+
+		public function errorMediaType($content = "Error Media Type", int $status = 415, array $headers = [], $options = 0){
+			return $this->error($content,$status,$headers,$options);
+		}
+
+		public function errorInternal($content = "Internal Error", int $status = 500, array $headers = [], $options = 0){
+			return $this->error($content,$status,$headers,$options);
+		}
+
+		public function errorServiceUnavailable($content = "Service Request is Unavailable", int $status = 500, array $headers = [], $options = 0){
+			return $this->error($content,$status,$headers,$options);
 		}
 
 		/**
@@ -119,17 +114,18 @@
 		 * @param string $subArray
 		 * @return array
 		 */
-		private function dataProcessor($content, $subArray = '')
+		private function contentProcessor($content, $type)
 		{
 			$default = [
-				'data' => [
+				$type => [
 				],
+				'data' => []
 			];
 
-			if ($subArray)
-				$default['data'] = array_add($default['data'], $subArray, $content);
+			if ($this->subArray)
+				$default[$type] = array_add($default[$type], $this->subArray, $content);
 			else
-				array_set($default, 'data', $content);
+				array_set($default, $type, $content);
 
 			if ($this->links)
 				$default += ["links" => $this->links];
@@ -143,7 +139,7 @@
 		 * @param array $data
 		 * @return array
 		 */
-		private function errorProcessor($content, $subArray = '', $data = [])
+		private function errorProcessor($content, $data = [], $subArray = '')
 		{
 			$default = [
 				'error' => [

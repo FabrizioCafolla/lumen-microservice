@@ -47,12 +47,12 @@
 			$rules = $this->rules($type, $rules_specific);
 
 			if (!isset($request)) {
-				return $this->response->error("errorBadRequest");
+				return $this->response->errorNotFound();
 			}
 
 			$validator = Validator::make($request, $rules);
 			if ($validator->fails()) {
-				return $this->response->withData($validator->errors()->toArray())->error("errorBadRequest");
+				return $this->response->withData($validator->errors()->toArray())->errorNotFound();
 			}
 
 			return $this->response->success("Rules validate success");

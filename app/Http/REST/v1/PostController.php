@@ -52,7 +52,7 @@
 				$response = $this->response->data($data, 200);
 				return $response;
 			}
-			return $this->response->error("errorNotFound");
+			return $this->response->errorNotFound();
 		}
 
 		/**
@@ -77,7 +77,7 @@
 				$response = $this->response->data($data, 200);
 				return $response;
 			}
-			return $this->response->error("errorNotFound");
+			return $this->response->errorNotFound();
 		}
 
 		/**
@@ -113,7 +113,7 @@
 				if ($task) {
 					return $this->response->success("Post created");
 				}
-				return $this->response->error("errorInternal");
+				return $this->response->errorInternal();
 			}
 			return $validator;
 		}
@@ -147,7 +147,7 @@
 			$post = $this->post->find($request->id);
 
 			if (Gate::denies('posts.update', $post ))
-				return $this->response->error("errorInternal");
+				return $this->response->errorInternal();
 
 			$validator = $this->post->validateRequest($request->all(), "update");
 
@@ -175,15 +175,15 @@
 			$post = $this->post->find($request->id);
 
 			if (Gate::denies('posts.update', $post))
-				return $this->response->error("errorInternal");
+				return $this->response->errorInternal();
 
 			if ($this->post->find($request->id)) {
 				$task = $this->post->delete($request->id);
 				if ($task)
 					return $this->response->success("Post deleted");
 
-				return $this->response->error("errorInternal");
+				return $this->response->errorInternal();
 			}
-			return $this->response->error("errorNotFound");
+			return $this->response->errorNotFound();
 		}
 	}

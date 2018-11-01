@@ -44,7 +44,7 @@
 			try {
 				$token = $this->auth->jwt->attempt($credentials);
 				if (!$token)
-					return $this->response->error("errorUnauthorized", 'Invalid credentials');
+					return $this->response->errorNotFound();
 			} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
 				return $this->response->error("errorInternal", 'Could not create token.');
 			}
@@ -73,7 +73,7 @@
 
 			$token = $this->auth->jwt->fromUser($user);
 			if (!$token)
-				return $this->response->error("errorInternal");
+				return $this->response->errorInternal();
 
 			return $this->response->data(compact('user', 'token'));
 		}
