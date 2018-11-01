@@ -17,6 +17,8 @@
 		private $subArray;
 
 		/**
+		 * Method response
+		 *
 		 * @param $content
 		 * @param $status
 		 * @param array $headers
@@ -28,9 +30,15 @@
 		}
 
 		/**
-		 * Method for successful responses, the content parameter is processed by a function that returns the json response message.
-		 * The message will be:
-		 * ["success":["data" or "message": $content, "status_code": $ status]]
+		 * Method for successful responses
+		 * If you add data use method ->withData($data);
+		 * If you add links use method ->withLinks($links);
+		 * return response with content:
+		 * [
+		 *   "success": $content,
+		 *   "data": [] //Always
+		 *   "links": [] //if you use method withLinks()
+		 * ]
 		 *
 		 * @param mixed $content
 		 * @param int $status
@@ -45,6 +53,8 @@
 		}
 
 		/**
+		 * Method for data responses
+		 *
 		 * @param string $content
 		 * @param int $status
 		 * @param array $headers
@@ -58,6 +68,16 @@
 		}
 
 		/**
+		 * Method for error responses
+		 * If you add data use method ->withData($data);
+		 * If you add links use method ->withLinks($links);
+		 * return response with content:
+		 * [
+		 *   "error": $content,
+		 *   "data": [] //Always
+		 *   "links": [] //if you use method withLinks()
+		 * ]
+		 *
 		 * @param string $content
 		 * @param int $status
 		 * @param array $headers
@@ -70,43 +90,126 @@
 			return $this->response($message, $status, $headers, $options);
 		}
 
+		/**
+		 * Alias error for badRequest
+		 *
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function errorBadRequest($content = "Bad Request", int $status = 400, array $headers = [], $options = 0){
 			return $this->error($content,$status,$headers,$options);
 		}
 
+		/**
+		 * Alias error for unauthorized
+		 *
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function errorUnauthorized($content = "Unauthorized", int $status = 401, array $headers = [], $options = 0){
 			return $this->error($content,$status,$headers,$options);
 		}
 
+		/**
+		 * Alias error for forbidden
+		 *
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function errorForbidden($content = "Forbidden", int $status = 403, array $headers = [], $options = 0){
 			return $this->error($content,$status,$headers,$options);
 		}
 
+		/**
+		 * Alias error for notFound
+		 *
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function errorNotFound($content = "Not Found", int $status = 404, array $headers = [], $options = 0) {
 			return $this->error($content,$status,$headers,$options);
 		}
 
+		/**
+		 * Alias error for Method Not Allowed
+		 *
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function errorMethodNotAllowed($content = "Method Not Allowed", int $status = 405, array $headers = [], $options = 0){
 			return $this->error($content,$status,$headers,$options);
 		}
 
+		/**
+		 * Alias error for Request Timeout
+		 *
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function errorRequestTimeout($content = "Error Request Timeout", int $status = 408, array $headers = [], $options = 0){
 			return $this->error($content,$status,$headers,$options);
 		}
 
+		/**
+		 * Alias error for MediaType
+		 *
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function errorMediaType($content = "Error Media Type", int $status = 415, array $headers = [], $options = 0){
 			return $this->error($content,$status,$headers,$options);
 		}
 
+		/**
+		 * Alias error for Internal
+		 *
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function errorInternal($content = "Internal Error", int $status = 500, array $headers = [], $options = 0){
 			return $this->error($content,$status,$headers,$options);
 		}
 
+		/**
+		 * Alias error for ServiceUnavailable
+		 *
+		 * @param string $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function errorServiceUnavailable($content = "Service Request is Unavailable", int $status = 500, array $headers = [], $options = 0){
 			return $this->error($content,$status,$headers,$options);
 		}
 
 		/**
+		 * Metod for error exception
+		 *
 		 * @param $content
 		 * @param int $status
 		 * @param array $headers
@@ -117,6 +220,8 @@
 		}
 
 		/**
+		 * Method for process response content
+		 *
 		 * @param $content
 		 * @param string $type
 		 * @return array
@@ -134,6 +239,8 @@
 		}
 
 		/**
+		 * Method make array REST response
+		 *
 		 * @param string $type
 		 * @return array
 		 */
@@ -152,6 +259,8 @@
 		}
 
 		/**
+		 * Method to add Data to error or success response
+		 *
 		 * @param array $data
 		 * @return $this
 		 */
@@ -162,8 +271,14 @@
 		}
 
 		/**
+		 * Method to add Links to error or success response
+		 * $hateoas make $links to standard of Rest Api
+		 *
+		 * //Example links array
+		 * links = [['self','localhost/user','GET'],['post','localhost/posts','GET']]
+		 *
 		 * @param array $links
-		 * @param bool $generate
+		 * @param bool $hateoas
 		 * @return $this
 		 */
 		public function withLinks(array $links, bool $hateoas = true)
@@ -183,6 +298,8 @@
 		}
 
 		/**
+		 * Method to add sub array in error or success
+		 *
 		 * @param string $subArray
 		 * @return $this
 		 */
