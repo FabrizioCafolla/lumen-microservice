@@ -83,7 +83,7 @@
 		{
 			$user = $this->guard()->user();
 			if (!$user)
-				return ResponseService::error("errorNotFound", "User not found");
+				return ResponseService::errorNotFound("User not found");
 
 			return $user;
 		}

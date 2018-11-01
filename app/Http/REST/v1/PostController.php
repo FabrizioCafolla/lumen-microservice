@@ -155,7 +155,7 @@
 				$task = $this->post->update($request->all(), $request->id);
 				if ($task)
 					return $this->response->success("Post updated");
-				return $this->response->error("internal");
+				return $this->response->errorInternal();
 			}
 			return $validator;
 		}

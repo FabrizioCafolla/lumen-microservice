@@ -64,10 +64,10 @@
 		public function assign($user, array $roles = [], array $permissions = [], $sync = false)
 		{
 			if ($this->check($user, ['roles' => $roles]))
-				return $this->response->error("error", "User already has one of these roles " . $roles);
+				return $this->response->error("User already has one of these roles " . $roles);
 
 			if ($this->check($user, ['permissions' => $permissions]))
-				return $this->response->error("error", "User already has one of these permissions " . $permissions);
+				return $this->response->error("User already has one of these permissions " . $permissions);
 
 			try {
 				if ($sync) {

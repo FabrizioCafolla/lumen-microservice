@@ -16,6 +16,13 @@
 		private $links = [];
 		private $subArray;
 
+		/**
+		 * @param $content
+		 * @param $status
+		 * @param array $headers
+		 * @param int $options
+		 * @return \Illuminate\Http\JsonResponse
+		 */
 		public function response($content, $status, array $headers = [], $options = 0) {
 			return response()->json($content, $status, $headers, $options);
 		}
@@ -33,7 +40,7 @@
 		 */
 		public function success($content, $status = 200, array $headers = [], $options = 0)
 		{
-			$message = $this->successProcessor($content,$this->subArray, $this->data);
+			$message = $this->contentProcessor($content,'success');
 			return $this->response($message, $status, $headers, $options);
 		}
 
@@ -46,7 +53,7 @@
 		 */
 		public function data($content = "", $status = 200, array $headers = [], $options = 0)
 		{
-			$message = $this->dataProcessor($content,$this->subArray);
+			$message = $this->contentProcessor($content,'data');
 			return $this->response($message, $status, $headers, $options);
 		}
 
@@ -59,7 +66,7 @@
 		 */
 		public function error($content = "Generic Error", int $status = 400, array $headers = [], $options = 0)
 		{
-			$message = $this->contentProcessor($content, "error");
+			$message = $this->contentProcessor($content, 'error');
 			return $this->response($message, $status, $headers, $options);
 		}
 
@@ -100,10 +107,10 @@
 		}
 
 		/**
-		 * Method for Exception Errors
-		 *
-		 * @param $message
-		 * @param $status
+		 * @param $content
+		 * @param int $status
+		 * @param array $headers
+		 * @param int $code
 		 */
 		public function errorException($content, $status = 400, array $headers = [], $code = 0){
 			throw new HttpException($status, $content, null, $headers, $code);
@@ -111,68 +118,35 @@
 
 		/**
 		 * @param $content
-		 * @param string $subArray
+		 * @param string $type
 		 * @return array
 		 */
-		private function contentProcessor($content, $type)
+		private function contentProcessor($content, string $type)
 		{
-			$default = [
-				$type => [
-				],
-				'data' => []
-			];
+			$default = $this->array($type);
 
 			if ($this->subArray)
 				$default[$type] = array_add($default[$type], $this->subArray, $content);
 			else
 				array_set($default, $type, $content);
 
+			return $default;
+		}
+
+		/**
+		 * @param string $type
+		 * @return array
+		 */
+		private function array(string $type) {
+			$default = [];
+
+			if($type === 'data')
+				$default = ['data' => []];
+			else
+				$default = [$type => [],'data' => $this->data];
+
 			if ($this->links)
 				$default += ["links" => $this->links];
-
-			return $default;
-		}
-
-		/**
-		 * @param $content
-		 * @param string $subArray
-		 * @param array $data
-		 * @return array
-		 */
-		private function errorProcessor($content, $data = [], $subArray = '')
-		{
-			$default = [
-				'error' => [
-				]
-			];
-			$default += $this->dataProcessor($data);
-
-			if ($subArray)
-				$default['error'] = array_add($default['error'], $subArray, $content);
-			else
-				array_set($default, 'error', $content);
-
-			return $default;
-		}
-
-		/**
-		 * @param $content
-		 * @param string $subArray
-		 * @param array $data
-		 * @return array
-		 */
-		private function successProcessor($content, $subArray = '', $data = [])
-		{
-			$default = [
-				'success' => [
-				]
-			];
-			$default += $this->dataProcessor($data);
-
-			if ($subArray)
-				$default['success'] = array_add($default['success'], $subArray, $content);
-			else
-				array_set($default, 'success', $content);
 
 			return $default;
 		}
