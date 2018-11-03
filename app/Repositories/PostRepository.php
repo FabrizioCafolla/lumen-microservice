@@ -8,7 +8,7 @@
 
 	namespace App\Repositories;
 
-	use App\Repositories\Eloquent\RepositoryAbstract;
+	use Core\Repository\Eloquent\RepositoryAbstract;
 	use Illuminate\Support\Facades\Validator;
 
 	class PostRepository extends RepositoryAbstract

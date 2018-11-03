@@ -11,6 +11,7 @@
 
 	use App\Models\Post;
 	use App\Models\User;
+	use Core\Http\Policies\AbstractPolicy;
 	use Illuminate\Http\Request;
 
 	class PostPolicy extends AbstractPolicy

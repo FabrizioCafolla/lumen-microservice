@@ -11,7 +11,8 @@
 	use App\Repositories\UserRepository;
 	use ACLService;
 	use Illuminate\Http\Request;
-
+	use Core\Http\REST\Controller\ApiBaseController;
+	use App\Models\User;
 
 	class AuthController extends ApiBaseController
 	{

@@ -2,7 +2,8 @@
 
 	namespace App\Http\REST\v1;
 
-	use App\Helpers\Serializer\KeyArraySerializer;
+	use Core\Http\REST\Controller\ApiBaseController;
+	use Core\Http\Serializer\KeyArraySerializer;
 	use App\Repositories\UserRepository as User;
 	use App\Transformers\UserTransformer;
 	use Gate;

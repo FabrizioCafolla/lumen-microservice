@@ -8,7 +8,7 @@
 
 	namespace App\Repositories;
 
-	use App\Repositories\Eloquent\RepositoryAbstract;
+	use Core\Repository\Eloquent\RepositoryAbstract;
 	use Illuminate\Container\Container as App;
 	use Illuminate\Support\Facades\Hash;
 	use Illuminate\Support\Facades\Validator;

@@ -44,7 +44,7 @@
 	|
 	*/
 
-	$app->register(App\Providers\ManagerServiceProvider::class);
+	$app->register(Core\Providers\ManagerServiceProvider::class);
 
 	/*
 	|--------------------------------------------------------------------------
