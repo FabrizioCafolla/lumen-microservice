@@ -7,6 +7,7 @@
 			'core' => \Core\Providers\CoreServiceProvider::class,
 			'auth' => \Core\Providers\AuthServiceProvider::class,
 			'graphql' => \Core\Providers\GraphQLServiceProvider::class,
+			'app' => App\Providers\AppServiceProvider::class,
 		],
 
 		/*

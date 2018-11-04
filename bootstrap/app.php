@@ -44,6 +44,7 @@
 	|
 	*/
 
+	//Load Manager Providers of Framework
 	$app->register(Core\Providers\ManagerServiceProvider::class);
 
 	/*
