@@ -9,7 +9,11 @@
         "laravel/lumen-framework": "5.7.*",
         "fabrizio-cafolla/microservice-lumen-framework": "^1.0@dev"
     },
-    "require-dev": {},
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "phpunit/phpunit": "~7.0",
+        "mockery/mockery": "~1.0"
+    },
 
     "autoload": {
         "psr-4": {
