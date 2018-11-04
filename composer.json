@@ -5,6 +5,8 @@
     "license": "MIT",
     "type": "project",
     "require": {
+        "php": "^7.1.3",
+        "laravel/lumen-framework": "5.7.*",
         "fabrizio-cafolla/microservice-lumen-framework": "^1.0@dev"
     },
     "require-dev": {},
