@@ -3,7 +3,8 @@
 	namespace App\Http\REST\v1;
 
 	use Core\Http\REST\Controller\ApiBaseController;
-	use Core\Http\Serializer\KeyArraySerializer;
+	use Core\Helpers\Serializer\KeyArraySerializer;
+
 	use App\Repositories\PostRepository as Post;
 	use App\Transformers\PostTransformer;
 	use Illuminate\Http\Request;
