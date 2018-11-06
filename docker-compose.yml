@@ -4,27 +4,33 @@ services:
   # Creating container MySQL
   ####################################################################################################
   mysql:
-    container_name: ${DOCKER_NAME}_mysql_latest
-    image: mysql:5.7
+    container_name: ${DOCKER_MYSQL_NAME}_${DOCKER_MYSQL_TAG}
+    image: "${DOCKER_MYSQL_NAME}:${DOCKER_MYSQL_TAG}"
+    build:
+      context: ./
+      dockerfile: docker-compose/mysql/Dockerfile
     ports:
         - "3306:3306"
     expose:
         - 3306
     volumes:
-        - ./image/mysql/data/:/var/lib/mysql
+        - ./docker-compose/image/mysql/data/:/var/lib/mysql
 
   ####################################################################################################
   # The Redis Server
   ####################################################################################################
   redis:
-    container_name: ${DOCKER_NAME}_redis_latest
-    image: redis:latest
+    container_name: ${DOCKER_REDIS_NAME}_${DOCKER_REDIS_TAG}
+    image: "${DOCKER_REDIS_NAME}:${DOCKER_REDIS_TAG}"
+    build:
+      context: ./
+      dockerfile: docker-compose/redis/Dockerfile
     ports:
         - "6379:6379"
     expose:
         - 6379
     volumes:
-        - ./image/redis/data:/data
+        - ./docker-compose/image/redis/data:/data
 
   redis-cli:
     container_name: ${DOCKER_NAME}_redis-cli
@@ -62,7 +68,7 @@ services:
       dockerfile: docker-compose/nginx/Dockerfile
     working_dir: /var/www
     volumes:
-      - ./image/nginx/data/:/var/www/
+      - ./docker-compose/image/nginx/data/:/var/www/
     env_file:
       - docker-compose/nginx/.env
     ports:

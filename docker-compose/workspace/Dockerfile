@@ -44,3 +44,9 @@ RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/e
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     rm /var/log/lastlog /var/log/faillog
+
+# COPY data in image when build
+ADD ./ /var/www
+
+# Set working directory as
+WORKDIR /var/www
