@@ -4,6 +4,7 @@ services:
   # Creating container MySQL
   ####################################################################################################
   mysql:
+    container_name: ${DOCKER_NAME}_mysql_latest
     image: mysql:5.7
     ports:
         - "3306:3306"
@@ -11,13 +12,12 @@ services:
         - 3306
     volumes:
         - ./image/mysql/data/:/var/lib/mysql
-    env_file:
-      - Docker/mysql/.mysql-env
 
   ####################################################################################################
   # The Redis Server
   ####################################################################################################
   redis:
+    container_name: ${DOCKER_NAME}_redis_latest
     image: redis:latest
     ports:
         - "6379:6379"
@@ -25,10 +25,9 @@ services:
         - 6379
     volumes:
         - ./image/redis/data:/data
-    env_file:
-      - Docker/redis/.redis-env
 
   redis-cli:
+    container_name: ${DOCKER_NAME}_redis-cli
     image: redis:latest
     links:
       - redis
@@ -37,15 +36,17 @@ services:
   ####################################################################################################
   # The Application
   ####################################################################################################
-  app:
+  workspace:
+    container_name: ${DOCKER_WORKSPACE_NAME}_${DOCKER_WORKSPACE_TAG}
+    image: "${DOCKER_WORKSPACE_NAME}:${DOCKER_WORKSPACE_TAG}"
     build:
       context: ./
-      dockerfile: Docker/app/app.dockerfile
+      dockerfile: docker-compose/workspace/Dockerfile
     working_dir: /var/www
     volumes:
       - ./:/var/www
     env_file:
-      - Docker/app/.app-env
+      - docker-compose/workspace/.env
     links:
       - mysql
       - redis
@@ -54,15 +55,17 @@ services:
   # The Web Server
   ####################################################################################################
   nginx:
+    container_name: ${DOCKER_NGINX_NAME}_${DOCKER_NGINX_TAG}
+    image: "${DOCKER_NGINX_NAME}:${DOCKER_NGINX_TAG}"
     build:
       context: ./
-      dockerfile: Docker/nginx/web.dockerfile
+      dockerfile: docker-compose/nginx/Dockerfile
     working_dir: /var/www
     volumes:
       - ./image/nginx/data/:/var/www/
     env_file:
-      - Docker/nginx/.nginx-env
+      - docker-compose/nginx/.env
     ports:
       - "80:80"
     depends_on:
-      - app
+      - workspace

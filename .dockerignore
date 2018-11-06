@@ -1,4 +1,4 @@
-**/Docker
+**/docker-compose
 /app/Console
 docker-compose.yml
 /.github

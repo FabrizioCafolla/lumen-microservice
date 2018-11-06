@@ -1,0 +1,46 @@
+FROM php:7.2.2-fpm
+
+LABEL maintainer="Fabrizio Cafolla <info@fabriziocafolla.com>"
+
+# Run upadate
+RUN apt-get update -yqq && \
+    apt-get install -y apt-utils && \
+    pecl channel-update pecl.php.net
+
+# Run install mysql
+RUN apt-get install -y mysql-client && \
+    docker-php-ext-install pdo_mysql
+
+# Run install php redis extension
+RUN printf "\n" | pecl install -o -f redis \
+        &&  rm -rf /tmp/pear \
+        &&  docker-php-ext-enable redis
+
+# Install zip extension
+RUN apt-get install libzip-dev -y && \
+    docker-php-ext-configure zip --with-libzip && \
+    # Install the zip extension
+    docker-php-ext-install zip
+
+# Run install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Run install git
+RUN apt-get update && \
+    apt-get install -y git
+
+RUN apt-get update \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+# Copy xdebug configuration for remote debugging
+COPY ./docker-compose/workspace/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/etc/php/conf.d/xdebug.ini && \
+    sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /usr/local/etc/php/conf.d/xdebug.ini && \
+    sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /usr/local/etc/php/conf.d/xdebug.ini
+
+# Run clean up
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    rm /var/log/lastlog /var/log/faillog
