@@ -8,7 +8,9 @@ services:
     image: "${DOCKER_MYSQL_NAME}:${DOCKER_MYSQL_TAG}"
     build:
       context: ./
-      dockerfile: docker-compose/mysql/Dockerfile
+      dockerfile: ./docker-compose/mysql/Dockerfile
+      args:
+        - TAG=${DOCKER_MYSQL_TAG}
     ports:
         - "3306:3306"
     expose:
@@ -24,7 +26,9 @@ services:
     image: "${DOCKER_REDIS_NAME}:${DOCKER_REDIS_TAG}"
     build:
       context: ./
-      dockerfile: docker-compose/redis/Dockerfile
+      dockerfile: ./docker-compose/redis/Dockerfile
+      args:
+        - TAG=${DOCKER_REDIS_TAG}
     ports:
         - "6379:6379"
     expose:
@@ -32,9 +36,10 @@ services:
     volumes:
         - ./docker-compose/image/redis/data:/data
 
+  # Use it with command: docker-compose run redis-cli
   redis-cli:
     container_name: ${DOCKER_NAME}_redis-cli
-    image: redis:latest
+    image: "${DOCKER_REDIS_NAME}:${DOCKER_REDIS_TAG}"
     links:
       - redis
     command: redis-cli -h redis
@@ -47,12 +52,12 @@ services:
     image: "${DOCKER_WORKSPACE_NAME}:${DOCKER_WORKSPACE_TAG}"
     build:
       context: ./
-      dockerfile: docker-compose/workspace/Dockerfile
+      dockerfile: ./docker-compose/workspace/Dockerfile
+      args:
+        - TAG=${DOCKER_WORKSPACE_TAG}
     working_dir: /var/www
     volumes:
       - ./:/var/www
-    env_file:
-      - docker-compose/workspace/.env
     links:
       - mysql
       - redis
@@ -65,12 +70,12 @@ services:
     image: "${DOCKER_NGINX_NAME}:${DOCKER_NGINX_TAG}"
     build:
       context: ./
-      dockerfile: docker-compose/nginx/Dockerfile
+      dockerfile: ./docker-compose/nginx/Dockerfile
+      args:
+        - TAG=${DOCKER_NGINX_TAG}
     working_dir: /var/www
     volumes:
-      - ./docker-compose/image/nginx/data/:/var/www/
-    env_file:
-      - docker-compose/nginx/.env
+      - ./docker-compose/image/nginx/data/:/var/www
     ports:
       - "80:80"
     depends_on:

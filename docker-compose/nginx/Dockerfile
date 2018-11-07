@@ -1,4 +1,6 @@
-FROM nginx:1.10
+ARG TAG
+
+FROM nginx:$TAG
 
 LABEL maintainer="Fabrizio Cafolla <info@fabriziocafolla.com>"
 

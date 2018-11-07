@@ -1,4 +1,6 @@
-FROM php:7.2.2-fpm
+ARG TAG
+
+FROM php:$TAG
 
 LABEL maintainer="Fabrizio Cafolla <info@fabriziocafolla.com>"
 
@@ -16,10 +18,9 @@ RUN printf "\n" | pecl install -o -f redis \
         &&  rm -rf /tmp/pear \
         &&  docker-php-ext-enable redis
 
-# Install zip extension
-RUN apt-get install libzip-dev -y && \
+# Install zip e unzip extension (for composer)
+RUN apt-get update && apt-get install -y unzip libzip-dev && \
     docker-php-ext-configure zip --with-libzip && \
-    # Install the zip extension
     docker-php-ext-install zip
 
 # Run install composer
