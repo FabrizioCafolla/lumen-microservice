@@ -12,7 +12,7 @@
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
-	use TypeRegistry;
+	use App\Http\GraphQL\Type\MyTypeRegistry;
 
 	class UserType extends GraphQLType
 	{
@@ -34,7 +34,7 @@
 				'name' => [
 					'type' => Type::string(),
 				],
-				'timestamp' => TypeRegistry::timestamp()
+				'timestamp' => MyTypeRegistry::timestamp()
 			];
 		}
 	}

@@ -11,7 +11,7 @@
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
-	use TypeRegistry;
+	use App\Http\GraphQL\Type\MyTypeRegistry;
 
 	class PostPaginationType extends GraphQLType
 	{
@@ -30,7 +30,7 @@
 						return $root;
 					}
 				],
-				'meta' => TypeRegistry::paginationMeta()
+				'meta' => MyTypeRegistry::paginationMeta()
 			];
 		}
 	}

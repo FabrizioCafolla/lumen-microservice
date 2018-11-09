@@ -11,7 +11,7 @@
 	use GraphQL;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
-	use TypeRegistry;
+	use App\Http\GraphQL\Type\MyTypeRegistry;
 
 	class UserWithPostType extends GraphQLType
 	{
@@ -36,7 +36,7 @@
 				'post' => [
 					'type' => Type::listOf(GraphQL::type('Post')),
 				],
-				'timestamp' => TypeRegistry::timestamp()
+				'timestamp' => MyTypeRegistry::timestamp()
 			];
 		}
 	}

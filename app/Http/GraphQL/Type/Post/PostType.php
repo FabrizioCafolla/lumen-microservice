@@ -8,7 +8,7 @@
 
 	namespace App\Http\GraphQL\Type\Post;
 
-	use TypeRegistry;
+	use App\Http\GraphQL\Type\MyTypeRegistry;
 	use GraphQL\Type\Definition\Type;
 	use Folklore\GraphQL\Support\Type as GraphQLType;
 
@@ -34,7 +34,7 @@
 				'status' => [
 					'type' => Type::string(),
 				],
-				'timestamp' => TypeRegistry::timestamp()
+				'timestamp' => MyTypeRegistry::timestamp()
 			];
 		}
 	}
