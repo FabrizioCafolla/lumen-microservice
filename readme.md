@@ -1,7 +1,7 @@
 # DevOps Microservice Lumen Project
 [build] [stable]
 
-\[version] [v1.4.0  beta]
+\[version] [v1.4.1  beta]
 
 ##### Why use it?
 >Microservice Lumen allows you to start from a solid foundation to build your backend. Using packages, services and patterns you'll be able to implement your app in an easy and efficient way. With this framework you can build your REST API in a few steps using artisan commands to create the Controller, the Repository linked to the data model and the Trasformer for data display. The microservice communicates with the outside through HTTP API calls with JWT authentication (stateless token). It implements base services for API controller, response and helpers.
@@ -39,6 +39,11 @@
 
 [File example](https://gist.github.com/FabrizioCafolla/b132d6eafbb5c851b7610f8cf927bdf4)
 
+  ##### v1.4.1 beta
+    -Fixed docker compose file
+    -Fixed file with new method of package
+    -Create response-http package for response
+  
   ##### v1.4.0 beta
     -Create framework package
     -Fixed namespace
@@ -73,37 +78,6 @@
     -Fixed Respose service and add errorException function
     -Add json response in handler exception
     -Fixed Auth service
-    
-  ##### v1.1.6 beta
-    -Creative methods to manage Transformers
-    -Fixed Response service
-    -Delete Helpers service
-    
-  ##### v1.1.5 beta
-    -Restyling Auth service
-    -Fixed auth controller
-    -Fixed service provider
-    
-  ##### v1.1.4 beta
-    -Restyling Response service
-    -Fixed composer require
-    -Fixed service app make
-    
-  ##### v1.1.3 beta
-    -Fixed service alias
-    -Add manager service provider with config
-    -Create command to create provider
-    
-  ##### v1.1.2 beta
-    -Create external package for Cache and require
-    -Fixed App and Auth providers
-    -Fixed boostrap file load
-    
-  ##### v1.1.1 beta
-    -Fixed ResponseService success method
-    -Fixed transform and give method
-    -Fixed AbstractCache with serialization method
-    -Install aws sdk
 
 ## License
 
