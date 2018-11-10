@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.71.0",
+            "version": "3.71.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8585a1b39db65ed393dff4018fe545ea44005532"
+                "reference": "fa7f498cb41c7eb47e952355b8be2061816a9a60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8585a1b39db65ed393dff4018fe545ea44005532",
-                "reference": "8585a1b39db65ed393dff4018fe545ea44005532",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/fa7f498cb41c7eb47e952355b8be2061816a9a60",
+                "reference": "fa7f498cb41c7eb47e952355b8be2061816a9a60",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-11-06T22:04:52+00:00"
+            "time": "2018-11-09T21:57:53+00:00"
         },
         {
             "name": "aws/aws-sdk-php-laravel",
@@ -272,17 +272,17 @@
             "time": "2018-06-06T03:12:17+00:00"
         },
         {
-            "name": "fabrizio-cafolla/microservice-lumen-cache",
+            "name": "fabrizio-cafolla/cache-system",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/FabrizioCafolla/microservice-lumen-cache.git",
-                "reference": "2347f1687ac01441af8e3029791f96ef8feb859c"
+                "url": "https://github.com/FabrizioCafolla/cache-system.git",
+                "reference": "55cf5cf16dc5a60be590f4d7ba114d02d7fef33a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FabrizioCafolla/microservice-lumen-cache/zipball/2347f1687ac01441af8e3029791f96ef8feb859c",
-                "reference": "2347f1687ac01441af8e3029791f96ef8feb859c",
+                "url": "https://api.github.com/repos/FabrizioCafolla/cache-system/zipball/55cf5cf16dc5a60be590f4d7ba114d02d7fef33a",
+                "reference": "55cf5cf16dc5a60be590f4d7ba114d02d7fef33a",
                 "shasum": ""
             },
             "require": {
@@ -298,18 +298,18 @@
                 },
                 "laravel": {
                     "providers": [
-                        "LumenCacheService\\CacheServiceProvider"
+                        "CacheSystem\\CacheServiceProvider"
                     ],
                     "aliases": {
-                        "CacheService": "LumenCacheService\\Facades\\CacheService",
-                        "CacheFile": "LumenCacheService\\Facades\\CacheFile",
-                        "CacheRedis": "LumenCacheService\\Facades\\CacheRedis"
+                        "CacheService": "CacheSystem\\Facades\\CacheService",
+                        "CacheFile": "CacheSystem\\Facades\\CacheFile",
+                        "CacheRedis": "CacheSystem\\Facades\\CacheRedis"
                     }
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "LumenCacheService\\": "src/"
+                    "CacheSystem\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -331,7 +331,7 @@
                 "lumen",
                 "redis"
             ],
-            "time": "2018-11-04T19:52:37+00:00"
+            "time": "2018-11-09T15:20:53+00:00"
         },
         {
             "name": "fabrizio-cafolla/microservice-lumen-framework",
@@ -339,17 +339,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FabrizioCafolla/microservice-lumen-framework.git",
-                "reference": "3c3d75ecc8f6bd542b1a6e62f206b2698e233d42"
+                "reference": "79f1ec3c0697d291eb8ee088eb2d8f3cad0219d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FabrizioCafolla/microservice-lumen-framework/zipball/3c3d75ecc8f6bd542b1a6e62f206b2698e233d42",
-                "reference": "3c3d75ecc8f6bd542b1a6e62f206b2698e233d42",
+                "url": "https://api.github.com/repos/FabrizioCafolla/microservice-lumen-framework/zipball/79f1ec3c0697d291eb8ee088eb2d8f3cad0219d3",
+                "reference": "79f1ec3c0697d291eb8ee088eb2d8f3cad0219d3",
                 "shasum": ""
             },
             "require": {
                 "aws/aws-sdk-php-laravel": "^3.2",
-                "fabrizio-cafolla/microservice-lumen-cache": "dev-master",
+                "fabrizio-cafolla/cache-system": "dev-master",
+                "fabrizio-cafolla/response-http": "dev-master",
                 "folklore/graphql": "dev-develop",
                 "laravel/lumen-framework": "5.7.*",
                 "league/flysystem": "^1.0",
@@ -359,11 +360,6 @@
                 "spatie/laravel-permission": "^2.13",
                 "tymon/jwt-auth": "1.0.*@dev",
                 "vlucas/phpdotenv": "~2.2"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "~1.4",
-                "mockery/mockery": "~1.0",
-                "phpunit/phpunit": "~7.0"
             },
             "type": "lumen",
             "extra": {
@@ -404,7 +400,63 @@
                 "redis",
                 "rest"
             ],
-            "time": "2018-11-04T20:25:06+00:00"
+            "time": "2018-11-10T12:21:28+00:00"
+        },
+        {
+            "name": "fabrizio-cafolla/response-http",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FabrizioCafolla/response-http.git",
+                "reference": "f591a6d57c02f8a430da81caa4989c33b3f5dac0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FabrizioCafolla/response-http/zipball/f591a6d57c02f8a430da81caa4989c33b3f5dac0",
+                "reference": "f591a6d57c02f8a430da81caa4989c33b3f5dac0",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/lumen-framework": ">=5.7",
+                "php": ">=7.1.3"
+            },
+            "type": "lumen-package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "ResponseHTTP\\HttpServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ResponseHTTP\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabrizio Cafolla",
+                    "email": "info@fabriziocafolla.com"
+                }
+            ],
+            "description": "Response service for Laravel/Lumen Framework.",
+            "keywords": [
+                "framework",
+                "graphql",
+                "http",
+                "laravel",
+                "lumen",
+                "response",
+                "rest"
+            ],
+            "time": "2018-11-10T12:22:14+00:00"
         },
         {
             "name": "folklore/graphql",
@@ -2301,16 +2353,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.34.0",
+            "version": "1.34.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33"
+                "reference": "19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
-                "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9",
+                "reference": "19201b87f7dba2a7cbf1cccdf0e1da13c04ee9c9",
                 "shasum": ""
             },
             "require": {
@@ -2352,7 +2404,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-09-20T19:36:25+00:00"
+            "time": "2018-11-08T13:33:47+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -2707,16 +2759,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "2.24.0",
+            "version": "2.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "867df3945e5c622e2e310c36cf226fe4594d7d0f"
+                "reference": "6b41d1d1726d432342546f9d3c79144b082812dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/867df3945e5c622e2e310c36cf226fe4594d7d0f",
-                "reference": "867df3945e5c622e2e310c36cf226fe4594d7d0f",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/6b41d1d1726d432342546f9d3c79144b082812dc",
+                "reference": "6b41d1d1726d432342546f9d3c79144b082812dc",
                 "shasum": ""
             },
             "require": {
@@ -2767,7 +2819,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2018-11-07T02:15:22+00:00"
+            "time": "2018-11-07T22:48:36+00:00"
         },
         {
             "name": "symfony/console",

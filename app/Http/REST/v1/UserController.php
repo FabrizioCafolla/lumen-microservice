@@ -50,7 +50,7 @@
 					->serializer(new KeyArraySerializer('users'))
 					->paginate($users, new UserTransformer());
 
-				$response = $this->response->data($data, 200);
+				$response = $this->response->withLinks(new $this->user->model())->data($data, 200);
 				return $response;
 			}
 			return $this->response->errorNotFound();
