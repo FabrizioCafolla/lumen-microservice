@@ -51,7 +51,7 @@
 					->includes('post')
 					->serializer(new KeyArraySerializer('posts'))
 					->collection($posts, new PostTransformer);
-				$response = $this->response->withLinks(new $this->post->model())->data($data, 200);
+				$response = $this->response->addModelLinks(new $this->post->model())->data($data, 200);
 				return $response;
 			}
 			return $this->response->errorNotFound();

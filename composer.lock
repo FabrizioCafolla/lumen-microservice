@@ -408,12 +408,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FabrizioCafolla/response-http.git",
-                "reference": "f591a6d57c02f8a430da81caa4989c33b3f5dac0"
+                "reference": "4a56a0c300ac39a6930d7e1f3e46147ac2c47af3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FabrizioCafolla/response-http/zipball/f591a6d57c02f8a430da81caa4989c33b3f5dac0",
-                "reference": "f591a6d57c02f8a430da81caa4989c33b3f5dac0",
+                "url": "https://api.github.com/repos/FabrizioCafolla/response-http/zipball/4a56a0c300ac39a6930d7e1f3e46147ac2c47af3",
+                "reference": "4a56a0c300ac39a6930d7e1f3e46147ac2c47af3",
                 "shasum": ""
             },
             "require": {
@@ -456,7 +456,7 @@
                 "response",
                 "rest"
             ],
-            "time": "2018-11-10T12:22:14+00:00"
+            "time": "2018-11-10T15:41:14+00:00"
         },
         {
             "name": "folklore/graphql",
