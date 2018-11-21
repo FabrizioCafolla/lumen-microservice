@@ -13,7 +13,6 @@
 		 */
 		public function register()
 		{
-			$this->setupAlias();
 			$this->setupConfig();
 			$this->registerSystem();
 			$this->registerServices();
@@ -46,19 +45,6 @@
 		 * Register providers dependency
 		 */
 		protected function registerProviders() {}
-
-		/**
-		 * Load alias
-		 */
-		protected function setupAlias() {
-			$aliases=[
-				//
-			];
-
-			foreach ($aliases as $key => $value){
-				class_alias($value, $key);
-			}
-		}
 
 		/**
 		 * Load config
