@@ -8,7 +8,6 @@
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 	use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-	use ResponseREST;
 	use ResponseHTTP\Response\Traits\ModelREST;
 	use Tymon\JWTAuth\Contracts\JWTSubject;
 	use Spatie\Permission\Traits\HasRoles;

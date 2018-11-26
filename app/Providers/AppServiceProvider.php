@@ -14,6 +14,7 @@
 		public function register()
 		{
 			$this->setupConfig();
+			$this->registerAlias();
 			$this->registerSystem();
 			$this->registerServices();
 			$this->registerMiddleware();
@@ -35,16 +36,36 @@
 		 */
 		protected function registerMiddleware()
 		{
-			//always when routes are called
-			$this->app->middleware([]);
+			$middlewares = config('providers.middlewares') ?: [];
+			foreach ($middlewares as $middleware) {
+				$this->app->middleware([
+					$middleware
+				]);
+			}
 
-			$this->app->routeMiddleware([]);
+			$route_middlewares = config('providers.route_middlewares') ?: [];
+			foreach ($route_middlewares as $key => $value) {
+				$this->app->routeMiddleware([
+					$key => $value
+				]);
+			}
 		}
 
 		/**
 		 * Register providers dependency
 		 */
 		protected function registerProviders() {}
+
+		/**
+		 * Load alias
+		 */
+		protected function registerAlias()
+		{
+			$aliases = config('providers.alias') ?: [];
+			foreach ($aliases as $key => $value) {
+				class_alias($value, $key);
+			}
+		}
 
 		/**
 		 * Load config
