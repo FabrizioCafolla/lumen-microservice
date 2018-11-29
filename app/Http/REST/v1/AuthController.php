@@ -11,10 +11,10 @@
 	use App\Repositories\UserRepository;
 	use ACLService;
 	use Illuminate\Http\Request;
-	use Core\Http\REST\Controller\ApiBaseController;
+	use App\Http\REST\BaseController;
 	use App\Models\User;
 
-	class AuthController extends ApiBaseController
+	class AuthController extends BaseController
 	{
 		/** User Repository
 		 *
@@ -45,11 +45,11 @@
 			try {
 				$token = $this->auth->jwt->attempt($credentials);
 				if (!$token)
-					return $this->response->errorNotFound();
+					return $this->response()->errorNotFound();
 			} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-				return $this->response->errorInternal('Could not create token.');
+				return $this->response()->errorInternal('Could not create token.');
 			}
-			return $this->response->data(compact('token'));
+			return $this->response()->data(compact('token'));
 		}
 
 
@@ -74,9 +74,9 @@
 
 			$token = $this->auth->jwt->fromUser($user);
 			if (!$token)
-				return $this->response->errorInternal();
+				return $this->response()->errorInternal();
 
-			return $this->response->data(compact('user', 'token'));
+			return $this->response()->data(compact('user', 'token'));
 		}
 
 		/**

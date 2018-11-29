@@ -2,9 +2,8 @@
 
 	namespace App\Http\REST\v1;
 
-	use Core\Http\REST\Controller\ApiBaseController;
+	use App\Http\REST\BaseController;
 	use Core\Helpers\Serializer\KeyArraySerializer;
-
 	use App\Repositories\PostRepository as Post;
 	use App\Transformers\PostTransformer;
 	use Illuminate\Http\Request;
@@ -15,7 +14,7 @@
 	 *
 	 * @Resource("Posts", uri="/posts")
 	 */
-	class PostController extends ApiBaseController
+	class PostController extends BaseController
 	{
 		/**
 		 * @var Post
@@ -51,10 +50,10 @@
 					->includes('post')
 					->serializer(new KeyArraySerializer('posts'))
 					->collection($posts, new PostTransformer);
-				$response = $this->response->addModelLinks(new $this->post->model())->data($data, 200);
+				$response = $this->response()->addModelLinks(new $this->post->model())->data($data, 200);
 				return $response;
 			}
-			return $this->response->errorNotFound();
+			return $this->response()->errorNotFound();
 		}
 
 		/**
@@ -76,10 +75,10 @@
 					->serializer(new KeyArraySerializer('post'))
 					->item($post, new PostTransformer);
 
-				$response = $this->response->data($data, 200);
+				$response = $this->response()->data($data, 200);
 				return $response;
 			}
-			return $this->response->errorNotFound();
+			return $this->response()->errorNotFound();
 		}
 
 		/**
@@ -113,9 +112,9 @@
 			if ($validator->status() == "200") {
 				$task = $this->post->create($request->all());
 				if ($task) {
-					return $this->response->success("Post created");
+					return $this->response()->success("Post created");
 				}
-				return $this->response->errorInternal();
+				return $this->response()->errorInternal();
 			}
 			return $validator;
 		}
@@ -149,15 +148,15 @@
 			$post = $this->post->find($request->id);
 
 			if (Gate::denies('posts.update', $post ))
-				return $this->response->errorInternal();
+				return $this->response()->errorInternal();
 
 			$validator = $this->post->validateRequest($request->all(), "update");
 
 			if ($validator->status() == "200") {
 				$task = $this->post->update($request->all(), $request->id);
 				if ($task)
-					return $this->response->success("Post updated");
-				return $this->response->errorInternal();
+					return $this->response()->success("Post updated");
+				return $this->response()->errorInternal();
 			}
 			return $validator;
 		}
@@ -177,15 +176,15 @@
 			$post = $this->post->find($request->id);
 
 			if (Gate::denies('posts.update', $post))
-				return $this->response->errorInternal();
+				return $this->response()->errorInternal();
 
 			if ($this->post->find($request->id)) {
 				$task = $this->post->delete($request->id);
 				if ($task)
-					return $this->response->success("Post deleted");
+					return $this->response()->success("Post deleted");
 
-				return $this->response->errorInternal();
+				return $this->response()->errorInternal();
 			}
-			return $this->response->errorNotFound();
+			return $this->response()->errorNotFound();
 		}
 	}
