@@ -1,7 +1,7 @@
 # DevOps Microservice Lumen Project
 [build] [stable]
 
-\[version] [v1.4.1  beta]
+\[version] [v1.4.2  beta]
 
 ##### Why use it?
 >Microservice Lumen allows you to start from a solid foundation to build your backend. Using packages, services and patterns you'll be able to implement your app in an easy and efficient way. With this framework you can build your REST API in a few steps using artisan commands to create the Controller, the Repository linked to the data model and the Trasformer for data display. The microservice communicates with the outside through HTTP API calls with JWT authentication (stateless token). It implements base services for API controller, response and helpers.
@@ -39,6 +39,13 @@
 
 [File example](https://gist.github.com/FabrizioCafolla/b132d6eafbb5c851b7610f8cf927bdf4)
 
+  ##### v1.4.2 beta
+    -Update core package 
+    -Update response package 
+    -Update cahce package 
+    -Fixed rest controllers
+    -Fixed errors
+  
   ##### v1.4.1 beta
     -Fixed docker compose file
     -Fixed file with new method of package
