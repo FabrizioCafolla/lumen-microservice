@@ -38,7 +38,7 @@
 
 		private function bootREST()
 		{
-			$this->setBasicPath();
+			$this->setBasicUri();
 			$this->setLinks([
 				[
 					$this->rel('users'),

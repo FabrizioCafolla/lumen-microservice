@@ -30,10 +30,10 @@
 		 */
 		$router->group(['middleware' => 'api.jwt', 'prefix' => 'posts'], function () use ($router) {
 			$router->get('/', 'v1\PostController@index');
-			$router->get('/{id}', 'v1\PostController@show');
+			$router->get('/{postId}', 'v1\PostController@show');
 
 			$router->post('/store', 'v1\PostController@store');
-			$router->put('/{id}', 'v1\PostController@update');
-			$router->delete('/{id}', 'v1\PostController@delete');
+			$router->put('/{postId}', 'v1\PostController@update');
+			$router->delete('/{postId}', 'v1\PostController@delete');
 		});
 	});

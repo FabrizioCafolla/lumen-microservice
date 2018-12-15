@@ -12,6 +12,7 @@
 	use Illuminate\Container\Container as App;
 	use Illuminate\Support\Facades\Hash;
 	use Illuminate\Support\Facades\Validator;
+	use HttpResponse;
 
 	class UserRepository extends RepositoryAbstract
 	{
@@ -69,15 +70,15 @@
 			$rules = $this->rules($type, $rules_specific);
 
 			if (!isset($request)) {
-				return $this->response()->errorNotFound();
+				return HttpResponse::errorNotFound();
 			}
 
 			$validator = Validator::make($request, $rules);
 			if ($validator->fails()) {
-				return $this->response()->withData($validator->errors()->toArray())->errorNotFound();
+				return HttpResponse::withData($validator->errors()->toArray())->errorNotFound();
 			}
 
-			return $this->response()->success("Rules validate success");
+			return HttpResponse::success("Rules validate success");
 		}
 
 		/** Use rules based on request

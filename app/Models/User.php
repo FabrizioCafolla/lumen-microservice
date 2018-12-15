@@ -29,7 +29,7 @@
 		 * @var array
 		 */
 		protected $fillable = [
-			'email', 'name', 'password', 'surname'
+			'email', 'name', 'password', 'surname',
 		];
 		/**
 		 * The attributes excluded from the model's JSON form.
@@ -46,19 +46,18 @@
 
 		private function bootREST()
 		{
-			$this->setBasicPath();
-			$this->setLinks([
-					[
-						$this->rel('posts'),
-						$this->href('posts'),
-						$this->method('GET')
-					],
-					[
-						'self',
-						$this->href(),
-						$this->method('GET')
-					]
-				]);
+			$this->setBasicUri();
+			$this->setLinks(
+				array(
+					$this->rel('posts'),
+					$this->href('posts'),
+					$this->method('GET'),
+				), array(
+					'self',
+					$this->href(),
+					$this->method('GET'),
+				), true
+			);
 		}
 
 		public function setPasswordAttribute($value)

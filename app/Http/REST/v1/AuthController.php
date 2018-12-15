@@ -49,7 +49,7 @@
 			} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
 				return $this->response()->errorInternal('Could not create token.');
 			}
-			return $this->response()->data(compact('token'));
+			return $this->response()->successData(compact('token'));
 		}
 
 

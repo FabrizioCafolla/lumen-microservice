@@ -3,10 +3,10 @@
 	namespace App\Http\REST\v1;
 
 	use App\Http\REST\BaseController;
+	use CacheSystem\Serializer\ResponseSerializer;
 	use Core\Helpers\Serializer\KeyArraySerializer;
 	use App\Repositories\UserRepository as User;
 	use App\Transformers\UserTransformer;
-	use Gate;
 	use Illuminate\Http\Request;
 
 	/**
@@ -17,18 +17,25 @@
 	class UserController extends BaseController
 	{
 		/**
-		 * @var User
+		 * @var User logged
 		 */
 		private $user;
 
 		/**
+		 * @var \App\Repositories\UserRepository
+		 */
+		private $repository;
+
+		/**
 		 * UserController constructor.
+		 *
 		 * @param User $user
 		 */
-		public function __construct(User $user)
+		public function __construct(User $userRepository)
 		{
 			parent::__construct();
-			$this->user = $user;
+			$this->user = $this->auth->getUser();
+			$this->repository = $userRepository;
 		}
 
 		/**
@@ -38,19 +45,25 @@
 		 *
 		 * @Get("/users")
 		 * @Versions({"v1"})
-		 * @Response(200, body={"id":1,"email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley Klocko Sr."})
+		 * @Response(200, body={"id":1,"email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley
+         *                Klocko Sr."})
+         * @return \Illuminate\Http\JsonResponse|\ResponseHTTP\Response\HttpResponse
 		 */
 		public function index()
 		{
-			$users = $this->user->paginate();
+			$users = $this->repository->paginate();
 
 			if ($users) {
 				$data = $this->api
-					->includes('posts')
 					->serializer(new KeyArraySerializer('users'))
 					->paginate($users, new UserTransformer());
 
-				$response = $this->response()->data($data, 200);
+				$response = $this->response()->successData($data);
+
+				if ($responseCached = $this->cache->redis()->get('users-index'))
+					return $responseCached;
+				else
+					$this->cache->redis()->withSerializer(ResponseSerializer::class)->set('users-index', $response, 1);
 
 				return $response;
 			}
@@ -65,18 +78,27 @@
 		 * @Get("/users/{id}")
 		 * @Versions({"v1"})
 		 * @Request({"id": "1"})
-		 * @Response(200, body={"id":1,"email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley Klocko Sr."})
+		 * @Response(200, body={"id":1,"email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley
+         *                Klocko Sr."})
+         * @param $id
+		 *
+		 * @return $this|\Illuminate\Http\JsonResponse|\ResponseHTTP\Response\HttpResponse
 		 */
 		public function show($id)
 		{
-			$user = $this->user->find($id);
+			$user = $this->repository->find($id);
 			if ($user) {
 				$data = $this->api
-					->includes('post')
 					->serializer(new KeyArraySerializer('user'))
 					->item($user, new UserTransformer);
 
-				$response = $this->response()->data($data, 200);
+				$response = $this->response()->withLinks($user->getLinks(), false)->successData($data);
+
+				if ($responseCached = $this->cache->file()->get('users-show'))
+					return $responseCached;
+				else
+					$this->cache->file()->withSerializer(ResponseSerializer::class)->put('users-show', $response, 1);
+
 				return $response;
 			}
 			return $this->response()->errorNotFound();
@@ -89,17 +111,18 @@
 		 *
 		 * @Put("/users/{id}")
 		 * @Versions({"v1"})
-		 * @Request(array -> {"email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley Klocko Sr."}, id)
-		 * @Response(200, success or error)
+		 * @Request(array -> {"email":"lavonne.cole@hermann.com","name":"Amelie Trantow","surname":"Kayley Klocko
+         *                Sr."}, id)
+         * @Response(200, success or error)
 		 */
 		public function update(Request $request)
 		{
-			if (Gate::denies('users.update', $request))
-				return $this->response()->errorInternal();
+			if ($this->user->id != $request->id)
+				return $this->response()->errorUnauthorized();
 
-			$validator = $this->user->validateRequest($request->all(), "update");
-			if ($validator->status() == "200") {
-				$task = $this->user->updateUser($request->all(), $request->id);
+			$validator = $this->repository->validateRequest($request->all(), "update");
+			if ($validator->isSuccessful()) {
+				$task = $this->repository->updateUser($request->all(), $request->id);
 				if ($task)
 					return $this->response()->success("User updated");
 				return $this->response()->errorInternal();
@@ -119,13 +142,13 @@
 		 */
 		public function updatePassword(Request $request)
 		{
-			if (Gate::denies('users.update', $request))
-				return $this->response()->errorInternal();
+			if ($this->user->id != $request->id)
+				return $this->response()->errorUnauthorized();
 
-			$validator = $this->user->validateRequest($request->only(['password', 'confirm_password']), "password");
+			$validator = $this->repository->validateRequest($request->only(['password', 'confirm_password']), "password");
 
-			if ($validator->status() == "200") {
-				$task = $this->user->updateUser($request->only('password'), $request->id);
+			if ($validator->isSuccessful()) {
+				$task = $this->repository->updateUser($request->only('password'), $request->id);
 				if ($task)
 					return $this->response()->success("User updated");
 				return $this->response()->errorInternal();
@@ -145,10 +168,10 @@
 		 */
 		public function delete(Request $request)
 		{
-			if (Gate::denies('users.delete', $request))
-				return $this->response()->errorInternal();
+			if ($this->user->id != $request->id)
+				return $this->response()->errorUnauthorized();
 
-			$task = $this->user->delete($request->id);
+			$task = $this->repository->delete($request->id);
 			if ($task)
 				return $this->response()->success("User deleted");
 
