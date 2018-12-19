@@ -57,7 +57,7 @@ services:
         - TAG=${DOCKER_WORKSPACE_TAG}
     working_dir: /var/www
     volumes:
-      - ./:/var/www
+      - ./application:/var/www
     links:
       - mysql
       - redis
