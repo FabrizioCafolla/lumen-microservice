@@ -277,12 +277,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FabrizioCafolla/cache-system.git",
-                "reference": "7c4305989b9476b6b4333e07692a4c86b8866382"
+                "reference": "2d68e48cb334bbcd5061220748ad4a783b64c138"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FabrizioCafolla/cache-system/zipball/7c4305989b9476b6b4333e07692a4c86b8866382",
-                "reference": "7c4305989b9476b6b4333e07692a4c86b8866382",
+                "url": "https://api.github.com/repos/FabrizioCafolla/cache-system/zipball/2d68e48cb334bbcd5061220748ad4a783b64c138",
+                "reference": "2d68e48cb334bbcd5061220748ad4a783b64c138",
                 "shasum": ""
             },
             "require": {
@@ -330,7 +330,7 @@
                 "lumen",
                 "redis"
             ],
-            "time": "2018-12-15T12:21:08+00:00"
+            "time": "2018-12-15T20:02:28+00:00"
         },
         {
             "name": "fabrizio-cafolla/microservice-lumen-framework",
@@ -338,12 +338,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FabrizioCafolla/microservice-lumen-framework.git",
-                "reference": "8d5247bb8b7eda2ba773ce96bf17d84056cd90f7"
+                "reference": "81a997a15ee436404742df6fe5e9b507d64a5569"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FabrizioCafolla/microservice-lumen-framework/zipball/8d5247bb8b7eda2ba773ce96bf17d84056cd90f7",
-                "reference": "8d5247bb8b7eda2ba773ce96bf17d84056cd90f7",
+                "url": "https://api.github.com/repos/FabrizioCafolla/microservice-lumen-framework/zipball/81a997a15ee436404742df6fe5e9b507d64a5569",
+                "reference": "81a997a15ee436404742df6fe5e9b507d64a5569",
                 "shasum": ""
             },
             "require": {
@@ -399,7 +399,7 @@
                 "redis",
                 "rest"
             ],
-            "time": "2018-11-29T22:50:09+00:00"
+            "time": "2018-12-15T20:07:26+00:00"
         },
         {
             "name": "fabrizio-cafolla/response-http",

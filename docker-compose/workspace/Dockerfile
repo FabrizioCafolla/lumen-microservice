@@ -30,13 +30,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apt-get update && \
     apt-get install -y git
 
+# Run install xdebug
 RUN apt-get update \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 # Copy xdebug configuration for remote debugging
 COPY ./docker-compose/workspace/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
-
+COPY ./docker-compose/workspace/xdebug.ini /etc/php/7.2/apache2/conf.d
 RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/etc/php/conf.d/xdebug.ini && \
     sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /usr/local/etc/php/conf.d/xdebug.ini && \
     sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /usr/local/etc/php/conf.d/xdebug.ini
@@ -47,7 +48,9 @@ RUN apt-get clean && \
     rm /var/log/lastlog /var/log/faillog
 
 # COPY data in image when build
-ADD ./ /var/www
+ADD ./application /var/www
 
 # Set working directory as
 WORKDIR /var/www
+
+RUN cp .env.example .env

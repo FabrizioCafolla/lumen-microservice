@@ -1,5 +1,5 @@
 **/docker-compose
-/app/Console
+application/app/Console
 docker-compose.yml
 /.github
 .git
@@ -7,7 +7,7 @@ docker-compose.yml
 LICENSE
 VERSION
 readme.md
-docs
 .env
 /.idea
-_config.yml
+application/_config.yml
+application/vendor

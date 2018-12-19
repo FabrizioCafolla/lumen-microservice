@@ -1,6 +1,7 @@
-/vendor
+application/vendor
 /.idea
-Homestead.json
-Homestead.yaml
+application/Homestead.json
+application/Homestead.yaml
 .env
 /docker-compose/image
+/application/vendor/

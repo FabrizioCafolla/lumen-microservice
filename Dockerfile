@@ -25,7 +25,7 @@ RUN buildDeps=" \
     && rm -r /var/lib/apt/lists/*
 
 # Add file app in image
-ADD ./ /var/www
+ADD ./application /var/www
 
 # Set working directory as
 WORKDIR /var/www
@@ -41,7 +41,7 @@ RUN printf "\n" | pecl install -o -f redis \
         &&  docker-php-ext-enable redis
 
 # Copy env file
-RUN cp .env.example .env
+RUN cp .env.example .env && php artisan key:generate
 
 # Make permission to workdir
 RUN chown -R www-data:www-data ./* \
