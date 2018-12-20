@@ -1,18 +1,32 @@
-# DevOps Microservice Lumen Project
-[build] [stable]
+# Microservice Lumen - DevOps 
+![](https://img.shields.io/badge/version-1.5.0--beta-green.svg)
+![](https://img.shields.io/badge/docker--compose-build-blue.svg)
+![](https://img.shields.io/badge/docker-build-blue.svg)
 
-\[version] [v1.4.2  beta]
+### Let's go
+    /*dev env*/
+    cp .env.docker .env
+    docker-compose build
+    docker-compose up -d
+    /*only first time*/
+    docker-compose exec workspace bash
+    cp ./.env.example .env
+    php artisan jwt:secret -f
+    
+    /*prod env*/
+    docker build --tag microservice-lumen .
+    docker run -d -p 9000:9000 --name name-of-container -it microservice-lumen /bin/bash
 
-##### Why use it?
->Microservice Lumen allows you to start from a solid foundation to build your backend. Using packages, services and patterns you'll be able to implement your app in an easy and efficient way. With this framework you can build your REST API in a few steps using artisan commands to create the Controller, the Repository linked to the data model and the Trasformer for data display. The microservice communicates with the outside through HTTP API calls with JWT authentication (stateless token). It implements base services for API controller, response and helpers.
+    /*pull container from dockergub (tagname: develop or latest)*/
+    docker pull fabriziocaf/microservice-lumen:tagname
+    
+[Wiki](https://github.com/FabrizioCafolla/microservice-lumen/wiki)
 
-## Official Documentation
+[Documentation Api](https://fabriziocafolla.com/docs/microservice-lumen/)
 
-![](.github/Microservice-lumen-image.jpg)
+### Features 
 
-## Features 
-
-**Doker** to start the application with `Nginx`, `PHP 7`, `MySQL` and `Redis`;
+**Doker** to start the application with `Nginx`, `PHP 7.2.2-fpm`, `MySQL` and `Redis`;
 
 **JWT** for the authentication of routes usable with the implemented service;
 
@@ -33,12 +47,16 @@
   
 **Artisan commands** to create Repository, ApiController, Provider and Transoformers (Other commands to create example file view documentation)
 
-[Wiki](https://github.com/FabrizioCafolla/microservice-lumen/wiki)
+### Changelog
 
-[Documentation Api](https://fabriziocafolla.com/microservice-lumen/docs/)
-
-[File example](https://gist.github.com/FabrizioCafolla/b132d6eafbb5c851b7610f8cf927bdf4)
-
+  ##### v1.5.0 beta
+    -Update directory and docker file
+    -Update core package 
+    -Update response package with new logic 
+    -Update and clean code cahce package 
+    -Fixed rest controllers
+    -Clean code
+    
   ##### v1.4.2 beta
     -Update core package 
     -Update response package 
