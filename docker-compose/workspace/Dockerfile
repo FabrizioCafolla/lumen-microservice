@@ -65,4 +65,4 @@ RUN if [ $COMPOSER_UPDATE = "true" ]; then \
     composer update \
 ;fi
 
-RUN cp ./.env.example .env
+CMD [ "./start.sh" ]
