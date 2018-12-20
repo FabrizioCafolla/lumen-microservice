@@ -5,30 +5,22 @@ services:
   ####################################################################################################
   mysql:
     container_name: ${MYSQL_NAME}_${MYSQL_TAG}
-    image: "${MYSQL_NAME}:${MYSQL_TAG}"
-    build:
-      context: ./
-      dockerfile: ./docker-compose/mysql/Dockerfile
-      args:
-        - TAG=${MYSQL_TAG}
+    image: "mysql:${MYSQL_TAG}"
     ports:
         - "3306:3306"
     expose:
         - 3306
     volumes:
         - ./docker-compose/image/mysql/data/:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOTPW}
 
   ####################################################################################################
   # The Redis Server
   ####################################################################################################
   redis:
     container_name: ${REDIS_NAME}_${REDIS_TAG}
-    image: "${REDIS_NAME}:${REDIS_TAG}"
-    build:
-      context: ./
-      dockerfile: ./docker-compose/redis/Dockerfile
-      args:
-        - TAG=${REDIS_TAG}
+    image: "redis:${REDIS_TAG}"
     ports:
         - "6379:6379"
     expose:
@@ -39,7 +31,7 @@ services:
   # Use it with command: docker-compose run redis-cli
   redis-cli:
     container_name: ${NAME}_redis-cli
-    image: "${REDIS_NAME}:${REDIS_TAG}"
+    image: "redis:${REDIS_TAG}"
     links:
       - redis
     command: redis-cli -h redis
