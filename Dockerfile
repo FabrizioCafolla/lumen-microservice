@@ -4,7 +4,7 @@ FROM php:7.2.2-fpm
 # Mantainer Microservice-lumen image
 MAINTAINER Fabrizio Cafolla info@fabriziocafolla.com
 
-# Update package
+# Update
 RUN apt-get update
 
 RUN buildDeps=" \
@@ -24,6 +24,10 @@ RUN buildDeps=" \
     && apt-get purge -y --auto-remove $buildDeps \
     && rm -r /var/lib/apt/lists/*
 
+# Run install git
+RUN apt-get update && \
+    apt-get install -y git
+
 # Add file app in image
 ADD ./application /var/www
 
@@ -41,14 +45,12 @@ RUN printf "\n" | pecl install -o -f redis \
         &&  docker-php-ext-enable redis
 
 # Copy env file
-RUN cp .env.example .env && php artisan key:generate
+RUN cp .env.example .env && php artisan jwt:secret -f
 
 # Make permission to workdir
 RUN chown -R www-data:www-data ./* \
     && chown -R www-data:www-data ./.* \
     && find . -type f -exec chmod 644 {} \; \
     && find . -type d -exec chmod 775 {} \;
-
-EXPOSE 9000
 
 CMD ["bash"]

@@ -23,12 +23,12 @@ RUN apt-get update && apt-get install -y unzip libzip-dev && \
     docker-php-ext-configure zip --with-libzip && \
     docker-php-ext-install zip
 
-# Run install composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Run install git
 RUN apt-get update && \
     apt-get install -y git
+
+# Run install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Run install xdebug
 RUN apt-get update \
@@ -53,4 +53,16 @@ ADD ./application /var/www
 # Set working directory as
 WORKDIR /var/www
 
-RUN cp .env.example .env
+# Make permission to workdir
+RUN chown -R www-data:www-data ./* \
+    && chown -R www-data:www-data ./.* \
+    && find . -type f -exec chmod 644 {} \; \
+    && find . -type d -exec chmod 775 {} \;
+
+ARG COMPOSER_UPDATE
+
+RUN if [ $COMPOSER_UPDATE = "true" ]; then \
+    composer update \
+;fi
+
+RUN cp ./.env.example .env
