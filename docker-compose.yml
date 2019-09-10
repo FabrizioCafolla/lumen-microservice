@@ -12,6 +12,8 @@ services:
         - TAG=${BACKEND_TAG}
     expose:
       - ${BACKEND_CONTAINER_PORT}
+    env_file:
+      - .develop.env
     environment:
       - COMPOSER=${BACKEND_ENV_COMPOSER}
       - PHP_EXTENSION_XDEBUG=1
@@ -34,6 +36,8 @@ services:
         - TAG=${WEBSERVER_TAG}
     expose:
       - ${WEBSERVER_CONTAINER_PORT}
+    env_file:
+      - .develop.env
     working_dir: /var/www
     networks:
       - net_webserver

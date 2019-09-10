@@ -1,11 +1,11 @@
 # import deploy config
 # You can change the default deploy config with `make cnf="deploy_special.env" release`
-dev ?= ./.env
-include $(dev)
-export $(shell sed 's/=.*//' $(dev))
+env ?= ./.develop.env
+include $(env)
+export $(shell sed 's/=.*//' $(env))
 
-COMMAND=/bin/sh
-SERVICE=
+CMD=/bin/sh
+SRV=
 
 .PHONY: help
 
@@ -15,19 +15,21 @@ help: ## This help.
 .DEFAULT_GOAL := help
 
 exec: ## Exec container
-	docker-compose -p $(APP_NAME) exec $(SERVICE) $(COMMAND)
+	docker-compose exec $(SRV) $(CMD)
 
 run: ## Run container
-	docker-compose -p $(APP_NAME) run $(SERVICE)
+	docker-compose run $(SRV)
 
 build: ## Build container
-	docker-compose -p $(APP_NAME) build $(SERVICE)
-
-rebuild: ## Rebuild container
-	docker-compose -p $(APP_NAME) up -d --build $(SERVICE)
+	docker-compose build $(SRV)
 
 up: ## Up container
-	docker-compose -p $(APP_NAME) up -d $(SERVICE)
+	docker-compose up -d $(SRV)
 
 down: ## Down container
-	docker-compose -p $(APP_NAME) down
+	docker-compose down
+
+rebuild: down build up
+
+init: build up
+	docker-compose exec laravel /bin/sh -c "cp backend/.env.example backend/.env ; chown :www-data /var/www && chmod -R 777 storage && chmod -R 777 bootstrap/cache ; php artisan key:generate && php artisan config:cache"

@@ -1,0 +1,14 @@
+**/compose
+docker-compose.yml
+/.github
+.git
+.gitignore
+LICENSE
+readme.md
+.env
+/.idea
+_config.yml
+vendor
+compose
+composer.dev.json
+node_modules
