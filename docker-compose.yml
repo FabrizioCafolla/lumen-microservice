@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+  ####################################################################################################
+  # The Application
+  ####################################################################################################
+  backend:
+    container_name: ${BACKEND_NAME}
+    build:
+      context: ./backend
+      dockerfile: compose/Dockerfile
+      args:
+        - TAG=${BACKEND_TAG}
+    expose:
+      - ${BACKEND_CONTAINER_PORT}
+    environment:
+      - COMPOSER=${BACKEND_ENV_COMPOSER}
+      - PHP_EXTENSION_XDEBUG=1
+    volumes:
+      - ./backend:/var/www
+    working_dir: /var/www
+    networks:
+      - net_webserver
+      - das_network_database
+
+  ####################################################################################################
+  # The Web Server
+  ####################################################################################################
+  webserver:
+    container_name: ${WEBSERVER_NAME}
+    build:
+      context: ./webserver
+      dockerfile: Dockerfile
+      args:
+        - TAG=${WEBSERVER_TAG}
+    expose:
+      - ${WEBSERVER_CONTAINER_PORT}
+    working_dir: /var/www
+    networks:
+      - net_webserver
+      - das_network_gateway_proxy
+    depends_on:
+      - backend
+
+networks:
+  net_webserver: {}
+  das_network_database:
+    external: true
+  das_network_gateway_proxy:
+    external: true
