@@ -1,6 +1,6 @@
 # import deploy config
 # You can change the default deploy config with `make cnf="deploy_special.env" release`
-env ?= ./.develop.env
+env ?= ./config/.env.develop
 include $(env)
 export $(shell sed 's/=.*//' $(env))
 
@@ -32,4 +32,4 @@ down: ## Down container
 rebuild: down build up
 
 init: build up
-	docker-compose exec laravel /bin/sh -c "cp backend/.env.example backend/.env ; chown :www-data /var/www && chmod -R 777 storage && chmod -R 777 bootstrap/cache ; php artisan key:generate && php artisan config:cache"
+	docker-compose exec $(BACKEND_NAME) /bin/sh -c "cp .env.example .env ; chown :www-data -R /var/www && chmod -R 777 storage ; php artisan cache:clear"

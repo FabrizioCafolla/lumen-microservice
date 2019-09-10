@@ -19,12 +19,9 @@ Ricordare che l'immagine da usare in produzione o staging fa riferimento al Dock
 
 **- setup and run**
 
-    1.  (required) 
-        Use to manage develop env https://github.com/FabrizioCafolla/docker-as-infrastructure
-        or
-        Create external network 
+    1.  (required) Use to manage develop env https://github.com/FabrizioCafolla/docker-as-infrastructure
     
-    2.  Edit .develop.env config 
+    2.  Edit .env.develop config 
 
     3.  Only first time run command:
         make init

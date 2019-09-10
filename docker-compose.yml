@@ -3,7 +3,7 @@ services:
   ####################################################################################################
   # The Application
   ####################################################################################################
-  backend:
+  lumen_backend:
     container_name: ${BACKEND_NAME}
     build:
       context: ./backend
@@ -13,7 +13,7 @@ services:
     expose:
       - ${BACKEND_CONTAINER_PORT}
     env_file:
-      - .develop.env
+      - config/.env.develop
     environment:
       - COMPOSER=${BACKEND_ENV_COMPOSER}
       - PHP_EXTENSION_XDEBUG=1
@@ -28,7 +28,7 @@ services:
   # The Web Server
   ####################################################################################################
   webserver:
-    container_name: ${WEBSERVER_NAME}
+    container_name: ${APP_NAME}
     build:
       context: ./webserver
       dockerfile: Dockerfile
@@ -37,13 +37,13 @@ services:
     expose:
       - ${WEBSERVER_CONTAINER_PORT}
     env_file:
-      - .develop.env
+      - config/.env.develop
     working_dir: /var/www
     networks:
       - net_webserver
       - das_network_gateway_proxy
     depends_on:
-      - backend
+      - ${BACKEND_NAME}
 
 networks:
   net_webserver: {}
