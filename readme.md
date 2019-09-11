@@ -21,7 +21,8 @@ Ricordare che l'immagine da usare in produzione o staging fa riferimento al Dock
 
     1.  (required) Use to manage develop env https://github.com/FabrizioCafolla/docker-as-infrastructure
     
-    2.  Edit .env.develop config 
+    2.  Edit .env.develop config and copy in root directory
+        cp config/.env.develop .env
 
     3.  Only first time run command:
         make init

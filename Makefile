@@ -32,4 +32,4 @@ down: ## Down container
 rebuild: down build up
 
 init: build up
-	docker-compose exec $(BACKEND_NAME) /bin/sh -c "cp .env.example .env ; chown :www-data -R /var/www && chmod -R 777 storage ; php artisan cache:clear"
+	docker-compose exec $(BACKEND_NAME) /bin/sh -c "cp .env.example .env ; composer install ; chown :www-data -R /var/www && chmod -R 777 storage ; php artisan cache:clear"
