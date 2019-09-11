@@ -20,7 +20,6 @@ services:
     working_dir: /var/www
     networks:
       - net_webserver
-      - das_network_database
 
   ####################################################################################################
   # The Web Server
@@ -32,18 +31,13 @@ services:
       dockerfile: Dockerfile
       args:
         - TAG=${WEBSERVER_TAG}
-    expose:
-      - ${WEBSERVER_CONTAINER_PORT}
+    ports:
+      - "${WEBSERVER_HOST_PORT}:${WEBSERVER_CONTAINER_PORT}"
     working_dir: /var/www
     networks:
       - net_webserver
-      - das_network_gateway_proxy
     depends_on:
       - ${BACKEND_NAME}
 
 networks:
   net_webserver: {}
-  das_network_database:
-    external: true
-  das_network_gateway_proxy:
-    external: true

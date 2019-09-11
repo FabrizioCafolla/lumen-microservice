@@ -14,14 +14,12 @@ Ricordare che l'immagine da usare in produzione o staging fa riferimento al Dock
 #### Develop env
 **- require**
     
-    Docker version 18.09.6, build 481bc77
-    docker-compose version 1.24.0, build 0aa59064
+    Docker version: >= 18.09.6
+    docker-compose version: >= 1.24.0
 
 **- setup and run**
 
-    1.  (required) Use to manage develop env https://github.com/FabrizioCafolla/docker-as-infrastructure
-    
-    2.  Edit .env.develop config and copy in root directory
+    1.  Edit .env.develop config and copy in root directory
         cp config/.env.develop .env
 
     3.  Only first time run command:
