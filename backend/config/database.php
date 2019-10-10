@@ -40,9 +40,9 @@
 		'connections' => [
 			'mysql' => [
 				'driver'    => 'mysql',
-				'host'      => env('DB_HOST', 'mysql_global'),
+				'host'      => env('DB_HOST', ''),
 				'port'      => env('DB_PORT', 3306),
-				'database'  => env('DB_DATABASE', 'microservice'),
+				'database'  => env('DB_DATABASE', ''),
 				'username'  => env('DB_USERNAME', 'root'),
 				'password'  => env('DB_PASSWORD', 'root'),
 				'charset'   => env('DB_CHARSET', 'utf8'),

@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
-        "laravel/lumen-framework": "5.8.*",
+        "laravel/lumen-framework": "^6.0",
         "league/flysystem": "^1.0",
         "kosmosx/laravel-response": "~1.0",
         "kosmosx/auth": "~1.0",
