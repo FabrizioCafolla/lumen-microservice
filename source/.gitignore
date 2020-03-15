@@ -1,3 +1,6 @@
-# Created by .ignore support plugin (hsz.mobi)
-vendor
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
 .env
+.phpunit.result.cache

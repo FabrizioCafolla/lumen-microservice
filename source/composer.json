@@ -6,8 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.2.5",
-        "laravel/lumen-framework": "^7.0",
-        "league/flysystem": "^1.0"
+        "laravel/lumen-framework": "^7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",

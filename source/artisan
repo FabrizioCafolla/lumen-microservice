@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 |
 */
 
-$app = require __DIR__ . '/bootstrap/app.php';
+$app = require __DIR__.'/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------

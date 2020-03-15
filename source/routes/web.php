@@ -1,20 +1,16 @@
 <?php
-	/**/
-	//Sample of Authentication routes usage
-	$router->group(['prefix' => 'api/v1'], function () use ($router) {
-       $router->group(['prefix' => '/auth'], function () use ($router) {
-           $router->post('login', 'v1\AuthController@authenticate');
-           $router->post('register', 'v1\AuthController@register');
-           $router->get('authenticated',  'v1\AuthController@getAuthenticatedUser');
-           $router->get('invalidate', 'v1\AuthController@invalidate');
-           $router->get('refresh','v1\AuthController@refresh');
-       });
-	});
-	/**/
 
-	$router->group(['prefix' => 'api/v1'], function () use ($router) {
-		$router->get('discovery', function () {
-			return Discovery::discovery('v1');
-		});
-		$router->get('test', 'v1\ExampleController@test');
-	});
+/*
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register all of the routes for an application.
+| It is a breeze. Simply tell Lumen the URIs it should respond to
+| and give it the Closure to call when that URI is requested.
+|
+*/
+
+$router->get('/', function () use ($router) {
+    return $router->app->version();
+});
