@@ -3,11 +3,11 @@ services:
   ####################################################################################################
   # The Application
   ####################################################################################################
-  lumen_backend:
-    container_name: ${BACKEND_NAME}
+  app:
+    container_name: app
     build:
-      context: ./backend
-      dockerfile: compose/Dockerfile
+      context: .
+      dockerfile: "docker/php/Dockerfile.dev"
       args:
         - TAG=${BACKEND_TAG}
     expose:
@@ -16,7 +16,7 @@ services:
       - COMPOSER=${BACKEND_ENV_COMPOSER}
       - PHP_EXTENSION_XDEBUG=1
     volumes:
-      - ./backend:/var/www
+      - ./source:/var/www
     working_dir: /var/www
     networks:
       - net_webserver
@@ -24,20 +24,22 @@ services:
   ####################################################################################################
   # The Web Server
   ####################################################################################################
-  webserver:
-    container_name: ${APP_NAME}
+  nginx_app:
+    container_name: nginx_app
     build:
-      context: ./webserver
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: "docker/nginx/Dockerfile"
       args:
         - TAG=${WEBSERVER_TAG}
+    volumes:
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     ports:
       - "${WEBSERVER_HOST_PORT}:${WEBSERVER_CONTAINER_PORT}"
-    working_dir: /var/www
+    working_dir: /etc/nginx/conf.d/
     networks:
       - net_webserver
     depends_on:
-      - ${BACKEND_NAME}
+      - app
 
 networks:
   net_webserver: {}
