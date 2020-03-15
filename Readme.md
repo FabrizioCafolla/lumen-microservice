@@ -26,8 +26,7 @@ Ricordare che l'immagine da usare in produzione o staging fa riferimento al Dock
         make init
     
     4.  Route test
-        localhost/api/v1/test 
-        localhost/api/v1/discovery
+        localhost/test 
     
 **- make coomand**
 
@@ -81,14 +80,6 @@ If you want create automatic builds for your repository [see here](https://hub.d
     -Webserver Nginx 1.17-alpine
     -Application: PHP 7.3.8-fpm-alpine
 
-**Kosmos X**
-
-    -Support: services for manipulate data with Transformer, Api discovery, and more;
-    -Response: create rest response more efficently;
-    -Cache: services for manage File and Redis cache;
-    -Auth: implement JWT auth and service to authenticate;
-    -Helpers: function to help developer, artisan commands to create Repository, ApiController, Provider and Transoformers
-    
 ### Changelog
 
   ##### v4.0.0 beta

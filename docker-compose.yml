@@ -32,10 +32,13 @@ services:
       args:
         - TAG=${WEBSERVER_TAG}
     volumes:
+      - ./source:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx/logs/:/var/log/nginx/
+      - ./docker/nginx/pages/:/usr/share/nginx/html/
     ports:
       - "${WEBSERVER_HOST_PORT}:${WEBSERVER_CONTAINER_PORT}"
-    working_dir: /etc/nginx/conf.d/
+    working_dir: /var/www
     networks:
       - net_webserver
     depends_on:
