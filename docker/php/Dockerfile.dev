@@ -1,59 +1,15 @@
-#
-# STAGE: develop
-#
-ARG TAG=7.4.3-fpm-alpine
+ARG TAG=1.0
 
-FROM php:$TAG
+FROM fabriziocaf/lumen:$TAG
 
-LABEL mantainer="developer@fabriziocafolla.com"
-LABEL description="Backend Container"
+COPY ./source /var/www/
 
-ENV build_deps \
-		autoconf \
-        libzip-dev \
-        curl-dev \
-        oniguruma-dev 
+USER root
 
-ENV persistent_deps \
-		build-base \
-        git \
-		unzip \
-        curl \
-        g++ \
-        gcc \
-        make \
-        mysql-client \
-        php-xml \
-        php-zip \
-        rsync
+RUN cp .env.example .env \
+    && set -xe \
+    && composer global require "hirak/prestissimo" \
+    && composer install --no-suggest --no-interaction --prefer-dist --optimize-autoloader \
+    && composer dump-autoload --optimize --classmap-authoritative
 
-# Set working directory as
-WORKDIR /var/www
-
-# Install build dependencies
-RUN apk upgrade && apk update && \
-    apk add --no-cache --virtual .build-dependencies $build_deps
-
-# Install persistent dependencies and composer
-RUN apk add --update --no-cache --virtual .persistent-dependencies $persistent_deps \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Install docker ext and remove build deps
-RUN apk update \
-    && docker-php-ext-configure zip \
-    && docker-php-ext-install mysqli \
-        pdo \
-        pdo_mysql \
-        bcmath \
-        curl \
-        pcntl \
-        zip \
-        exif \
-    && pecl install xdebug \
-    && docker-php-ext-enable xdebug \
-    && apk del -f .build-dependencies
-
-# Run composer to build dependencies 
-RUN composer global require "hirak/prestissimo" 
-
-CMD ["php-fpm", "--nodaemonize"]
+USER www-data

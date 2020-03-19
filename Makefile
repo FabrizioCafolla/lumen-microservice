@@ -15,7 +15,7 @@ help: ## This help.
 .DEFAULT_GOAL := help
 
 exec: ## Exec container
-	@docker-compose exec $(SRV) $(CMD)
+	@docker exec -it $(SRV) $(CMD)
 
 run: ## Run container
 	@docker-compose run $(SRV)

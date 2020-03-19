@@ -1,15 +1,14 @@
 # Docker infrastructure for Lumen 
 
-![](https://img.shields.io/badge/version-4.0.0--beta-green.svg)
+![](https://img.shields.io/badge/version-1.0.0-green.svg)
 ![](https://img.shields.io/badge/docker--compose-build-blue.svg)
 ![](https://img.shields.io/badge/docker-build-blue.svg)
 
 ### Description
 
-Microservice Lumen è un'infrastruttura docker che permette di avviare un microservizio php basato sul framework Lumen. 
-Mette a disposizione svariati strumenti e servizi che aiutano lo sviluppatore, che con pochi comandi gestisce l'ambiente di sviluppo/staging/produzione. 
-Di base sono disponibili i container Nginx per il webserver, MySQL e Redis per il db e cache, e PHP 7.3 per l'applicazione, configurabili facilmente con il file di configurazione. 
-Ricordare che l'immagine da usare in produzione o staging fa riferimento al Dockerfile presente nella dir application.
+Microservice Lumen is a starting skeleton based on Docker and Lumen Framework 7. This project helps to develop and maintain a simple and clean infrastructure for the management / creation of php microservices. In just a few steps, the developer starts the development / staging / production environment as needed.
+Basically, the Nginx containers are available for the webserver, the backend container in PHP 7.4 for the application, both based on Linux linux.
+The Dockefile (in the docker folder) is already set up to create the production image of the application, we recommend modifying it only to add dependencies or configurations.
 
 #### Develop env
 **- require**
@@ -20,15 +19,15 @@ Ricordare che l'immagine da usare in produzione o staging fa riferimento al Dock
 **- setup and run**
 
     1.  Edit .env.develop config and copy in root directory
-        cp config/.env.develop .env
+        cp .env.dist .env
 
     3.  Only first time run command:
         make init
     
     4.  Route test
-        localhost/test 
+        localhost 
     
-**- make coomand**
+**- make commands**
 
     version:    Print version of Docker, Docker compose, and PHP
     
@@ -48,45 +47,26 @@ Ricordare che l'immagine da usare in produzione o staging fa riferimento al Dock
 
 #### Production env
 
-**- manual builds** 
-
-    //build and run microservice
-    docker build --tag microservice-lumen .
-    docker run -d -p 9000:9000 --name name-of-container -it microservice-lumen /bin/sh
+    //build and run microservice (from root of project)
+    docker build --tag IMAGENAME .
+    docker run -d -p 9000:9000 --name CONTAINERNAME -it IMAGENAME /bin/sh
 
     //enter in microservice bash     
-    docker exec -it name-of-container /bin/sh
+    docker exec -it CONTAINERNAME /bin/sh
     
     //stop and start microservice
-    docker stop name-of-container
-    docker start name-of-container
-    docker rm name-of-container
+    docker stop CONTAINERNAME
+    docker start CONTAINERNAME
+    docker rm CONTAINERNAME
 
-[manual push](https://docs.docker.com/engine/reference/commandline/push/) in registry 
-
-**- automatic builds** 
-
-    //pull image from dockerhub (tagname: develop or latest)
-    docker pull fabriziocaf/microservice-lumen:tagname
-    
-[docker hub example](https://hub.docker.com/r/fabriziocaf/microservice-lumen) with microservice-lumen.
-
-If you want create automatic builds for your repository [see here](https://hub.docker.com/r/fabriziocaf/microservice-lumen).
+[Manual push](https://docs.docker.com/engine/reference/commandline/push/) into docker hub registry
 
 ### Features 
-     
-**Application env** 
     
-    -Webserver Nginx 1.17-alpine
-    -Application: PHP 7.3.8-fpm-alpine
-
-### Changelog
-
-  ##### v4.0.0 beta
-    -Refactoring folder strcture
-    -Add make file 
-    -Fix docker-compose 
-    -Add configs env 
+[base image](https://hub.docker.com/r/fabriziocaf/lumen)
+**Webserver Nginx**: 1.17-alpine
+**Application: PHP**: 7.4.3-fpm-alpine
+**Lumen Framework**: 7
 
 ## License
 
