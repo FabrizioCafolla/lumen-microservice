@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  app:
-    container_name: app
+  lumen:
+    container_name: ${APPNAME}
     hostname: "${DOMAIN}" 
     build:
       context: .
@@ -16,7 +16,7 @@ services:
     environment:
       - PHP_EXTENSION_XDEBUG=1
     volumes:
-      - ./lumen:/var/www
+      - ./lumen:/var/www/lumen
       - '${VOLUMESPATH}/fpm/logs/:/var/log/php7/'
       - '${VOLUMESPATH}/nginx/logs/:/var/log/nginx/'
     ports:

@@ -10,6 +10,9 @@ main(){
 	  exit 1
 	fi
 
+	#PID dir
+ 	mkdir -p /run/nginx
+
 	local SERVER_NAME="${DOMAIN} www.${DOMAIN}"
 	sed -i "s/%SERVERNAME%/${SERVER_NAME}/g" $HTTP_CONF
 	sed -i "s/%SERVERNAME%/${SERVER_NAME}/g" $HTTPS_CONF

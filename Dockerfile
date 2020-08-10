@@ -35,12 +35,6 @@ ENV persistent_deps \
 # Set working directory as
 WORKDIR /var/www
 
-# Add permission to workdir
-RUN chown -R www-data:www-data ./* \
-    && chown -R www-data:www-data ./.* \
-    && find . -type f -exec chmod 644 {} \; \
-    && find . -type d -exec chmod 775 {} \; 
-
 # Install build dependencies
 RUN apk upgrade --update-cache --available && apk update && \
     apk add --no-cache --virtual .build-dependencies $build_deps
@@ -63,8 +57,6 @@ RUN apk update \
         exif \
     && apk del -f .build-dependencies
 
-# Change current user to www
-
 COPY ./container/etc/nginx /etc/nginx
 COPY ./container/etc/php /usr/local/etc
 COPY ./container/sbin /usr/local/sbin
@@ -86,11 +78,18 @@ USER www-data
 
 ENTRYPOINT ["/usr/local/sbin/services/init.sh"]
 
-#ARG TAG=1.0
+#DEV
+FROM build as dev
+
+USER root
+
+RUN apk update && apk upgrade && \
+    apk add mysql-client 
+    
 #PROD
 FROM build as prod
 
-COPY ./lumen /var/www/
+COPY --chown=www-data:www-data ./lumen /var/www/lumen
 
 USER root
 
@@ -101,10 +100,3 @@ RUN cp .env.example .env \
 
 USER www-data
 
-#DEV
-FROM build as dev
-
-USER root
-
-RUN apk update && apk upgrade && \
-    apk add mysql-client 
