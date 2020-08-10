@@ -122,6 +122,7 @@ main() {
   update_env $FILE_ENV "SOURCEPATH" "./lumen"
   update_env $FILE_ENV "CONTAINERPATH" "./container"
   update_env $FILE_ENV "VOLUMESPATH" "./container/data"
+  update_env $FILE_ENV "IMAGENAME" "${APPNAME}/microservice"
 
   if [ "$ENV" == "dev" ] ; then
     download_wp

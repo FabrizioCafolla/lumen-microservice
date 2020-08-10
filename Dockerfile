@@ -87,7 +87,15 @@ RUN apk update && apk upgrade && \
     apk add mysql-client 
     
 #PROD
-FROM build as prod
+FROM build as pro
+
+ARG DB_HOST
+ARG DB_NAME
+ARG DB_PASS 
+
+RUN test -n "${DB_HOST}" || (echo "[BUILD ARG] DB_HOST not set" && false) && \
+    test -n "${DB_NAME}" || (echo "[BUILD ARG] DB_NAME not set" && false) && \
+    test -n "${DB_PASS}" || (echo "[BUILD ARG] DB_PASS not set" && false)
 
 COPY --chown=www-data:www-data ./lumen /var/www/lumen
 

@@ -34,7 +34,7 @@ services:
           - "mysql.private"
     environment:
       MYSQL_DATABASE: '${APPNAME}'
-      MYSQL_ROOT_PASSWORD: 'admin'
+      MYSQL_ROOT_PASSWORD: 'root'
     expose:
       - '3306'
     volumes:

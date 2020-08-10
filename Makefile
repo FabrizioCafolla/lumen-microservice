@@ -20,8 +20,8 @@ export $(shell sed 's/=.*//' $(CONF))
 TAG = "latest"
 
 image_build: ## build immagine
-	@docker build --tag "$(APPNAME):$(TAG)" \
-		--target="$(ENV)" \
+	@docker build --tag "$(IMAGENAME):$(TAG)" \
+		--target="pro" \
 		--quiet \
 		--no-cache \
 		--build-arg ENV=$(ENV) \
@@ -32,11 +32,9 @@ image_build: ## build immagine
 		--build-arg WORKDIRPATH=$(WORKDIRPATH) \
 		$(DOCKERFILE_PATH)
 
-image_push:
-	@docker push "$(APPNAME):$(TAG)"
+image_push: ## publish image
+	@docker push "$(IMAGENAME):$(TAG)"
 
-publish: #pusblish
-	@docker push $(APPNAME)/website:latest
 
 
 ## ENV: DEV
@@ -71,6 +69,7 @@ ifneq ($(shell test -e $(CONF) && echo -n yes),yes)
 setup: #first install
 	@chmod +x ./setup.sh
 	@./setup.sh
+	@cp lumen/.env.example lumen/.env
 
 manual: ## manuale configurazione 
 	@echo "read Readme.md"
