@@ -16,7 +16,7 @@ services:
     environment:
       - PHP_EXTENSION_XDEBUG=1
     volumes:
-      - ./lumen:/var/www/lumen
+      - ./lumen:/var/www
       - '${VOLUMESPATH}/fpm/logs/:/var/log/php7/'
       - '${VOLUMESPATH}/nginx/logs/:/var/log/nginx/'
     ports:
