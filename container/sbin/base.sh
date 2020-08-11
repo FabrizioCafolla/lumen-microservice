@@ -26,7 +26,7 @@ if [ -z ${WORKDIR_GROUP:-} ] ; then
 fi
 
 if [ -z ${WORKDIRPATH:-} ] ; then
-  WORKDIRPATH="/var/www/${APPNAME}"
+  WORKDIRPATH="/var/www"
 fi
 
 SCRIPTS_BASEPATH=/usr/local/sbin

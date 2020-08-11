@@ -118,11 +118,11 @@ main() {
   update_env $FILE_ENV "DOCKERFILE_PATH" "."
   update_env $FILE_ENV "WORKDIR_USER" "www-data"
   update_env $FILE_ENV "WORKDIR_GROUP" "www-data"
-  update_env $FILE_ENV "WORKDIRPATH" "/var/www/${APPNAME}"
+  update_env $FILE_ENV "WORKDIRPATH" "/var/www"
   update_env $FILE_ENV "SOURCEPATH" "./lumen"
   update_env $FILE_ENV "CONTAINERPATH" "./container"
   update_env $FILE_ENV "VOLUMESPATH" "./container/data"
-  update_env $FILE_ENV "IMAGENAME" "${APPNAME}/microservice"
+  update_env $FILE_ENV "IMAGENAME" "microservice/${APPNAME}"
 
   if [ "$ENV" == "dev" ] ; then
     download_wp

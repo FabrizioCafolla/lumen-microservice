@@ -91,20 +91,22 @@ FROM build as pro
 
 ARG DB_HOST
 ARG DB_NAME
+ARG DB_USER
 ARG DB_PASS 
 
-RUN test -n "${DB_HOST}" || (echo "[BUILD ARG] DB_HOST not set" && false) && \
-    test -n "${DB_NAME}" || (echo "[BUILD ARG] DB_NAME not set" && false) && \
-    test -n "${DB_PASS}" || (echo "[BUILD ARG] DB_PASS not set" && false)
+RUN test -n "${DB_HOST}" || (echo "[BUILD ARG] DB_HOST(value: ${DB_HOST}) not set" && false)
+RUN test -n "${DB_NAME}" || (echo "[BUILD ARG] DB_NAME(value: ${DB_NAME}) not set" && false)
+RUN test -n "${DB_USER}" || (echo "[BUILD ARG] DB_USER(value: ${DB_USER}) not set" && false)
+RUN test -n "${DB_PASS}" || (echo "[BUILD ARG] DB_PASS(value: ${DB_PASS}) not set" && false)
 
-COPY --chown=www-data:www-data ./lumen /var/www/lumen
+COPY --chown=www-data:www-data ./lumen /var/www
 
 USER root
 
 RUN cp .env.example .env \
-    && set -xe \
+    && sed -i "s/DB_HOST=127.0.0.1/DB_HOST=${DB_HOST}/" /var/www/.env \
+    && sed -i "s/DB_DATABASE=homestead/DB_DATABASE=${DB_NAME}/" /var/www/.env \
+    && sed -i "s/DB_USERNAME=homestead/DB_USERNAME=${DB_USER}/" /var/www/.env \
+    && sed -i "s/DB_PASSWORD=secret/DB_PASSWORD=${DB_PASS}/" /var/www/.env \
     && composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader \
     && composer dump-autoload --no-dev --optimize --classmap-authoritative
-
-USER www-data
-
