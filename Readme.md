@@ -14,7 +14,7 @@ The Dockefile (in the docker folder) is already set up to create the production 
 **- require**
     
     Docker version: >= 18.09.6
-    docker-compose version: >= 1.24.0
+    docker-compose version: >= 1.28.0
 
 **- setup and run**
 
@@ -57,7 +57,7 @@ The Dockefile (in the docker folder) is already set up to create the production 
     
 [base image](https://hub.docker.com/r/fabriziocaf/lumen)
 
-**Webserver Nginx**: 1.17-alpine
+**Webserver Nginx**: 1.18
 
 **Application: PHP**: 7.4-fpm-alpine
 

@@ -59,8 +59,11 @@ up:  ## up -d containers
 build:  # build containers
 	@docker-compose build
 
-exec: ## entra nel container
+exec: ## enter in app container
 	@docker exec -it $(APPNAME) /bin/bash
+
+exec_mysql: ## enter in mysql container
+	@docker exec -it mysql /bin/bash
 
 ssh_root: ## connessione ssh con l'utenza root o sudoers
 	@ssh -i $(SSHKEY) $(SRV_USER)@$(SRV_HOST)

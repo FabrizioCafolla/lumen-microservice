@@ -8,6 +8,9 @@ ARG APPNAME
 ARG DOMAIN 
 ARG CONTAINERPATH='./container'
 ARG SOURCEPATH="./source"
+ARG WORKDIR_USER="www-data"
+ARG WORKDIR_GROUP="www-data"
+ARG WORKDIRPATH="/var/www"
 
 RUN test -n "${ENV}" || (echo "[BUILD ARG] ENV not set" && false) && \
     test -n "${APPNAME}" || (echo "[BUILD ARG] APPNAME not set" && false) && \
@@ -28,12 +31,11 @@ ENV persistent_deps \
         gcc \
         make \
         rsync \
-        nginx \
         openssl \
         acl \
         openrc \
         bash \
-        zip
+        libzip
 
 # Set working directory as
 WORKDIR /var/www
@@ -58,6 +60,9 @@ RUN apk update \
         zip \
         exif \
     && apk del -f .build-dependencies
+
+# Install nginx webserver
+RUN apk add --update --no-cache nginx==1.18.0-r13
 
 COPY ${CONTAINERPATH}/etc/nginx /etc/nginx
 COPY ${CONTAINERPATH}/etc/php /usr/local/etc
