@@ -1,6 +1,6 @@
 # Docker infrastructure for Lumen 
 
-![](https://img.shields.io/badge/version-2.0.0-green.svg)
+![](https://img.shields.io/badge/version-1.0.0-green.svg)
 ![](https://img.shields.io/badge/docker--compose-build-blue.svg)
 ![](https://img.shields.io/badge/docker-build-blue.svg)
 
