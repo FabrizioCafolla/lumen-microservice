@@ -6,8 +6,6 @@ LABEL description="Production container"
 ARG ENV
 ARG APPNAME
 ARG DOMAIN 
-ARG CONTAINERPATH='./container'
-ARG SOURCEPATH="./source"
 ARG WORKDIR_USER="www-data"
 ARG WORKDIR_GROUP="www-data"
 ARG WORKDIRPATH="/var/www"
@@ -64,9 +62,9 @@ RUN apk update \
 # Install nginx webserver
 RUN apk add --update --no-cache nginx==1.18.0-r13
 
-COPY ${CONTAINERPATH}/etc/nginx /etc/nginx
-COPY ${CONTAINERPATH}/etc/php /usr/local/etc
-COPY ${CONTAINERPATH}/sbin /usr/local/sbin
+COPY ./container/etc/nginx /etc/nginx
+COPY ./container/etc/php /usr/local/etc
+COPY ./container/sbin /usr/local/sbin
 
 ENV ENV ${ENV}
 ENV APPNAME ${APPNAME}
@@ -91,8 +89,8 @@ FROM build as dev
 USER root
 
 RUN apk update && apk upgrade && \
-    apk add mysql-client
-    
+    apk add mysql-client    
+
 #PROD
 FROM build as pro
 
@@ -106,7 +104,7 @@ RUN test -n "${DB_NAME}" || (echo "[BUILD ARG] DB_NAME(value: ${DB_NAME}) not se
 RUN test -n "${DB_USER}" || (echo "[BUILD ARG] DB_USER(value: ${DB_USER}) not set" && false)
 RUN test -n "${DB_PASS}" || (echo "[BUILD ARG] DB_PASS(value: ${DB_PASS}) not set" && false)
 
-COPY --chown=www-data:www-data ${SOURCEPATH} /var/www
+COPY --chown=www-data:www-data ./source /var/www
 
 USER root
 

@@ -10,9 +10,7 @@ main(){
 		&& find . -type d -exec chmod 775 {} \; 
 
 	nginx -c /etc/nginx/nginx.conf
-
 	mkdir -p /run/php
-
 	php-fpm
 }
 

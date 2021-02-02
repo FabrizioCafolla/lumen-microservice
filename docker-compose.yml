@@ -10,8 +10,6 @@ services:
         - ENV=${ENV}
         - APPNAME=${APPNAME}
         - DOMAIN=${DOMAIN}
-        - CONTAINERPATH=${CONTAINERPATH}
-        - SOURCEPATH=${SOURCEPATH}
         - WORKDIR_USER=${WORKDIR_USER}
         - WORKDIR_GROUP=${WORKDIR_GROUP}
         - WORKDIRPATH=${WORKDIRPATH}

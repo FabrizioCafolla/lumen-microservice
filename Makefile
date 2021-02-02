@@ -32,8 +32,6 @@ image_build: ## build immagine
 		--build-arg ENV=$(ENV) \
 		--build-arg APPNAME=$(APPNAME) \
 		--build-arg DOMAIN=$(DOMAIN) \
-		--build-arg CONTAINERPATH=$(CONTAINERPATH) \
-		--build-arg SOURCEPATH=$(SOURCEPATH) \
 		--build-arg WORKDIR_USER=$(WORKDIR_USER) \
 		--build-arg WORKDIR_GROUP=$(WORKDIR_GROUP) \
 		--build-arg WORKDIRPATH=$(WORKDIRPATH) \
