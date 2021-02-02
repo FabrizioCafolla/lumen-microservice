@@ -10,13 +10,15 @@ services:
         - ENV=${ENV}
         - APPNAME=${APPNAME}
         - DOMAIN=${DOMAIN}
+        - CONTAINERPATH=${CONTAINERPATH}
+        - SOURCEPATH=${SOURCEPATH}
         - WORKDIR_USER=${WORKDIR_USER}
         - WORKDIR_GROUP=${WORKDIR_GROUP}
         - WORKDIRPATH=${WORKDIRPATH}
     environment:
       - PHP_EXTENSION_XDEBUG=1
     volumes:
-      - ./lumen:/var/www
+      - '${SOURCEPATH}:/var/www'
       - '${VOLUMESPATH}/fpm/logs/:/var/log/php7/'
       - '${VOLUMESPATH}/nginx/logs/:/var/log/nginx/'
     ports:

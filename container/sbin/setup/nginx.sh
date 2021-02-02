@@ -28,7 +28,7 @@ main(){
 	ln -s $HTTP_CONF /etc/nginx/sites-enabled/http.conf
 	ln -s $HTTPS_CONF /etc/nginx/sites-enabled/https.conf
 
-	chown -R www-data:www-data /var/lib/nginx
+	chown -R $WORKDIR_USER:$WORKDIR_GROUP /var/lib/nginx
 }
 
 main $@

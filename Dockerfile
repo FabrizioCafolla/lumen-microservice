@@ -1,4 +1,4 @@
-FROM php:7.4.3-fpm-alpine AS build
+FROM php:7.4-fpm-alpine AS build
 
 LABEL mantainer="developer@fabriziocafolla.com"
 LABEL description="Production container"
@@ -6,6 +6,8 @@ LABEL description="Production container"
 ARG ENV
 ARG APPNAME
 ARG DOMAIN 
+ARG CONTAINERPATH='./container'
+ARG SOURCEPATH="./source"
 
 RUN test -n "${ENV}" || (echo "[BUILD ARG] ENV not set" && false) && \
     test -n "${APPNAME}" || (echo "[BUILD ARG] APPNAME not set" && false) && \
@@ -30,7 +32,8 @@ ENV persistent_deps \
         openssl \
         acl \
         openrc \
-        bash
+        bash \
+        zip
 
 # Set working directory as
 WORKDIR /var/www
@@ -40,9 +43,8 @@ RUN apk upgrade --update-cache --available && apk update && \
     apk add --no-cache --virtual .build-dependencies $build_deps
 
 # Install persistent dependencies
-RUN apk add --update --no-cache --virtual .persistent-dependencies $persistent_deps \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer\
-    && composer global require "hirak/prestissimo" 
+RUN apk add --update --no-cache --virtual .persistent-dependencies $persistent_deps && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install docker ext and remove build deps
 RUN apk update \
@@ -57,9 +59,9 @@ RUN apk update \
         exif \
     && apk del -f .build-dependencies
 
-COPY ./container/etc/nginx /etc/nginx
-COPY ./container/etc/php /usr/local/etc
-COPY ./container/sbin /usr/local/sbin
+COPY ${CONTAINERPATH}/etc/nginx /etc/nginx
+COPY ${CONTAINERPATH}/etc/php /usr/local/etc
+COPY ${CONTAINERPATH}/sbin /usr/local/sbin
 
 ENV ENV ${ENV}
 ENV APPNAME ${APPNAME}
@@ -84,7 +86,7 @@ FROM build as dev
 USER root
 
 RUN apk update && apk upgrade && \
-    apk add mysql-client 
+    apk add mysql-client
     
 #PROD
 FROM build as pro
@@ -99,7 +101,7 @@ RUN test -n "${DB_NAME}" || (echo "[BUILD ARG] DB_NAME(value: ${DB_NAME}) not se
 RUN test -n "${DB_USER}" || (echo "[BUILD ARG] DB_USER(value: ${DB_USER}) not set" && false)
 RUN test -n "${DB_PASS}" || (echo "[BUILD ARG] DB_PASS(value: ${DB_PASS}) not set" && false)
 
-COPY --chown=www-data:www-data ./lumen /var/www
+COPY --chown=www-data:www-data ${SOURCEPATH} /var/www
 
 USER root
 
@@ -110,3 +112,7 @@ RUN cp .env.example .env \
     && sed -i "s/DB_PASSWORD=secret/DB_PASSWORD=${DB_PASS}/" /var/www/.env \
     && composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader \
     && composer dump-autoload --no-dev --optimize --classmap-authoritative
+
+USER www-data
+
+FROM pro as sta

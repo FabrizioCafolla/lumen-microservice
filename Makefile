@@ -32,6 +32,8 @@ image_build: ## build immagine
 		--build-arg ENV=$(ENV) \
 		--build-arg APPNAME=$(APPNAME) \
 		--build-arg DOMAIN=$(DOMAIN) \
+		--build-arg CONTAINERPATH=$(CONTAINERPATH) \
+		--build-arg SOURCEPATH=$(SOURCEPATH) \
 		--build-arg WORKDIR_USER=$(WORKDIR_USER) \
 		--build-arg WORKDIR_GROUP=$(WORKDIR_GROUP) \
 		--build-arg WORKDIRPATH=$(WORKDIRPATH) \
@@ -78,7 +80,6 @@ ifneq ($(shell test -e $(CONF) && echo -n yes),yes)
 setup: #first install
 	@chmod +x ./setup.sh
 	@./setup.sh
-	@cp lumen/.env.example lumen/.env
 
 manual: ## manuale configurazione 
 	@echo "read Readme.md"

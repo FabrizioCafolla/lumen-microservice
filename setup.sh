@@ -14,9 +14,10 @@ set -o pipefail
 ENV_VALIDATOR=("dev" "sta" "pro")
 FILE_ENV="./.env"
 FILE_ENV_EXAMPLE="./example.env"
+SOURCEPATH="./source"
 
 parser(){
-    options=$(getopt -l "help,env:,appname:,domain:" -o "h e: a: d:" -a -- "$@")
+    options=$(getopt -l "help,env:,appname:,domain:,lumen-version:" -o "h e: a: d: v:" -a -- "$@")
     eval set -- "$options"
 
     while true
@@ -33,6 +34,9 @@ parser(){
                 ;;
             -d|--domain)
                 DOMAIN=$2
+                ;;
+            -v|--lumen-version)
+                LUMEN_VERSION="${2}"
                 ;;
             --)
                 shift
@@ -55,6 +59,13 @@ parser(){
 
   if [ -z $DOMAIN ] ; then
     DOMAIN="$APPNAME.local"
+  fi
+  
+  if [ -z $LUMEN_VERSION ] ; then
+    read -p 'Lumen version (default master): ' LUMEN_VERSION
+    if [[ "$LUMEN_VERSION" == "" ]] ; then
+      LUMEN_VERSION="master"
+    fi
   fi
 }
 
@@ -90,16 +101,24 @@ set_dev_env() {
 
   read -p 'AWS IP EC2: ' SRV_HOST
   update_env $FILE_ENV "SRV_HOST" $SRV_HOST
+
+
+	cp ${SOURCEPATH}/.env.example ${SOURCEPATH}/.env
 }
 
 download_wp(){
-  curl -LkSs https://github.com/laravel/lumen/archive/master.zip -o lumen.zip
+  local _tag=${LUMEN_VERSION}
+  if [[ "${_tag}" != "master" ]] ; then
+    _tag="v${_tag}"
+  fi
+
+  curl -LkSs https://github.com/laravel/lumen/archive/${_tag}.zip -o lumen.zip
   
   unzip lumen.zip
 
   rm lumen.zip
 
-  mv lumen-master lumen
+  mv lumen-${LUMEN_VERSION} ${SOURCEPATH}
 }
 
 main() {
@@ -119,7 +138,7 @@ main() {
   update_env $FILE_ENV "WORKDIR_USER" "www-data"
   update_env $FILE_ENV "WORKDIR_GROUP" "www-data"
   update_env $FILE_ENV "WORKDIRPATH" "/var/www"
-  update_env $FILE_ENV "SOURCEPATH" "./lumen"
+  update_env $FILE_ENV "SOURCEPATH" ${SOURCEPATH}
   update_env $FILE_ENV "CONTAINERPATH" "./container"
   update_env $FILE_ENV "VOLUMESPATH" "./container/data"
   update_env $FILE_ENV "IMAGENAME" "microservice/${APPNAME}"

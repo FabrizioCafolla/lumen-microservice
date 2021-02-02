@@ -53,12 +53,15 @@ The Dockefile (in the docker folder) is already set up to create the production 
 
 [Manual push](https://docs.docker.com/engine/reference/commandline/push/) into docker hub registry
 
-### Features 
+### References 
     
 [base image](https://hub.docker.com/r/fabriziocaf/lumen)
+
 **Webserver Nginx**: 1.17-alpine
-**Application: PHP**: 7.4.3-fpm-alpine
-**Lumen Framework**: 7
+
+**Application: PHP**: 7.4-fpm-alpine
+
+**Lumen Framework**: delfault master (or specific version)
 
 ## License
 
