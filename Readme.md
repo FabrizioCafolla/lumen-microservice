@@ -61,8 +61,6 @@ La prima volta che viene eseguito il setup saranno chiesti in input dei dati (no
 
 ### References 
     
-[base image](https://hub.docker.com/r/fabriziocaf/lumen)
-
 **Nginx**: 1.18
 
 **PHP**: 7.4-fpm-alpine
