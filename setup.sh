@@ -14,11 +14,10 @@ set -o pipefail
 ENV_VALIDATOR=("dev" "sta" "pro")
 FILE_ENV_CONF="./env.cfg"
 FILE_ENV="./.env"
-FILE_ENV_EXAMPLE="./example.env"
 SOURCEPATH="./source"
 
 parser(){
-    options=$(getopt -l "help,env:,appname:,domain:,lumen-version:" -o "h e: a: d: v:" -a -- "$@")
+    options=$(getopt -l "help,env:,appname:,domain:,lumen-version:,ssh-setup" -o "h e: a: d: v:" -a -- "$@")
     eval set -- "$options"
 
     while true
@@ -39,6 +38,10 @@ parser(){
             -v|--lumen-version)
                 LUMEN_VERSION="${2}"
                 ;;
+            --ssh-setup)
+              set_connection_from_local_to_prod
+              exit 0
+              ;;
             --)
                 shift
                 break;;
@@ -47,6 +50,12 @@ parser(){
     done
 
     shift "$(($OPTIND -1))"
+
+  if [ -f "$FILE_ENV_CONF" ] ; then
+    echo "[INFO] Env setup: env.cfg -> .env"
+    cp $FILE_ENV_CONF $FILE_ENV
+    exit 0
+  fi
 
   if [ -z $ENV ] ; then
     read -p 'Env, digit one of dev,sta,pro: ' ENV
@@ -77,34 +86,37 @@ update_env() {
   echo "${_key}=${_value}" >> ${_file}
 }
 
-set_dev_env() {
-  read -p 'SSH key (enter to skip): ' SSHKEY
-  if [ "${SSHKEY}" == "" ] ; then 
-    echo "#SETTING DEV SKIPPED" >> $FILE_ENV_CONF 
-    exit 0
-  fi 
+set_connection_from_local_to_prod() {
+  while true; do
+    read -p "Set the configurations for accessing the prod machine? (y,n) " yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+  done
+  
+  printf "\n#SSH CONNECTION\n" >> $FILE_ENV
 
+  read -p 'SSH key (enter to skip): ' SSHKEY
   if [ -f ${SSHKEY} ] ; then
-    update_env $FILE_ENV_CONF  "SSHKEY" $SSHKEY
+    update_env $FILE_ENV  "SSHKEY" $SSHKEY
   else
-    echo "${SSHKEY} non trovata"
+    echo "${SSHKEY} not exist"
     exit 1
   fi
-  
-  read -p 'USER SERVER (root or sudo user): ' SRV_USER
-  update_env $FILE_ENV_CONF  "SRV_USER" $SRV_USER
+
+  read -p 'USER SERVER PROD (root or sudo user): ' SRV_USER
+  update_env $FILE_ENV  "SRV_USER" $SRV_USER
     
-  read -p 'USER SERVER WORKDIR: ' SRV_USER_WK
+  read -p 'USER SERVER PROD WORKDIR: ' SRV_USER_WK
   if [ "${SRV_USER_WK}" == "" ] ; then
-    $SRV_USER_WK=$SRV_USER
+    SRV_USER_WK=$SRV_USER
   fi
-  update_env $FILE_ENV_CONF  "SRV_USER_WK" $SRV_USER_WK
+  update_env $FILE_ENV  "SRV_USER_WK" $SRV_USER_WK
 
-  read -p 'AWS IP EC2: ' SRV_HOST
-  update_env $FILE_ENV_CONF  "SRV_HOST" $SRV_HOST
-
-
-	cp ${SOURCEPATH}/.env.example ${SOURCEPATH}/.env
+  read -p 'IP SERVER PROD: ' SRV_HOST
+  update_env $FILE_ENV  "SRV_HOST" $SRV_HOST
 }
 
 download_wp(){
@@ -123,19 +135,10 @@ download_wp(){
 }
 
 main() {
-  echo "[INFO] setup env"
-
-  if [ -f "$FILE_ENV_CONF" ] ; then
-    cp $FILE_ENV_CONF $FILE_ENV
-    exit 0
-  else
-    echo "[INFO] First init"
-  fi
-
   parser $@
 
+  echo "[INFO] setup env"
   touch $FILE_ENV_CONF 
-
   update_env $FILE_ENV_CONF  "ENV" "$ENV"
   update_env $FILE_ENV_CONF  "APPNAME" "$APPNAME"
   update_env $FILE_ENV_CONF  "DOMAIN" "$DOMAIN"
@@ -147,13 +150,12 @@ main() {
   update_env $FILE_ENV_CONF  "CONTAINERPATH" "./container"
   update_env $FILE_ENV_CONF  "VOLUMESPATH" "./container/data"
   update_env $FILE_ENV_CONF  "IMAGENAME" "microservice/${APPNAME}"
+  cp $FILE_ENV_CONF $FILE_ENV
 
   if [ "$ENV" == "dev" ] ; then
     download_wp
-    set_dev_env
+    set_connection_from_local_to_prod
   fi
-
-  cp $FILE_ENV_CONF $FILE_ENV
 
   exit 0
 }
