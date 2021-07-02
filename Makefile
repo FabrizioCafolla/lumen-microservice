@@ -19,11 +19,6 @@ export $(shell sed 's/=.*//' $(CONF))
 
 TAG = "latest"
 
-DB_HOST = ""
-DB_NAME = ""
-DB_USER = ""
-DB_PASS = ""
-
 image_build: ## build immagine
 	@docker build --tag "$(IMAGENAME):$(TAG)" \
 		--no-cache \
