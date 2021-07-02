@@ -18,7 +18,8 @@ ENV build_deps \
 		autoconf \
         libzip-dev \
         curl-dev \
-        oniguruma-dev 
+        oniguruma-dev \
+        zlib-dev
 
 ENV persistent_deps \
 		build-base \
@@ -33,7 +34,8 @@ ENV persistent_deps \
         acl \
         openrc \
         bash \
-        libzip
+        libzip \
+        zlib 
 
 # Set working directory as
 WORKDIR /var/www
@@ -60,7 +62,8 @@ RUN apk update \
     && apk del -f .build-dependencies
 
 # Install nginx webserver
-RUN apk add --update --no-cache nginx==1.18.0-r13
+ARG NGINX_VERSION="1.20.1-r3"
+RUN apk add --update --no-cache nginx==$NGINX_VERSION
 
 COPY ./container/etc/nginx /etc/nginx
 COPY ./container/etc/php /usr/local/etc
@@ -72,6 +75,7 @@ ENV DOMAIN ${DOMAIN}
 ENV WORKDIR_USER ${WORKDIR_USER}
 ENV WORKDIR_GROUP ${WORKDIR_GROUP}
 ENV WORKDIRPATH ${WORKDIRPATH}
+ENV NGINX_VERSION ${NGINX_VERSION}
 
 RUN chmod 754 -R /usr/local/sbin \
     && setfacl -R -m g:www-data:rwx /usr/local/sbin \
@@ -83,7 +87,7 @@ USER www-data
 
 ENTRYPOINT ["/usr/local/sbin/services/init.sh"]
 
-#DEV
+# Dev
 FROM build as dev
 
 USER root
@@ -91,31 +95,18 @@ USER root
 RUN apk update && apk upgrade && \
     apk add mysql-client    
 
-#PROD
-FROM build as pro
-
-ARG DB_HOST
-ARG DB_NAME
-ARG DB_USER
-ARG DB_PASS 
-
-RUN test -n "${DB_HOST}" || (echo "[BUILD ARG] DB_HOST(value: ${DB_HOST}) not set" && false)
-RUN test -n "${DB_NAME}" || (echo "[BUILD ARG] DB_NAME(value: ${DB_NAME}) not set" && false)
-RUN test -n "${DB_USER}" || (echo "[BUILD ARG] DB_USER(value: ${DB_USER}) not set" && false)
-RUN test -n "${DB_PASS}" || (echo "[BUILD ARG] DB_PASS(value: ${DB_PASS}) not set" && false)
+# Build app
+FROM build as app
 
 COPY --chown=www-data:www-data ./source /var/www
 
-USER root
-
-RUN cp .env.example .env \
-    && sed -i "s/DB_HOST=127.0.0.1/DB_HOST=${DB_HOST}/" /var/www/.env \
-    && sed -i "s/DB_DATABASE=homestead/DB_DATABASE=${DB_NAME}/" /var/www/.env \
-    && sed -i "s/DB_USERNAME=homestead/DB_USERNAME=${DB_USER}/" /var/www/.env \
-    && sed -i "s/DB_PASSWORD=secret/DB_PASSWORD=${DB_PASS}/" /var/www/.env \
-    && composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader \
+RUN composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader \
     && composer dump-autoload --no-dev --optimize --classmap-authoritative
 
-USER www-data
+# Production
+FROM build as pro
+COPY --from=app /var/www /var/www/
 
-FROM pro as sta
+# Staging
+FROM build as sta
+COPY --from=app /var/www /var/www/

@@ -26,7 +26,6 @@ DB_PASS = ""
 
 image_build: ## build immagine
 	@docker build --tag "$(IMAGENAME):$(TAG)" \
-		--quiet \
 		--no-cache \
 		--target="pro" \
 		--build-arg ENV=$(ENV) \
@@ -35,10 +34,6 @@ image_build: ## build immagine
 		--build-arg WORKDIR_USER=$(WORKDIR_USER) \
 		--build-arg WORKDIR_GROUP=$(WORKDIR_GROUP) \
 		--build-arg WORKDIRPATH=$(WORKDIRPATH) \
-		--build-arg DB_HOST=$(DB_HOST) \
-		--build-arg DB_NAME=$(DB_NAME) \
-		--build-arg DB_USER=$(DB_USER) \
-		--build-arg DB_PASS=$(DB_PASS) \
 		$(DOCKERFILE_PATH)
 
 image_push: ## publish image
