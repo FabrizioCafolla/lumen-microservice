@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-alpine AS build
+FROM php:8.0-fpm-alpine AS build
 
 LABEL mantainer="developer@fabriziocafolla.com"
 LABEL description="Production container"
@@ -38,7 +38,7 @@ ENV persistent_deps \
         zlib 
 
 # Set working directory as
-WORKDIR /var/www
+WORKDIR ${WORKDIRPATH}
 
 # Install build dependencies
 RUN apk upgrade --update-cache --available && apk update && \
@@ -77,15 +77,11 @@ ENV WORKDIR_GROUP ${WORKDIR_GROUP}
 ENV WORKDIRPATH ${WORKDIRPATH}
 ENV NGINX_VERSION ${NGINX_VERSION}
 
-RUN chmod 754 -R /usr/local/sbin \
-    && setfacl -R -m g:www-data:rwx /usr/local/sbin \
-    && /usr/local/sbin/setup/nginx.sh \ 
-    && /usr/local/sbin/setup/workdir.sh \
-    && /usr/local/sbin/setup/create_cert.sh 
+RUN chmod 777 -R /usr/local/sbin \
+    && /usr/local/sbin/nginx_config \
+    && /usr/local/sbin/nginx_certificate 
 
-USER www-data
-
-ENTRYPOINT ["/usr/local/sbin/services/init.sh"]
+ENTRYPOINT ["/usr/local/sbin/entrypoint"]
 
 # Dev
 FROM build as dev
@@ -98,15 +94,22 @@ RUN apk update && apk upgrade && \
 # Build app
 FROM build as app
 
-COPY --chown=www-data:www-data ./source /var/www
+COPY --chown=${WORKDIR_USER}:${WORKDIR_GROUP} ./source ${WORKDIRPATH}
 
 RUN composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader \
-    && composer dump-autoload --no-dev --optimize --classmap-authoritative
+    && composer dump-autoload --no-dev --optimize --classmap-authoritative \
+    && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} /run \
+    && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} ${WORKDIRPATH}/* \
+    && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} ${WORKDIRPATH}/.* \
+    && find ${WORKDIRPATH} -type f -exec chmod 644 {} \; \
+    && find ${WORKDIRPATH} -type d -exec chmod 775 {} \;
 
 # Production
 FROM build as pro
-COPY --from=app /var/www /var/www/
+COPY --from=app ${WORKDIRPATH} ${WORKDIRPATH}
+USER ${WORKDIR_USER}
 
 # Staging
 FROM build as sta
-COPY --from=app /var/www /var/www/
+COPY --from=app ${WORKDIRPATH} ${WORKDIRPATH}
+USER ${WORKDIR_USER}

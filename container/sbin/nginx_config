@@ -1,6 +1,16 @@
 #!/bin/bash
 
-source /usr/local/sbin/base.sh
+set -eE -o functrace
+
+failure() {
+  local lineno=$1
+  local msg=$2
+  echo "Failed at $lineno: $msg"
+}
+trap 'failure ${LINENO} "$BASH_COMMAND"' ERR
+
+set -o pipefail
+set -o nounset
 
 main(){
 	local HTTPS_CONF=/etc/nginx/sites-available/https
@@ -28,7 +38,8 @@ main(){
 	ln -s $HTTP_CONF /etc/nginx/sites-enabled/http.conf
 	ln -s $HTTPS_CONF /etc/nginx/sites-enabled/https.conf
 
+	chown -R $WORKDIR_USER:$WORKDIR_GROUP /var/log/nginx
 	chown -R $WORKDIR_USER:$WORKDIR_GROUP /var/lib/nginx
 }
 
-main $@
+main "$@"
