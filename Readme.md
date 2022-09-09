@@ -1,8 +1,6 @@
 # Docker infrastructure for Lumen 
 
-![](https://img.shields.io/badge/version-1.0-green.svg)
-![](https://img.shields.io/badge/docker--compose-build-blue.svg)
-![](https://img.shields.io/badge/docker-build-blue.svg)
+![](https://img.shields.io/github/v/release/FabrizioCafolla/lumen-microservice)
 
 ### Description
 
@@ -12,7 +10,7 @@ The Dockefile (in the docker folder) is already set up to create the production 
 
 #### Develop env
 
-La prima volta che viene eseguito il setup saranno chiesti in input dei dati (nome app, verisone larvel ed altro), questo genererà un file env.conf e un .env (che è la copia esetta), il primo dovrete versionarlo il secondo sarà escluso. Inoltre verrà scaricato il codice sorgente [laravel/lumen](https://github.com/laravel/lumen/), anche'esso dovrà essere versionato. Nel caso il vostro progetto sia stato già inizializzato, chi andrà a scaricarlo dovrà eseguire comunque sia il primo passo indicato in 'setup and run'.
+The first time the setup is run some data will be asked as input (app name, larvel version, and others), this will generate an env.conf file and a .env file (which is the exact copy), the former you will have to version the latter will be excluded. Also, the laravel/lumen source code will be downloaded, it too will need to be versioned. In case your project has already been initialized, whoever is going to download it will still have to perform both the first step indicated in 'setup and run'.
 
 **- require**
     
@@ -68,6 +66,12 @@ La prima volta che viene eseguito il setup saranno chiesti in input dei dati (no
 **MySQL**: 8.0
 
 **Lumen Framework**: delfault master (or specific version)
+
+
+## Mantained by
+
+- **[Fabrizio Cafolla](https://github.com/FabrizioCafolla)**
+  <a href="https://www.buymeacoffee.com/fabriziocafolla" target="_blank"><img  align="right" src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 30px !important; width: 150px !important" ></a>
 
 ## License
 
