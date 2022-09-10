@@ -16,10 +16,11 @@ services:
     environment:
       - PHP_EXTENSION_XDEBUG=1
     volumes:
-      - '${SOURCEPATH}:/var/www'
-      - '${VOLUMESPATH}/fpm/logs/:/var/log/php7/'
+      - '${SOURCEPATH}:${WORKDIRPATH}'
+      - '${VOLUMESPATH}/fpm/logs/:/var/log/php/'
       - '${VOLUMESPATH}/nginx/logs/:/var/log/nginx/'
     ports:
+      - "9000:9000"
       - "80:80"
       - "443:443"
     networks:

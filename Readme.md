@@ -59,9 +59,9 @@ The first time the setup is run some data will be asked as input (app name, larv
 
 ### References 
     
-**Nginx**: 1.18
+**Nginx**: 1.22
 
-**PHP**: 7.4-fpm-alpine
+**PHP**: 8.2-fpm-alpine
 
 **MySQL**: 8.0
 

@@ -8,6 +8,12 @@ help: ## helper
 CONF ?= ./.env
 VERSION = "1.0"
 
+ifeq ($(which docker-compose),"")
+	DOCKER_COMPOSE_BIN=docker-compose
+else
+	DOCKER_COMPOSE_BIN=docker compose
+endif
+
 version: ## version
 	@echo ${VERSION}
 ##
@@ -39,13 +45,13 @@ image_push: ## publish image
 ## ENV: DEV
 ifeq ($(ENV),dev)
 down: ## down containers
-	@docker-compose down
+	$(DOCKER_COMPOSE_BIN) down
 
 up:  ## up -d containers
-	@docker-compose up -d
+	$(DOCKER_COMPOSE_BIN) up -d
 
 build:  # build containers
-	@docker-compose build 
+	$(DOCKER_COMPOSE_BIN) build 
 
 exec: ## enter in app container
 	@docker exec -it $(APPNAME) /bin/bash

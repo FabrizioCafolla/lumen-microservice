@@ -145,7 +145,7 @@ main() {
   update_env $FILE_ENV_CONF  "DOCKERFILE_PATH" "."
   update_env $FILE_ENV_CONF  "WORKDIR_USER" "www-data"
   update_env $FILE_ENV_CONF  "WORKDIR_GROUP" "www-data"
-  update_env $FILE_ENV_CONF  "WORKDIRPATH" "/var/www"
+  update_env $FILE_ENV_CONF  "WORKDIRPATH" "/var/www/${APPNAME}"
   update_env $FILE_ENV_CONF  "SOURCEPATH" ${SOURCEPATH}
   update_env $FILE_ENV_CONF  "CONTAINERPATH" "./container"
   update_env $FILE_ENV_CONF  "VOLUMESPATH" "./container/data"

@@ -1,7 +1,6 @@
-FROM php:8.0-fpm-alpine AS build
+FROM php:8.1-fpm-alpine AS build
 
 LABEL mantainer="developer@fabriziocafolla.com"
-LABEL description="Production container"
 
 ARG ENV
 ARG APPNAME
@@ -42,10 +41,10 @@ WORKDIR ${WORKDIRPATH}
 
 # Install build dependencies
 RUN apk upgrade --update-cache --available && apk update && \
-    apk add --no-cache --virtual .build-dependencies $build_deps
+    apk add --virtual .build-dependencies $build_deps
 
 # Install persistent dependencies
-RUN apk add --update --no-cache --virtual .persistent-dependencies $persistent_deps && \
+RUN apk add --update --virtual .persistent-dependencies $persistent_deps && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install docker ext and remove build deps
@@ -62,12 +61,12 @@ RUN apk update \
     && apk del -f .build-dependencies
 
 # Install nginx webserver
-ARG NGINX_VERSION="1.20.1-r3"
+ARG NGINX_VERSION="1.22.0-r1"
 RUN apk add --update --no-cache nginx==$NGINX_VERSION
 
 COPY ./container/etc/nginx /etc/nginx
 COPY ./container/etc/php /usr/local/etc
-COPY ./container/sbin /usr/local/sbin
+COPY --chown=${WORKDIR_USER}:${WORKDIR_GROUP} ./container/sbin /usr/local/sbin
 
 ENV ENV ${ENV}
 ENV APPNAME ${APPNAME}
@@ -77,7 +76,9 @@ ENV WORKDIR_GROUP ${WORKDIR_GROUP}
 ENV WORKDIRPATH ${WORKDIRPATH}
 ENV NGINX_VERSION ${NGINX_VERSION}
 
-RUN chmod 777 -R /usr/local/sbin \
+RUN mkdir /var/run/php \
+    && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} /var/run \
+    && chmod 744 -R /usr/local/sbin \
     && /usr/local/sbin/nginx_config \
     && /usr/local/sbin/nginx_certificate 
 
