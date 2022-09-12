@@ -4,5 +4,32 @@ server {
 
     server_name %SERVERNAME%;
 
-    return 302 https://$server_name$request_uri;
+    root %WORKDIRPATH%/public;
+
+    index index.php;
+
+    access_log  /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log debug;
+
+    error_page 404 /404.html;
+    location = /404.html {
+            root /etc/nginx/pages;
+            internal;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+            root /etc/nginx/pages;
+            internal;
+    }
+
+    location ~ \.php$ {
+            include snippets/fastcgi-php.conf;
+            fastcgi_pass php-socket;
+    }
+
+    location / {
+            try_files $uri $uri/ /index.php?$query_string;
+            gzip_static on;
+    }
 }

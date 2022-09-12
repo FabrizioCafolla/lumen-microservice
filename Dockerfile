@@ -2,17 +2,6 @@ FROM php:8.1-fpm-alpine AS build
 
 LABEL mantainer="developer@fabriziocafolla.com"
 
-ARG ENV
-ARG APPNAME
-ARG DOMAIN 
-ARG WORKDIR_USER="www-data"
-ARG WORKDIR_GROUP="www-data"
-ARG WORKDIRPATH="/var/www"
-
-RUN test -n "${ENV}" || (echo "[BUILD ARG] ENV not set" && false) && \
-    test -n "${APPNAME}" || (echo "[BUILD ARG] APPNAME not set" && false) && \
-    test -n "${DOMAIN}" || (echo "[BUILD ARG] DOMAIN not set" && false)
-
 ENV build_deps \
 		autoconf \
         libzip-dev \
@@ -34,10 +23,28 @@ ENV persistent_deps \
         openrc \
         bash \
         libzip \
-        zlib 
-
-# Set working directory as
-WORKDIR ${WORKDIRPATH}
+        zlib \
+        php8-common \
+        php8-pdo \
+        php8-opcache \
+        php8-zip \
+        php8-phar \
+        php8-iconv \
+        php8-cli \
+        php8-curl \
+        php8-openssl \
+        php8-mbstring \
+        php8-tokenizer \
+        php8-fileinfo \
+        php8-json \
+        php8-xml \
+        php8-xmlwriter \
+        php8-simplexml \
+        php8-dom \
+        php8-pdo_mysql \
+        php8-pdo_sqlite \
+        php8-tokenizer \
+        php8-pecl-redis
 
 # Install build dependencies
 RUN apk upgrade --update-cache --available && apk update && \
@@ -60,27 +67,41 @@ RUN apk update \
         exif \
     && apk del -f .build-dependencies
 
+ARG ENV
+ENV ENV ${ENV}
+
+ARG APPNAME
+ENV APPNAME ${APPNAME}
+
+ARG DOMAIN 
+ENV DOMAIN ${DOMAIN}
+
+ARG WORKDIR_USER="www-data"
+ENV WORKDIR_USER ${WORKDIR_USER}
+
+ARG WORKDIR_GROUP="www-data"
+ENV WORKDIR_GROUP ${WORKDIR_GROUP}
+
+ARG WORKDIRPATH="/var/www/application"
+ENV WORKDIRPATH ${WORKDIRPATH}
+
+RUN test -n "${ENV}" || (echo "[BUILD ARG] ENV not set" && false) && \
+    test -n "${APPNAME}" || (echo "[BUILD ARG] APPNAME not set" && false) && \
+    test -n "${DOMAIN}" || (echo "[BUILD ARG] DOMAIN not set" && false)
+
 # Install nginx webserver
 ARG NGINX_VERSION="1.22.0-r1"
+ENV NGINX_VERSION ${NGINX_VERSION}
 RUN apk add --update --no-cache nginx==$NGINX_VERSION
 
 COPY ./container/etc/nginx /etc/nginx
 COPY ./container/etc/php /usr/local/etc
 COPY --chown=${WORKDIR_USER}:${WORKDIR_GROUP} ./container/sbin /usr/local/sbin
 
-ENV ENV ${ENV}
-ENV APPNAME ${APPNAME}
-ENV DOMAIN ${DOMAIN}
-ENV WORKDIR_USER ${WORKDIR_USER}
-ENV WORKDIR_GROUP ${WORKDIR_GROUP}
-ENV WORKDIRPATH ${WORKDIRPATH}
-ENV NGINX_VERSION ${NGINX_VERSION}
+# Set working directory as
+WORKDIR ${WORKDIRPATH}
 
-RUN mkdir /var/run/php \
-    && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} /var/run \
-    && chmod 744 -R /usr/local/sbin \
-    && /usr/local/sbin/nginx_config \
-    && /usr/local/sbin/nginx_certificate 
+RUN chmod 744 -R /usr/local/sbin
 
 ENTRYPOINT ["/usr/local/sbin/entrypoint"]
 
@@ -89,8 +110,8 @@ FROM build as dev
 
 USER root
 
-RUN apk update && apk upgrade && \
-    apk add mysql-client    
+#RUN apk update && apk upgrade && \
+#    apk add mysql-client    
 
 # Build app
 FROM build as app

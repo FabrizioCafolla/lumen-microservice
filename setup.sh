@@ -68,7 +68,7 @@ parser(){
   [[ "$APPNAME" != "" ]] || (echo 'APPNAME not valid' && exit 1)
 
   if [ -z $DOMAIN ] ; then
-    DOMAIN="$APPNAME.local"
+    DOMAIN="localhost"
   fi
   
   if [ -z $LUMEN_VERSION ] ; then
