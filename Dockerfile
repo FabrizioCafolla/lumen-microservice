@@ -111,9 +111,8 @@ USER ${WORKDIR_USER}
 ENTRYPOINT ["/usr/local/sbin/entrypoint"]
 
 # Dev
-FROM build as dev
+FROM build as develop
 USER root
-   
 
 # Build app
 FROM build as app
@@ -130,9 +129,9 @@ RUN composer install --no-dev --no-scripts --no-suggest --no-interaction --prefe
     && find ${WORKDIRPATH} -type d -exec chmod 775 {} \;
 
 # Production
-FROM build as pro
+FROM build as production
 COPY --from=app ${WORKDIRPATH} ${WORKDIRPATH}
 
-# Staging
-FROM build as sta
+# Qa
+FROM build as qa
 COPY --from=app ${WORKDIRPATH} ${WORKDIRPATH}

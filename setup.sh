@@ -11,7 +11,7 @@ trap 'failure ${LINENO} "$BASH_COMMAND"' ERR
 
 set -o pipefail
 
-ENV_VALIDATOR=("dev" "sta" "pro")
+ENV_VALIDATOR=("develop" "qa" "production")
 FILE_ENV_CONF="./env.cfg"
 FILE_ENV="./.env"
 SOURCEPATH="./source"
@@ -58,7 +58,7 @@ parser(){
   fi
 
   if [ -z $ENV ] ; then
-    read -p 'Env, digit one of dev,sta,pro: ' ENV
+    read -p 'Env, digit one of develop,qa,production: ' ENV
   fi
   [[ ${ENV_VALIDATOR[@]} =~ (^|[[:space:]])$ENV($|[[:space:]]) ]] || (echo "ENV not valid" && exit 1) 
   

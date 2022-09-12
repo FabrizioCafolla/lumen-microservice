@@ -43,7 +43,7 @@ image_push: ## publish image
 
 
 ## ENV: DEV
-ifeq ($(ENV),dev)
+ifeq ($(ENV),develop)
 down: ## down containers
 	$(DOCKER_COMPOSE_BIN) down
 
