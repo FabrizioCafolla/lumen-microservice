@@ -1,6 +1,7 @@
 # Docker infrastructure for Lumen 
 
 ![](https://img.shields.io/github/v/release/FabrizioCafolla/lumen-microservice)
+![](https://img.shields.io/github/last-commit/FabrizioCafolla/lumen-microservice/main)
 
 ### Description
 

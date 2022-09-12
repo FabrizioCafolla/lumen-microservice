@@ -19,9 +19,6 @@ main(){
 	  exit 1
 	fi
 
-	#PID dir
- 	mkdir -p /run/nginx
-
 	local SERVER_NAME="${DOMAIN} www.${DOMAIN}"
 	sed -i "s/%SERVERNAME%/${SERVER_NAME}/g" $HTTP_CONF
 	sed -i "s/%WORKDIRPATH%/${WORKDIRPATH//\//\\\/}/g" $HTTP_CONF
@@ -34,8 +31,6 @@ main(){
 	fi
 	ln -s $HTTP_CONF /etc/nginx/sites-enabled/http.conf
 
-	chown -R $WORKDIR_USER:$WORKDIR_GROUP /var/log/nginx
-	chown -R $WORKDIR_USER:$WORKDIR_GROUP /var/lib/nginx
 }
 
 main "$@"

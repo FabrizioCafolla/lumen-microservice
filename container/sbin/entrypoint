@@ -14,7 +14,6 @@ set -o nounset
 
 main(){
   nginx_config
-  
 	nginx -c /etc/nginx/nginx.conf
 	php-fpm
 }

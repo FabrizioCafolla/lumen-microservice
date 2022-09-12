@@ -101,26 +101,29 @@ COPY --chown=${WORKDIR_USER}:${WORKDIR_GROUP} ./container/sbin /usr/local/sbin
 # Set working directory as
 WORKDIR ${WORKDIRPATH}
 
-RUN chmod 744 -R /usr/local/sbin
+RUN chmod 755 -R /usr/local/sbin \
+    && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} /etc/nginx \
+    && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} /var/log \
+    && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} /var/lib/nginx 
+
+USER ${WORKDIR_USER}
 
 ENTRYPOINT ["/usr/local/sbin/entrypoint"]
 
 # Dev
 FROM build as dev
-
 USER root
-
-#RUN apk update && apk upgrade && \
-#    apk add mysql-client    
+   
 
 # Build app
 FROM build as app
+
+USER root
 
 COPY --chown=${WORKDIR_USER}:${WORKDIR_GROUP} ./source ${WORKDIRPATH}
 
 RUN composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader \
     && composer dump-autoload --no-dev --optimize --classmap-authoritative \
-    && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} /run \
     && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} ${WORKDIRPATH}/* \
     && chown -R ${WORKDIR_USER}:${WORKDIR_GROUP} ${WORKDIRPATH}/.* \
     && find ${WORKDIRPATH} -type f -exec chmod 644 {} \; \
@@ -129,9 +132,7 @@ RUN composer install --no-dev --no-scripts --no-suggest --no-interaction --prefe
 # Production
 FROM build as pro
 COPY --from=app ${WORKDIRPATH} ${WORKDIRPATH}
-USER ${WORKDIR_USER}
 
 # Staging
 FROM build as sta
 COPY --from=app ${WORKDIRPATH} ${WORKDIRPATH}
-USER ${WORKDIR_USER}

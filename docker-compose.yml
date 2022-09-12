@@ -5,7 +5,7 @@ services:
     hostname: "${DOMAIN}" 
     build:
       context: .
-      target: '${ENV}'
+      target: ${ENV}
       args:
         - ENV=${ENV}
         - APPNAME=${APPNAME}
