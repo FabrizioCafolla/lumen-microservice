@@ -152,7 +152,7 @@ main() {
   update_env $FILE_ENV_CONF  "IMAGENAME" "microservice/${APPNAME}"
   cp $FILE_ENV_CONF $FILE_ENV
 
-  if [ "$ENV" == "dev" ] ; then
+  if [ "$ENV" == "develop" ] ; then
     download_wp
     set_connection_from_local_to_prod
   fi
