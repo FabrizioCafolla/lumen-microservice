@@ -28,7 +28,7 @@ TAG = "latest"
 image_build: ## build immagine
 	@docker build --tag "$(IMAGENAME):$(TAG)" \
 		--no-cache \
-		--target="pro" \
+		--target=$(ENV) \
 		--build-arg ENV=$(ENV) \
 		--build-arg APPNAME=$(APPNAME) \
 		--build-arg DOMAIN=$(DOMAIN) \
@@ -40,7 +40,8 @@ image_build: ## build immagine
 image_push: ## publish image
 	@docker push "$(IMAGENAME):$(TAG)"
 
-
+image_run:
+	@docker run -d --rm -p 80:80 -p 9000:9000 --name $(APPNAME) $(IMAGENAME):$(TAG)
 
 ## ENV: DEV
 ifeq ($(ENV),develop)

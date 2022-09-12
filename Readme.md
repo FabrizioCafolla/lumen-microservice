@@ -51,11 +51,11 @@ The first time the setup is run some data will be asked as input (app name, larv
 
     deploy: rebuild containers (down, build and up)
 
-    ## production ##
-
     image_build:  build immagine
 
     image_push: publish image
+    
+    image_push: run image
 
 
 [Manual push](https://docs.docker.com/engine/reference/commandline/push/) into docker hub registry
